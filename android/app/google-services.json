@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "740923481994",
+    "firebase_url": "https://winpad-e7078.firebaseio.com",
+    "project_id": "winpad-e7078",
+    "storage_bucket": "winpad-e7078.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740923481994:android:5beab50bd553d77ecab273",
+        "android_client_info": {
+          "package_name": "com.example.winpad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740923481994-sd573cd2is6h8k47bknqegovhusk4vt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-FG710gViQdl_yD_DP4QL52Bmpqalv78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740923481994-sd573cd2is6h8k47bknqegovhusk4vt6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740923481994:android:6ce209193d0a6500cab273",
+        "android_client_info": {
+          "package_name": "com.example.winpad_attendance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740923481994-sd573cd2is6h8k47bknqegovhusk4vt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-FG710gViQdl_yD_DP4QL52Bmpqalv78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740923481994-sd573cd2is6h8k47bknqegovhusk4vt6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
