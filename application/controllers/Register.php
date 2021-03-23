@@ -6,12 +6,22 @@ class Register extends CI_Controller{
         parent:: __construct();
         $this->load->model('User_model');
         $this->load->library('form_validation');
+        if($this->session->userdata('id')!=0)
+        {
+
+            $this->session->set_flashdata('message','You cannot register unless you logged out!');
+            redirect('home');
+        }
+        else
+        {
+            '';
+        }
     }
 
     public function index()
    {    
         
-        $this->form_validation->set_rules('user_username', 'username', 'required|is_unique[tb_user.user_username]');
+        $this->form_validation->set_rules('user_username', 'username', 'required|is_unique[tb_user.user_username]', array('is_unique'=>'Username is already exist!'));
         $this->form_validation->set_rules('user_firstname', 'firstname', 'required');
         $this->form_validation->set_rules('user_lastname', 'lastname', 'required');
         $this->form_validation->set_rules('user_phone', 'phone', 'required');
@@ -45,7 +55,7 @@ class Register extends CI_Controller{
             'user_phone' => $phone,
             'user_dept' => '',
             'user_company' => $company,
-            'user_password' => $password,
+            'user_password' => md5($password),
             'user_status' => 1,
         );
         $this->db->insert('tb_user',$data);

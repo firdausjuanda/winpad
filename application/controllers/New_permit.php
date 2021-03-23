@@ -67,7 +67,7 @@ class New_permit extends CI_Controller {
             'permit_company' => $permit_company,
         );
         $this->db->insert('tb_permit',$data);
-        $this->session->set_flashdata('message', 'Permit Successfully added!');
+        $this->session->set_flashdata('success', 'Permit Successfully added!');
         redirect('home');
     }
 }

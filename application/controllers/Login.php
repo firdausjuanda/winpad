@@ -7,10 +7,19 @@ class Login extends CI_Controller {
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('User_model');
+        
     }
 	public function index()
 	{   
-        
+        if($this->session->userdata('id')!=0)
+        {
+            $this->session->set_flashdata('message','You cannot login unless you logged out!');
+            redirect('home');
+        }
+        else
+        {
+            '';
+        }
         $usernameFromSession = $this->session->userdata('username');
 		$data['userData'] = $this->User_model->userSession($usernameFromSession);
         $this->form_validation->set_rules('user_username', 'username', 'required', array('required' => 'You must provide a %s.'));
@@ -31,7 +40,7 @@ class Login extends CI_Controller {
             {   
                 $user_password = $this->input->post('user_password');
                 $passwordFromDatabase = $userDataFromDatabase['user_password'];
-                if($passwordFromDatabase == $user_password)
+                if($passwordFromDatabase == md5($user_password))
                 {
                     $user_data = array(
                         'username' => $userDataFromDatabase['user_username'],

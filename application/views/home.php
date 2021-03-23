@@ -11,13 +11,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 	<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
-	<p>Go to <a href="<?= base_url('login');?>">login page</a>.</p>
-	<p>Go to <a href="<?= base_url('register');?>">Registration page</a>.</p>
-	<p>Ready to <a href="<?= base_url('login/logout');?>">logout</a>.</p>
-	<p>Hi my name is <strong><?= $userData['user_firstname'];?></strong>. I work at department <strong><?= $userData['user_dept'];?></strong></p>
-	<p>My password is <strong><?= $userData['user_password'];?></strong>. </p>
+	<p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
+	<p><strong><?= $userData['user_firstname'];?> <?= $userData['user_lastname'];?> </strong><strong>(<?= $userData['user_company'];?>)</strong></p>
+	<p><a href="<?= base_url('login');?>">login page</a>.</p>
+	<p><a href="<?= base_url('register');?>">Registration page</a>.</p>
+	<p><a href="<?= base_url('login/logout');?>">logout</a>.</p>
 	<br>
 	<a href="<?= base_url('new_permit') ?>">Add New Permit</a>
+	<a href="<?= base_url('my_permit') ?>">See My Permit</a>
 	<h3>Permit List</h3>
 	<table border="1">
 		<tr>
@@ -29,6 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<th>Work Description</th>
 			<th>User</th>
 			<th>Company</th>
+			<th>Created</th>
 		</tr>
 		<?php foreach( $permit as $p) :?>
 		<tr>
@@ -40,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<td><?= $p['permit_title'];?></td>
 			<td><?= $p['permit_user'];?></td>
 			<td><?= $p['permit_company'];?></td>
+			<td><?= $p['permit_date_created'];?></td>
 
 		</tr>
 		<?php endforeach;?>
