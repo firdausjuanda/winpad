@@ -20,7 +20,8 @@ class Home extends CI_Controller {
 			$this->load->view('home',$data);
 		}
 		else
-		{
+		{	
+			$this->session->set_flashdata('message','You cannot go to home page unless you logged in!');
 			redirect('login');
 		}
 		

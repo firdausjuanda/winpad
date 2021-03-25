@@ -7,6 +7,7 @@ class New_permit extends CI_Controller {
     {
         parent:: __construct();
         $this->load->model('User_model');
+        $this->load->model('Email_model');
         $this->load->library('form_validation');
 
     }
@@ -32,7 +33,9 @@ class New_permit extends CI_Controller {
             else
             {
                 // If true
-                $this->add();
+                $usernameFromSession = $this->session->userdata('username');
+                $user_data = $this->User_model->userSession($usernameFromSession);
+                $this->add($user_data);
             }
 			
 		}
@@ -43,7 +46,7 @@ class New_permit extends CI_Controller {
 		
 	}
 
-    public function add()
+    public function add($user_data)
     {
         $permit_date = $this->input->post('permit_date');
         $permit_category = $this->input->post('permit_category');
@@ -67,7 +70,26 @@ class New_permit extends CI_Controller {
             'permit_company' => $permit_company,
         );
         $this->db->insert('tb_permit',$data);
-        $this->session->set_flashdata('success', 'Permit Successfully added!');
-        redirect('home');
+        if($this->Email_model->sendEmail(
+            $user_data, 
+            $permit_date, 
+            $permit_category, 
+            $permit_no,
+            $permit_status,
+            $permit_area,
+            $permit_title,
+            $permit_description,
+            $permit_user,
+            $permit_company
+            ))
+        {
+            $this->session->set_flashdata('success', 'Permit Successfully added and email sent!');
+            redirect('home');
+        }
+        else
+        {
+            Echo "error sending email";
+        }
     }
+    
 }

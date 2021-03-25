@@ -15,6 +15,7 @@
         <input type="date" name="permit_date" placeholder="Date"><br>
         <label for="permit_category">Category</label>
         <select name="permit_category" name="permit_category">
+            <option value="">-Select Permit-</option>
             <option value="HOWP">Hot Work Permit</option>
             <option value="COWP">Cold Work Permit</option>
             <option value="WAHP">Work at Height Permit</option>
@@ -27,7 +28,8 @@
         <input type="number" name="permit_no" placeholder="Permit No."><br>
         <label for="permit_area">Area</label>
         <select name="permit_area" name="permit_area">
-            <option value="Factory">Tank Farm</option>
+            <option value="">-Select area-</option>
+            <option value="Factory">Factory</option>
             <option value="Utility">Utility</option>
             <option value="Production">Production</option>
             <option value="Office">Office</option>

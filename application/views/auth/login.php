@@ -19,7 +19,7 @@
     }
     ?>
     <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
-    <?= $this->session->flashdata('message'); ?>
+    <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
     <form action="<?= base_url('login');?>" method="post" >
         <label for="user_username">Username</label>
         <input name="user_username" value="<?= set_value('user_username'); ?>" type="text" placeholder="Username">
