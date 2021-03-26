@@ -90,7 +90,7 @@ by Winpad';
         $this->email->from($email, 'Permit System');
         $this->email->subject('Permit System');
         $this->email->to($target);
-        $this->email->cc(array('rafiola.fitri@wilmar.co.id','firdaus.juanda@wilmar.co.id'));
+        // $this->email->cc(array('rafiola.fitri@wilmar.co.id','firdaus.juanda@wilmar.co.id'));
         $this->email->message($body_mail);
         $this->email->set_newline("\r\n");
         ini_set('smtp', $smtp_server);

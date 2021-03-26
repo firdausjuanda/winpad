@@ -7,6 +7,7 @@ class Home extends CI_Controller {
 		parent:: __construct();
 		$this->load->model('User_model');
 		$this->load->model('Permit_model');
+		$this->load->model('Work_model');
 	}
 	public function index()
 	{	
@@ -16,8 +17,8 @@ class Home extends CI_Controller {
 			$usernameFromSession = $this->session->userdata('username');
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$data['user'] = $this->User_model->getAllUser();
-			$data['permit'] = $this->Permit_model->getAllPermit();
-			$this->load->view('home',$data);
+			$data['work'] = $this->Work_model->getAllWork();
+			$this->load->view('all_work',$data);
 		}
 		else
 		{	

@@ -71,7 +71,7 @@ class Login extends CI_Controller {
 
     private function _login()
     {
-        redirect('home');
+        redirect('work');
     }
 
     public function logout()
