@@ -106,6 +106,8 @@ class Work extends CI_Controller{
             'work_company' => $work_company,
         );
         $this->db->insert('tb_work',$data);
+        $this->session->set_flashdata('message','Work successfully added!');
+		redirect('work');
         // if($this->Email_model->sendEmail(
         //     $user_data, 
         //     $work_date_open, 
