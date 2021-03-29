@@ -10,7 +10,7 @@
 <body>
 <h3>Input new Permit</h3>
     <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
-    <form action="new_permit" method="post">
+    <form action="<?=$workData['work_id'];?>" method="post">
         <label for="permit_date">Date</label>
         <input type="date" name="permit_date" placeholder="Date"><br>
         <label for="permit_category">Category</label>
@@ -27,22 +27,9 @@
         <label for="permit_no">Permit No.</label>
         <input type="number" name="permit_no" placeholder="Permit No."><br>
         <label for="permit_area">Area</label>
-        <select name="permit_area" name="permit_area">
-            <option value="">-Select area-</option>
-            <option value="Factory">Factory</option>
-            <option value="Utility">Utility</option>
-            <option value="Production">Production</option>
-            <option value="Office">Office</option>
-            <option value="WB">Weight Bridge</option>
-            <option value="Store">Store</option>
-            <option value="Engineering">area</option>
-            <option value="Tank Farm">Tank Farm</option>
-            <option value="Shipping">Shipping</option>
-            <option value="MBA">MBA</option>
-            <option value="TBBT">TBBT</option>
-        </select><br>
+        <input readonly name="permit_area" type="text" value="<?= $workData['work_area'];?>" ><br>
         <label for="permit_title">Title</label>
-        <input type="text" name="permit_title" placeholder="Title"><br>
+        <input readonly type="text" name="permit_title" value="<?= $workData['work_title'];?>" placeholder="Title"><br>
         <label for="permit_description">Desciption</label>
         <textarea type="text" name="permit_description" placeholder="Description"></textarea><br>
         <label for="permit_user">User</label>
@@ -51,6 +38,6 @@
         <input type="text" name="permit_company" value="<?= $userData['user_company'];?>" placeholder="Company" readonly><br>
         <button type="submit">Submit</button>
     </form>
-    <a href="<?= base_url('home'); ?>"> Back</a>
+    <a href="<?= base_url('work/detail_work/').$workData['work_id']; ?>"> Back</a>
 </body>
 </html>

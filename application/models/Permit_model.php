@@ -18,4 +18,13 @@ class Permit_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function getThisPermit($id){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->where('permit_work_id', $id, 'left');
+        $this->db->order_by('permit_id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

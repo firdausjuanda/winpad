@@ -8,10 +8,11 @@ class New_permit extends CI_Controller {
         parent:: __construct();
         $this->load->model('User_model');
         $this->load->model('Email_model');
+        $this->load->model('Work_model');
         $this->load->library('form_validation');
 
     }
-	public function index()
+	public function new_permit($id)
 	{	
         $this->form_validation->set_rules('permit_date', 'permit date', 'required');
         $this->form_validation->set_rules('permit_category', 'permit category', 'required');
@@ -27,6 +28,7 @@ class New_permit extends CI_Controller {
                 $data['title'] = "New Permit";
                 $usernameFromSession = $this->session->userdata('username');
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
+                $data['workData'] = $this->Work_model->getThisWork($id);
                 $data['user'] = $this->User_model->getAllUser();
                 $this->load->view('new_permit',$data);
             }
@@ -35,7 +37,7 @@ class New_permit extends CI_Controller {
                 // If true
                 $usernameFromSession = $this->session->userdata('username');
                 $user_data = $this->User_model->userSession($usernameFromSession);
-                $this->add($user_data);
+                $this->add($user_data, $id);
             }
 			
 		}
@@ -46,8 +48,9 @@ class New_permit extends CI_Controller {
 		
 	}
 
-    public function add($user_data)
-    {
+    public function add($user_data,$id)
+    {   
+        // $thisWork = $this->Work_model->getThisWork($id);
         $permit_date = $this->input->post('permit_date');
         $permit_category = $this->input->post('permit_category');
         $permit_no = $this->input->post('permit_no');
@@ -60,6 +63,7 @@ class New_permit extends CI_Controller {
 
         $data = array(
             'permit_date' => $permit_date,
+            'permit_work_id' => $id,
             'permit_category' => $permit_category,
             'permit_no' => $permit_no,
             'permit_status' => $permit_status,
@@ -84,7 +88,8 @@ class New_permit extends CI_Controller {
             ))
         {
             $this->session->set_flashdata('success', 'Permit Successfully added and email sent!');
-            redirect('home');
+            $redirect_path = 'work/detail_work/'.$id;
+            redirect($redirect_path);
         }
         else
         {

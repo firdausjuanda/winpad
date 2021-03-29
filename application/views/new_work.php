@@ -22,7 +22,7 @@
             <option value="Office">Office</option>
             <option value="WB">Weight Bridge</option>
             <option value="Store">Store</option>
-            <option value="Engineering">area</option>
+            <option value="Engineering">Engineering</option>
             <option value="Tank Farm">Tank Farm</option>
             <option value="Shipping">Shipping</option>
             <option value="MBA">MBA</option>
