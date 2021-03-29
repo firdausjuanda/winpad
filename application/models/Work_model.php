@@ -6,7 +6,7 @@ class Work_model extends CI_Model {
     {   
         $this->db->select('*');
         $this->db->from('tb_work');
-        $this->db->order_by('work_date_open','desc');
+        $this->db->order_by('work_id','desc');
         return $this->db->get()->result_array();
     }
     public function getThisWork($id)

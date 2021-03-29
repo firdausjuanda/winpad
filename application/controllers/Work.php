@@ -14,12 +14,14 @@ class Work extends CI_Controller{
     {
         if($this->session->userdata('id'))
 		{
-			$data['title'] = "This is Home";
+			$data['title'] = "Workline";
 			$usernameFromSession = $this->session->userdata('username');
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
-			$this->load->view('all_work',$data);
+			$this->load->view('templates/header',$data);
+            $this->load->view('all_work',$data);
+            $this->load->view('templates/footer',$data);
 		}
 		else
 		{	
@@ -44,7 +46,10 @@ class Work extends CI_Controller{
                 $usernameFromSession = $this->session->userdata('username');
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
                 $data['user'] = $this->User_model->getAllUser();
+                $this->load->view('templates/header',$data);
                 $this->load->view('new_work',$data);
+                $this->load->view('templates/footer',$data);
+
             }
             else
             {
@@ -113,7 +118,7 @@ class Work extends CI_Controller{
             $work_user,
             $work_company
             ))
-        {
+        {   
             $this->session->set_flashdata('success', 'work Successfully added and email sent!');
             redirect('home');
         }
