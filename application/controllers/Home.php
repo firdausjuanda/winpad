@@ -18,7 +18,9 @@ class Home extends CI_Controller {
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
+			$this->load->view('templates/header',$data);
 			$this->load->view('all_work',$data);
+			$this->load->view('templates/footer',$data);
 		}
 		else
 		{	

@@ -67,7 +67,7 @@ class Work extends CI_Controller{
     public function do_upload()
     {
         $config['upload_path']          = './assets/img/img_open/';
-        $config['allowed_types']        = 'gif|jpg|png';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
         $config['max_size']             = 2048;
         $config['file_name']            = $this->input->post('work_date_open').'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
         
@@ -139,7 +139,9 @@ class Work extends CI_Controller{
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getThisWork($id);
-			$this->load->view('detail_work',$data);
+			$this->load->view('templates/header',$data);
+            $this->load->view('detail_work',$data);
+            $this->load->view('templates/footer',$data);
 		}
 		else
 		{	

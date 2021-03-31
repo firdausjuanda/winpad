@@ -25,6 +25,7 @@ class Register extends CI_Controller{
         $this->form_validation->set_rules('user_firstname', 'firstname', 'required');
         $this->form_validation->set_rules('user_lastname', 'lastname', 'required');
         $this->form_validation->set_rules('user_phone', 'phone', 'required');
+        $this->form_validation->set_rules('user_email', 'email', 'required');
         $this->form_validation->set_rules('user_company', 'company', 'required');
         $this->form_validation->set_rules('user_password', 'password', 'required');
         $this->form_validation->set_rules('user_password_check', 'confirmation password', 'required|matches[user_password]');
@@ -45,6 +46,7 @@ class Register extends CI_Controller{
         $firstname = $this->input->post('user_firstname');
         $lastname = $this->input->post('user_lastname');
         $phone = $this->input->post('user_phone');
+        $email = $this->input->post('user_email');
         $company = $this->input->post('user_company');
         $password = $this->input->post('user_password');
 
@@ -53,6 +55,7 @@ class Register extends CI_Controller{
             'user_firstname' => $firstname,
             'user_lastname' => $lastname,
             'user_phone' => $phone,
+            'user_email' => $email,
             'user_dept' => '',
             'user_company' => $company,
             'user_password' => md5($password),
