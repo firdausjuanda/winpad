@@ -30,7 +30,9 @@ class New_permit extends CI_Controller {
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
                 $data['workData'] = $this->Work_model->getThisWork($id);
                 $data['user'] = $this->User_model->getAllUser();
+                $this->load->view('templates/header',$data);
                 $this->load->view('new_permit',$data);
+                $this->load->view('templates/footer',$data);
             }
             else
             {
@@ -87,7 +89,7 @@ class New_permit extends CI_Controller {
             $permit_company
             ))
         {
-            $this->session->set_flashdata('success', 'Permit Successfully added and email sent!');
+            $this->session->set_flashdata('success', '<div class="row col-md-12"><div class="alert alert-success">Permit Successfully added and email sent!</div></div>');
             $redirect_path = 'work/detail_work/'.$id;
             redirect($redirect_path);
         }

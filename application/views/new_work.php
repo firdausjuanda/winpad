@@ -1,13 +1,13 @@
 
     <div class="mb-2">
 		<div class="col-12">
-			<a class="btn btn-primary" href="<?= base_url('work') ?>">Back</a>
+			<a class="btn btn-default" href="<?= base_url('work') ?>"><i class="fa fa-arrow-left"></i></a>
 		</div>
 	</div>
     <br>
     
     <div class="col-12">
-        <div class="card card-primary">
+        <div class="card card-default">
             <div class="card-header">
                 <h3 class="card-title">Input new Work</h3>
             </div>
@@ -16,13 +16,13 @@
                 <div class="card-body">
 
                     <div class="form-group">
-                        <label for="work_date_open">Date</label>
-                        <input class="form-control" type="date" name="work_date_open" value="<?= form_error('work_date_open');?>" placeholder="Date">
+                        <label for="work_date_open">Start Date</label>
+                        <input class="form-control" required type="date" name="work_date_open" value="<?= form_error('work_date_open');?>" placeholder="Date">
                     </div>
 
                     <div class="form-group">
                         <label for="work_area">Area</label>
-                        <select class="form-control" name="work_area" name="work_area">
+                        <select class="form-control" required name="work_area" name="work_area">
                             <option value="">-Select area-</option>
                             <option value="Factory">Factory</option>
                             <option value="Utility">Utility</option>
@@ -40,24 +40,24 @@
 
                     <div class="form-group">
                         <label for="work_exact_place">Exact place</label>
-                        <input class="form-control" type="text" name="work_exact_place" placeholder="Exact place">  
+                        <input class="form-control" type="text" name="work_exact_place" required value="<?= form_error('work_exact_place');?>" placeholder="Exact place">  
                     </div>
 
                     <div class="form-group">
                         <label for="work_title">Title</label>
-                        <input class="form-control"  type="text" name="work_title" placeholder="Title">
+                        <input class="form-control"  type="text" name="work_title" required value="<?= form_error('work_title');?>" placeholder="Title">
                     </div>
 
                     <div class="form-group">
                         <label for="work_description">Desciption</label>
-                        <textarea class="form-control"  type="text" name="work_description" placeholder="Description"></textarea>
+                        <textarea class="form-control"  type="text" name="work_description" required value="<?= form_error('work_description');?>" placeholder="Description"></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="work_img_open">Post Current Picture</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="work_img_open" id="work_img_open">
+                                <input type="file" class="custom-file-input" name="work_img_open" required id="work_img_open">
                                 <label class="custom-file-label" for="work_img_open">Browse file</label>
                             </div>
                             <div class="input-group-append">

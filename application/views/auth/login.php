@@ -16,15 +16,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'dist/css/adminlte.min.css';?>">
 </head>
 <body class="hold-transition login-page">
-    <?php 
-    if($this->session->userdata('id'))
-    {
-        echo '<p>Session Now : '; echo $userData["user_username"]; echo '</p>';
-    } else 
-    {
-        echo 'Nobody sign in yet!';
-    }
-    ?>
     <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
     <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
     
@@ -70,14 +61,14 @@
         </div>
       </form>
 
-      <div class="social-auth-links text-center mt-2 mb-3">
+      <!-- <div class="social-auth-links text-center mt-2 mb-3">
         <a href="#" class="btn btn-block btn-primary">
           <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
         </a>
         <a href="#" class="btn btn-block btn-danger">
           <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
         </a>
-      </div>
+      </div> -->
       <!-- /.social-auth-links -->
 
       <p class="mb-1">

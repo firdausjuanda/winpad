@@ -34,6 +34,7 @@ class Work extends CI_Controller{
         $this->form_validation->set_rules('work_date_open', 'work date', 'required');
         $this->form_validation->set_rules('work_area', 'work area', 'required');
         $this->form_validation->set_rules('work_title', 'work title', 'required');
+        $this->form_validation->set_rules('work_description', 'work title', 'required');
         $this->form_validation->set_rules('work_exact_place', 'work exact place', 'required');
         // $this->form_validation->set_rules('work_img_open', 'work image open', 'required');
 		if($this->session->userdata('id'))
@@ -91,6 +92,7 @@ class Work extends CI_Controller{
         $work_date_open = $this->input->post('work_date_open');
         $work_area = $this->input->post('work_area');
         $work_title = $this->input->post('work_title');
+        $work_description = $this->input->post('work_description');
         $work_status = 'OPN';
         $work_exact_place = $this->input->post('work_exact_place');
         $work_img_open = $img_open_filename;
@@ -101,6 +103,7 @@ class Work extends CI_Controller{
             'work_date_open' => $work_date_open,
             'work_area' => $work_area,
             'work_title' => $work_title,
+            'work_description' => $work_description,
             'work_status' => $work_status,
             'work_exact_place' => $work_exact_place,
             'work_img_open' => $work_img_open,
@@ -108,7 +111,8 @@ class Work extends CI_Controller{
             'work_company' => $work_company,
         );
         $this->db->insert('tb_work',$data);
-        if($this->Email_model->workEmail(
+        // if(
+        $this->Email_model->workEmail(
             $user_data, 
             $work_date_open, 
             $work_area, 
@@ -117,16 +121,18 @@ class Work extends CI_Controller{
             $work_exact_place,
             $work_user,
             $work_company
-            ))
-        {   
-            $this->session->set_flashdata('success', 'work Successfully added and email sent!');
-            redirect('home');
-        }
-        else
-        {
-            Echo "error sending email";
-        }
-        $this->session->set_flashdata('success','Work successfully added and email sent!');
+        );
+        //     )
+        // {   
+        //     $this->session->set_flashdata('success', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
+        //     redirect('work');
+        // }
+        // else
+        // {
+        //     $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+        //     redirect('work');
+        // }
+        $this->session->set_flashdata('success','<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
 		redirect('work');
         
     }
@@ -145,7 +151,7 @@ class Work extends CI_Controller{
 		}
 		else
 		{	
-			$this->session->set_flashdata('message','You cannot go to home page unless you logged in!');
+			$this->session->set_flashdata('message','<div class="row col-md-12"><div class="alert alert-danger">You cannot go to home page unless you logged in!</div></div>');
 			redirect('login');
 		}
     }

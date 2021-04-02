@@ -1,39 +1,25 @@
 
-		<div class="<?php if($this->session->flashdata('message')==""){echo "";}else{echo 'alert alert-danger';}?> text-center" ><?= $this->session->flashdata('message'); ?></div><br>
-		<div class="<?php if($this->session->flashdata('message')==""){echo "";}else{echo 'alert alert-danger';}?> text-center" ><?= $this->session->flashdata('success'); ?></div><br>
-
-	<div class="row">
-		<div class="col-md-12">
-            <!-- Box Comment -->
-            <div class="card">
-              <!-- /.card-header -->
-              <div class="card-body">
-                <a href="<?= base_url('work/new_work') ?>" class="btn btn-default btn-sm"><i class="fas fa-plus"></i> New Work</a>
-                <a href="<?= base_url('work/my_work') ?>" class="btn btn-default btn-sm"><i class="far fa-user"></i> My Work</a>
-                <a href="<?= base_url('work/my_work') ?>" class="btn btn-default btn-sm"><i class="far fa-user"></i> My Work</a>
-                <a href="<?= base_url('work/my_work') ?>" class="btn btn-default btn-sm"><i class="far fa-user"></i> My Work</a>
-                <a href="<?= base_url('work/my_work') ?>" class="btn btn-default btn-sm"><i class="far fa-user"></i> My Work</a>
-              </div>
-            </div>
-            <!-- /.card -->
-        </div>
-	</div>
-	
+<?= $this->session->flashdata('message'); ?>
+<?= $this->session->flashdata('success'); ?>
+<div class="row">
+  <div class="col-md-7">
+	    <a href="<?= base_url('work/new_work') ?>" class="btn btn-default btn-block mb-2"><i class="fas fa-plus"></i>  Create New Work</a>
 	<?php foreach( $work as $w) :?>
 	<div class="row">
-	<div class="col-md-7">
+	<div class="col-md-12">
             <!-- Box Comment -->
             <div class="card card-widget">
               <div class="card-header">
                 <div class="user-block">
                   <img class="img-circle" src="<?= base_url('assets/vendor/admin-lte/').'/dist/img/user1-128x128.jpg';?>" alt="User Image">
-                  <span class="username"><a href="#"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
-                  <span class="description"><?= $w['work_status'];?> | Start at: <?= $w['work_date_open'];?> | Created at: <?= $w['work_date_created'];?></span>
+                  <span class="username" ><a style="color: black;" href="#"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
+                  <span class="description"><?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : <?= date_format(date_create($w['work_date_created']),'j M y (H:i)');?></span>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-			  	<p class="mb-2" ><?= $w['work_title'];?></p>
+                <strong><p class="mb-0"><span class="badge badge-success">Title:</span> <?= $w['work_title'];?></p></strong>
+			  	      <p class="mb-2" ><span class="badge badge-success">Analysis:</span> <?= $w['work_description'];?></p>
                 <a href="<?= base_url('work/detail_work/').$w['work_id'];?>"> <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/img_open/').$w['work_img_open'];?>" alt="Photo"></a><br>
                 <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
                 <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
@@ -88,6 +74,8 @@
           </div>
 	</div>
 	<?php endforeach;?>
+  </div>
+  </div>
 			<script>
 			$(function () {
 				$("#workTable").DataTable({
