@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/summernote/summernote-bs4.min.css'?> ">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm">
 <div class="wrapper">
 
   <!-- Preloader -->
@@ -241,6 +241,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
     <!-- /.sidebar -->
   </aside>
+
+  
   <div class="content-wrapper">
 
     <div class="content-header">

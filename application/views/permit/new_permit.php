@@ -12,7 +12,7 @@
                 <h3 class="card-title">Input new Permit</h3>
             </div>
             <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
-            <form action="<?=$workData['work_id'];?>" method="post">
+            <form action="<?= base_url('permit/new_permit/').$workData['work_id'];?>" method="post">
                 <div class="card-body">
 
                     <div class="form-group">

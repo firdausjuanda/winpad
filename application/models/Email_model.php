@@ -178,13 +178,15 @@ by Winpad';
             $this->email->set_newline("\r\n");
             ini_set('smtp', $smtp_server);
             ini_set('smtp_port', $smtp_port);
-            if($this->email->send()){
-                return $this->email->send();
-            }
-            else
-            {
-                $this->email->print_debugger();
-            }
+            return $this->email->send();
+        //     if($this->email->send() == true){
+        //         return $this->email->send();
+        //     }
+        //     else
+        //     {
+        //         $this->email->print_debugger();
+        //         die;
+        //     }
             
         }
 }

@@ -20,7 +20,7 @@ class Work extends CI_Controller{
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
 			$this->load->view('templates/header',$data);
-            $this->load->view('all_work',$data);
+            $this->load->view('work/all_work',$data);
             $this->load->view('templates/footer',$data);
 		}
 		else
@@ -48,14 +48,14 @@ class Work extends CI_Controller{
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
                 $data['user'] = $this->User_model->getAllUser();
                 $this->load->view('templates/header',$data);
-                $this->load->view('new_work',$data);
+                $this->load->view('work/new_work',$data);
                 $this->load->view('templates/footer',$data);
 
             }
             else
             {
                 // If true
-                $this->do_upload();
+                $this->upload_img_open();
             }
 			
 		}
@@ -65,9 +65,9 @@ class Work extends CI_Controller{
 		}
 		
 	}
-    public function do_upload()
+    public function upload_img_open()
     {
-        $config['upload_path']          = './assets/img/img_open/';
+        $config['upload_path']          = './assets/img/work/';
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
         $config['max_size']             = 2048;
         $config['file_name']            = $this->input->post('work_date_open').'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
@@ -110,9 +110,8 @@ class Work extends CI_Controller{
             'work_user' => $work_user,
             'work_company' => $work_company,
         );
-        $this->db->insert('tb_work',$data);
-        // if(
-        $this->Email_model->workEmail(
+        
+        if($this->Email_model->workEmail(
             $user_data, 
             $work_date_open, 
             $work_area, 
@@ -121,19 +120,19 @@ class Work extends CI_Controller{
             $work_exact_place,
             $work_user,
             $work_company
-        );
-        //     )
-        // {   
-        //     $this->session->set_flashdata('success', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
-        //     redirect('work');
-        // }
-        // else
-        // {
-        //     $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
-        //     redirect('work');
-        // }
-        $this->session->set_flashdata('success','<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
-		redirect('work');
+        ) == TRUE)
+        {   
+            $this->db->insert('tb_work',$data);
+            $this->session->set_flashdata('success', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
+            redirect('work');
+        }
+        else
+        {   
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+            redirect('work');
+        }
+        // $this->session->set_flashdata('success','<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
+		// redirect('work');
         
     }
     public function detail_work($id)
@@ -146,7 +145,7 @@ class Work extends CI_Controller{
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getThisWork($id);
 			$this->load->view('templates/header',$data);
-            $this->load->view('detail_work',$data);
+            $this->load->view('work/detail_work',$data);
             $this->load->view('templates/footer',$data);
 		}
 		else
@@ -154,5 +153,94 @@ class Work extends CI_Controller{
 			$this->session->set_flashdata('message','<div class="row col-md-12"><div class="alert alert-danger">You cannot go to home page unless you logged in!</div></div>');
 			redirect('login');
 		}
+    }
+    public function complete_work($id)
+    {
+        if($this->session->userdata('id'))
+		{ 
+            $this->form_validation->set_rules('work_img_close' , 'final picture' , 'required');
+            if($this->form_validation->run()==false)
+            {
+                $data['title'] = "Complete Work";
+                $usernameFromSession = $this->session->userdata('username');
+                $data['userData'] = $this->User_model->userSession($usernameFromSession);
+                $data['user'] = $this->User_model->getAllUser();
+                $data['work'] = $this->Work_model->getThisWork($id);
+                $this->load->view('templates/header',$data);
+                $this->load->view('work/complete_work',$data);
+                $this->load->view('templates/footer',$data);
+            }
+            else
+            {
+                $this->upload_img_close();
+            }
+			
+		}
+		else
+		{	
+			$this->session->set_flashdata('message','<div class="row col-md-12"><div class="alert alert-danger">You cannot go to home page unless you logged in!</div></div>');
+			redirect('login');
+		}
+    }
+    
+    public function upload_img_close()
+    {
+        $config['upload_path']          = './assets/img/work/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $config['max_size']             = 2048;
+        $config['file_name']            = $this->input->post('work_date_open').'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
+        
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('work_img_close'))
+        {
+            $img_close_filename = $this->upload->data('file_name');
+            $usernameFromSession = $this->session->userdata('username');
+            $user_data = $this->User_model->userSession($usernameFromSession);
+            $this->_close($user_data, $img_close_filename);
+        }
+        else
+        {   
+            echo $this->upload->display_errors();
+        }
+    }
+    private function _close($user_data, $img_close_filename)
+    {
+        $work_status = 'CLS';
+        $work_img_close = $img_close_filename;
+        $work_title = $this->input->post('work_title');
+        $work_area = $this->input->post('work_area');
+        $work_user_close = $this->input->post('work_user');
+        $work_company = $this->input->post('work_company');
+        $work_id = $this->input->post('work_id');
+
+        $data = array(
+            'work_title' => $work_title,
+            'work_area' => $work_area,
+            'work_status' => $work_status,
+            'work_img_close' => $work_img_close,
+            'work_user_close' => $work_user_close,
+            'work_company' => $work_company,
+        );
+        if($this->Email_model->workCloseEmail(
+            $user_data, 
+            $work_area,
+            $work_title,
+            $work_status,
+            $work_user_close,
+            $work_company
+        ) == TRUE)
+        {   
+            $this->db->where('work_id',$work_id);
+            $this->db->update('tb_work', $data);
+            $this->session->set_flashdata('success', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
+            redirect('work');
+        }
+        else
+        {
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+            redirect('work');
+        }
     }
 }

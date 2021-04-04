@@ -6,9 +6,8 @@
               
 	<div class="col-md-12">
                 <a class="btn btn-default mb-2" href="<?= base_url('work'); ?>"><i class="fa fa-arrow-left"></i></a>
-                <a href="<?= base_url('new_permit/new_permit/').$work['work_id'];?>" class="btn btn-primary mb-2" ><i class="fa fa-plus"></i> Add Permit</a>
-                <a href="<?= base_url('my_permit/this_work_permit/').$work['work_id'];?>" class="btn btn-secondary mb-2"><i class="fa fa-eye"></i> See Permit</a>
-                <a href="<?= base_url('my_permit/this_work_permit/').$work['work_id'];?>" class="btn btn-success mb-2"><i class="fa fa-check"></i> Complete Work</a>
+                <a href="<?= base_url('permit/this_work_permit/').$work['work_id'];?>" class="btn btn-secondary mb-2"><i class="fa fa-eye"></i> See Permit</a>
+                <a href="<?= base_url('work/complete_work/').$work['work_id'];?>" class="btn btn-success mb-2"><i class="fa fa-check"></i> Complete Work</a>
             <!-- Box Comment -->
             <div class="card card-widget">
               <div class="card-header">
@@ -22,7 +21,7 @@
               <div class="card-body">
               <strong><p class="mb-0"><span class="badge badge-success">Title:</span> <?= $work['work_title'];?></p></strong>
 			  	      <p class="mb-2" ><span class="badge badge-success">Analysis:</span> <?= $work['work_description'];?></p>
-                <a href="<?= base_url('work/detail_work/').$work['work_id'];?>"> <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/img_open/').$work['work_img_open'];?>" alt="Photo"></a><br>
+                <a href="<?= base_url('work/detail_work/').$work['work_id'];?>"> <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$work['work_img_open'];?>" alt="Photo"></a><br>
                 <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
                 <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
                 <span class="float-right text-muted">127 likes - 3 comments</span>

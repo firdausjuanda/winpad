@@ -1,18 +1,34 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-class New_permit extends CI_Controller {
-	
+class Permit extends CI_Controller{
     public function __construct()
     {
         parent:: __construct();
+        $this->load->model('Permit_model');
         $this->load->model('User_model');
-        $this->load->model('Email_model');
         $this->load->model('Work_model');
-        $this->load->library('form_validation');
-
+        $this->load->model('Email_model');
     }
-	public function new_permit($id)
+    public function index()
+    {
+        $data['title'] = 'My Permit';
+        $usernameFromSession = $this->session->userdata('username');
+        $data['my_permit'] = $this->Permit_model->getMyPermit($usernameFromSession);
+        $this->load->view('templates/header',$data);
+        $this->load->view('permit/my_permit',$data);
+        $this->load->view('templates/footer',$data);
+    }
+    public function this_work_permit($id)
+    {
+        $data['title'] = 'My Permit';
+        $usernameFromSession = $this->session->userdata('username');
+		$data['userData'] = $this->User_model->userSession($usernameFromSession);
+        $data['this_work_permit'] = $this->Permit_model->getThisPermit($id);
+        $data['this_work'] = $this->Work_model->getThisWork($id);
+        $this->load->view('templates/header',$data);
+        $this->load->view('permit/this_work_permit',$data);
+        $this->load->view('templates/footer',$data);
+    }
+    public function new_permit($id)
 	{	
         $this->form_validation->set_rules('permit_date', 'permit date', 'required');
         $this->form_validation->set_rules('permit_category', 'permit category', 'required');
@@ -31,7 +47,7 @@ class New_permit extends CI_Controller {
                 $data['workData'] = $this->Work_model->getThisWork($id);
                 $data['user'] = $this->User_model->getAllUser();
                 $this->load->view('templates/header',$data);
-                $this->load->view('new_permit',$data);
+                $this->load->view('permit/new_permit',$data);
                 $this->load->view('templates/footer',$data);
             }
             else
@@ -39,7 +55,7 @@ class New_permit extends CI_Controller {
                 // If true
                 $usernameFromSession = $this->session->userdata('username');
                 $user_data = $this->User_model->userSession($usernameFromSession);
-                $this->add($user_data, $id);
+                $this->_add($user_data, $id);
             }
 			
 		}
@@ -50,7 +66,7 @@ class New_permit extends CI_Controller {
 		
 	}
 
-    public function add($user_data,$id)
+    private function _add($user_data,$id)
     {   
         // $thisWork = $this->Work_model->getThisWork($id);
         $permit_date = $this->input->post('permit_date');
@@ -75,7 +91,7 @@ class New_permit extends CI_Controller {
             'permit_user' => $permit_user,
             'permit_company' => $permit_company,
         );
-        $this->db->insert('tb_permit',$data);
+        
         if($this->Email_model->sendEmail(
             $user_data, 
             $permit_date, 
@@ -89,14 +105,17 @@ class New_permit extends CI_Controller {
             $permit_company
             ))
         {
-            $this->session->set_flashdata('success', '<div class="row col-md-12"><div class="alert alert-success">Permit Successfully added and email sent!</div></div>');
-            $redirect_path = 'work/detail_work/'.$id;
+            $this->db->insert('tb_permit',$data);
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Successfully added and email sent!</div></div>');
+            $redirect_path = 'permit/this_work_permit/'.$id;
             redirect($redirect_path);
         }
         else
-        {
-            Echo "error sending email";
+        {   
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something wrong, try again adding permit!</div></div>');
+            $redirect_path = 'permit/this_work_permit/'.$id;
+            redirect($redirect_path);
         }
     }
-    
+
 }

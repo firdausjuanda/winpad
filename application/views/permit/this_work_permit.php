@@ -1,7 +1,9 @@
 
-
+    <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
+    <p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
 		<div class="col-md-12">
 			<a href="<?= base_url('work/detail_work/').$this_work['work_id']; ?>" class="btn btn-default mb-2"><i class="fa fa-arrow-left"></i></a>
+      <a href="<?= base_url('permit/new_permit/').$this_work['work_id'];?>" class="btn btn-primary mb-2" ><i class="fa fa-plus"></i> Add Permit</a>
 
           <div class="card card-primary card-outline">
             <div class="card-header">
