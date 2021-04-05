@@ -158,7 +158,7 @@ class Work extends CI_Controller{
     {
         if($this->session->userdata('id'))
 		{ 
-            $this->form_validation->set_rules('work_img_close' , 'final picture' , 'required');
+            // $this->form_validation->set_rules('work_img_close' , 'final picture' , 'required');
             if($this->form_validation->run()==false)
             {
                 $data['title'] = "Complete Work";
@@ -172,6 +172,7 @@ class Work extends CI_Controller{
             }
             else
             {
+                echo "Success";
                 $this->upload_img_close();
             }
 			
