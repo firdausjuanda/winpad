@@ -18,21 +18,21 @@ class Email_model extends CI_Model{
     $permit_company
     )
     {
-        $smtp_server = 'smtp.googlemail.com';
-        $smtp_port = 465;
-        $email = 'winpadsystem@gmail.com';
-        $config = [
-            'protocol' => 'smtp',
-            'smtp_host' => $smtp_server,
-            'smtp_user' => $email,
-            'smtp_pass' => 'Winpad12325800*',
-            '_smtp_auth' => TRUE,
-            'smtp_port' => $smtp_port,
-            'smtp_crypto' => 'ssl',
-            'emailtype' => 'html',
-            'charset' => 'utf-8',
-            'newline' => "\r\n",
-        ];
+        $smtp_server = 'mail.firdgroup.com'; //'smtp.googlemail.com'; 
+        $smtp_port = 465; //same
+        $email =  'no-reply@firdgroup.com'; //'winpadsystem@gmail.com';
+        // $config = [
+        //     'protocol' => 'smtp',
+        //     'smtp_host' => $smtp_server,
+        //     'smtp_user' => $email,
+        //     'smtp_pass' => 'Juanda12325800*', //'Winpad12325800*',
+        //     '_smtp_auth' => TRUE,
+        //     'smtp_port' => $smtp_port,
+        //     'smtp_crypto' => 'ssl',
+        //     'emailtype' => 'html',
+        //     'charset' => 'utf-8',
+        //     'newline' => "\r\n",
+        // ];
         $target = [
             $user_data['user_email'],
         ];
@@ -86,15 +86,15 @@ Sincerely
 Permit System 
 by Winpad';
 
-        $this->email->initialize($config);
+        // $this->email->initialize($config);
         $this->email->from($email, 'Permit System');
         $this->email->subject('Permit System');
         $this->email->to($target,'firdausjuanda@hotmail.com');
         // $this->email->cc(array('firdaus.juanda@wilmar.co.id'));
         $this->email->message($body_mail);
         $this->email->set_newline("\r\n");
-        ini_set('smtp', $smtp_server);
-        ini_set('smtp_port', $smtp_port);
+        // ini_set('smtp', $smtp_server);
+        // ini_set('smtp_port', $smtp_port);
         return $this->email->send();
         
     }

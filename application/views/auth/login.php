@@ -18,8 +18,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'dist/css/adminlte.min.css';?>">
 </head>
 <body class="hold-transition login-page">
-    <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
-    <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
+    <h5><?php echo validation_errors(); ?></h5>
+    <p><?= $this->session->flashdata('message'); ?></p>
     
     <div class="login-box">
     <div class="card card-outline card-primary">

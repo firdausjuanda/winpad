@@ -158,7 +158,7 @@ class Work extends CI_Controller{
     {
         if($this->session->userdata('id'))
 		{ 
-            // $this->form_validation->set_rules('work_img_close' , 'final picture' , 'required');
+            $this->form_validation->set_rules('work_img_close' , 'final picture' , 'required');
             if($this->form_validation->run()==false)
             {
                 $data['title'] = "Complete Work";
@@ -166,9 +166,10 @@ class Work extends CI_Controller{
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
                 $data['user'] = $this->User_model->getAllUser();
                 $data['work'] = $this->Work_model->getThisWork($id);
-                $this->load->view('templates/header',$data);
-                $this->load->view('work/complete_work',$data);
-                $this->load->view('templates/footer',$data);
+                // $this->load->view('templates/header',$data);
+                // $this->load->view('work/complete_work',$data);
+                // $this->load->view('templates/footer',$data);
+                $this->load->view('try', $data);
             }
             else
             {
@@ -224,6 +225,7 @@ class Work extends CI_Controller{
             'work_user_close' => $work_user_close,
             'work_company' => $work_company,
         );
+        var_dump($data);die;
         if($this->Email_model->workCloseEmail(
             $user_data, 
             $work_area,
