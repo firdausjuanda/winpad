@@ -92,7 +92,7 @@ class Permit extends CI_Controller{
             'permit_company' => $permit_company,
         );
         
-        if($this->Email_model->sendEmail(
+        if($this->Email_model->sendPermitEmail(
             $user_data, 
             $permit_date, 
             $permit_category, 

@@ -1,6 +1,6 @@
 
 <?= $this->session->flashdata('message'); ?>
-<?= $this->session->flashdata('success'); ?>
+
 <div class="row">
   <div class="col-md-7">
 	    <a href="<?= base_url('work/new_work') ?>" class="btn btn-default btn-block mb-2"><i class="fas fa-plus"></i>  Create New Work</a>

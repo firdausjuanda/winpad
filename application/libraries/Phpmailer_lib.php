@@ -11,11 +11,12 @@ class PHPMailer_Lib
 
     public function load(){
         // Include PHPMailer library files
-        require_once APPPATH.'third_party/PHPMailer/Exception.php';
-        require_once APPPATH.'third_party/PHPMailer/PHPMailer.php';
-        require_once APPPATH.'third_party/PHPMailer/SMTP.php';
+        require_once APPPATH.'third_party/phpmailer/Exception.php';
+        require_once APPPATH.'third_party/phpmailer/PHPMailer.php';
+        require_once APPPATH.'third_party/phpmailer/SMTP.php';
         
         $mail = new PHPMailer;
         return $mail;
     }
+    
 }

@@ -1,12 +1,12 @@
 
 	<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
 	<p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
-
+ 
 <div class="row">
               
 	<div class="col-md-12">
-        <?php $form_path = 'work/complete_work/'.$work['work_id'];?>
-        <?php echo form_open_multipart($form_path);?>
+      <?php $path = 'work/complete_work/'.$work['work_id'];?>
+      <?= form_open_multipart($path);?>
         <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
             <a class="btn btn-default mb-2" href="<?= base_url('work/detail_work/').$work['work_id']; ?>"><i class="fa fa-arrow-left"></i></a>
             <!-- Box Comment -->
@@ -38,6 +38,10 @@
                             <div class="card-header">
                             Final Picture
                             </div>
+                            <?php if(!$work['work_img_close']):?>
+                            <?php else:?>
+                                <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$work['work_img_close'];?>" alt="Photo">
+                            <?php endif?>
                             <div class="card-body p-0">
                                 <div class="input-group m-5" style="width: 75%;">
                                     <div class="custom-file">
@@ -45,12 +49,14 @@
                                         <label class="custom-file-label" for="work_img_close">Add Picture</label>
                                     </div>
                                 </div>
-                            <?php if(base_url('assets/img/img_close/').$work['work_img_close'] == 0):?>
-                            <?php else:?>
-                                <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$work['work_img_close'];?>" alt="Photo">
-                            <?php endif?>
                             </div>
                         </div>
+                        <input type="hidden" name="work_id" value="<?= $work['work_id'];?>">
+                        <input type="hidden" name="work_date_open" value="<?= $work['work_date_open'];?>">
+                        <input type="hidden" name="work_area" value="<?= $work['work_area'];?>">
+                        <input type="hidden" name="work_title" value="<?= $work['work_title'];?>">
+                        <input type="hidden" name="work_user" value="<?= $work['work_user'];?>">
+                        <input type="hidden" name="work_company" value="<?= $work['work_company'];?>">
                         
                         
                     </div>
