@@ -178,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <aside class="main-sidebar sidebar-light-primary elevation-0">
     <!-- Brand Logo -->
     <a href="<?= base_url();?>" class="brand-link">
-      <img src="<?= base_url('assets/vendor/admin-lte/').'dist/img/AdminLTELogo.png';?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
+      <img width=5px src="<?= base_url('assets/img/').'logo/wilmar.png';?>" alt="Winpad Logo" class="brand-image img-circle elevation-1" style="opacity: .8">
       <span class="brand-text font-weight-bold">Winpad</span>
     </a>
 

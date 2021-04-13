@@ -93,8 +93,8 @@ by Winpad';
         // $this->email->cc(array('firdaus.juanda@wilmar.co.id'));
         $this->email->message($body_mail);
         $this->email->set_newline("\r\n");
-        // ini_set('smtp', $smtp_server);
-        // ini_set('smtp_port', $smtp_port);
+        ini_set('smtp', $smtp_server);
+        ini_set('smtp_port', $smtp_port);
         return $this->email->send();
         
     }
