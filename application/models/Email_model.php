@@ -112,6 +112,7 @@ class Email_model extends CI_Model{
         // if(!$mail->send()){
         //     echo 'Message could not be sent.';
         //     echo 'Mailer Error: ' . $mail->ErrorInfo;
+        //     die;
         // }else{
         return $mail->send();
         // }

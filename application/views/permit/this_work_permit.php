@@ -19,7 +19,7 @@
 				<?php if($this_work_permit!=null): ?>
 				  <?php	foreach( $this_work_permit as $mp) :?>
                   <tr>
-					<td class="mailbox-date"><?= $mp['permit_date'];?></td>
+					<td class="mailbox-date"><?= date_format(date_create($mp['permit_date']),'j M y');?></td>
                     <td class="mailbox-star"><a href="#" class="badge 
 					<?php 
 						if($mp['permit_category']=='HOWP')

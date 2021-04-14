@@ -91,31 +91,38 @@ class Permit extends CI_Controller{
             'permit_user' => $permit_user,
             'permit_company' => $permit_company,
         );
-        
-        if($this->Email_model->sendPermitEmail(
-            $user_data, 
-            $permit_date, 
-            $permit_category, 
-            $permit_no,
-            $permit_status,
-            $permit_area,
-            $permit_title,
-            $permit_description,
-            $permit_user,
-            $permit_company
-            ))
-        {
-            $this->db->insert('tb_permit',$data);
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Successfully added and email sent!</div></div>');
-            $redirect_path = 'permit/this_work_permit/'.$id;
-            redirect($redirect_path);
-        }
-        else
-        {   
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something wrong, try again adding permit!</div></div>');
-            $redirect_path = 'permit/this_work_permit/'.$id;
-            redirect($redirect_path);
-        }
+        // $send_mail = $this->Email_model->sendPermitEmail(
+        //     $user_data, 
+        //     $permit_date, 
+        //     $permit_category, 
+        //     $permit_no,
+        //     $permit_status,
+        //     $permit_area,
+        //     $permit_title,
+        //     $permit_description,
+        //     $permit_user,
+        //     $permit_company
+        // );
+        // if($send_mail == TRUE)
+        // {
+            if($this->db->insert('tb_permit',$data)==TRUE)
+            {
+                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Successfully added and email sent!</div></div>');
+                $redirect_path = 'permit/this_work_permit/'.$id;
+                redirect($redirect_path);
+            }
+            else
+            {  
+                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something wrong, try again adding permit!</div></div>');
+                $redirect_path = 'permit/this_work_permit/'.$id;
+                redirect($redirect_path);
+
+            }
+            
+        // }
+        // else
+        // { 
+        // }
     }
 
 }

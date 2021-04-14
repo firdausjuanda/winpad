@@ -187,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?= base_url('assets/vendor/admin-lte/').'dist/img/user2-160x160.jpg';?>" class="img-circle elevation-1" alt="User Image">
+          <img style="width: 40px; height:40px" src="<?= base_url('assets/img/logo/').$userData['user_profile'];?>" class="img-circle elevation-1" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><?= $userData['user_firstname'];?> <?= $userData['user_lastname'];?> </a>

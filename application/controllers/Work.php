@@ -8,7 +8,9 @@ class Work extends CI_Controller{
         $this->load->model('User_model');
         $this->load->model('Work_model');
         $this->load->model('Email_model');
+        $this->load->model('Comment_model');
         $this->load->helper(array('form', 'url'));
+        date_default_timezone_set('Asia/Jakarta');
     }
     public function index()
     {
@@ -19,6 +21,7 @@ class Work extends CI_Controller{
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
+			$data['comment'] = $this->Comment_model->getWorkComment();
 			$this->load->view('templates/header',$data);
             $this->load->view('work/all_work',$data);
             $this->load->view('templates/footer',$data);
@@ -98,6 +101,7 @@ class Work extends CI_Controller{
         $work_img_open = $img_open_filename;
         $work_user = $this->input->post('work_user');
         $work_company = $this->input->post('work_company');
+        $work_last_modified = date('Y-m-j H:i:s');
 
         $data = array(
             'work_date_open' => $work_date_open,
@@ -106,30 +110,31 @@ class Work extends CI_Controller{
             'work_description' => $work_description,
             'work_status' => $work_status,
             'work_exact_place' => $work_exact_place,
+            'work_last_modified' => $work_last_modified,
             'work_img_open' => $work_img_open,
             'work_user' => $work_user,
             'work_company' => $work_company,
         );
         
-        if($this->Email_model->sendWorkEmail(
-            $work_date_open, 
-            $work_area, 
-            $work_title,
-            $work_status,
-            $work_exact_place,
-            $work_user,
-            $work_company
-        ) == TRUE)
-        {   
+        // if($this->Email_model->sendWorkEmail(
+        //     $work_date_open, 
+        //     $work_area, 
+        //     $work_title,
+        //     $work_status,
+        //     $work_exact_place,
+        //     $work_user,
+        //     $work_company
+        // ) == TRUE)
+        // {   
             $this->db->insert('tb_work',$data);
             $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
             redirect('work');
-        }
-        else
-        {   
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
-            redirect('work');
-        }
+        // }
+        // else
+        // {   
+        //     $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+        //     redirect('work');
+        // }
         // $this->session->set_flashdata('success','<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
 		// redirect('work');
         
@@ -212,7 +217,8 @@ class Work extends CI_Controller{
         $work_img_close = $img_close_filename;
         $work_title = $this->input->post('work_title');
         $work_date_open = $this->input->post('work_date_open');
-        $work_date_close = date('j-m-y');
+        $work_date_close = date('Y-m-j');
+        $work_last_modified = date('Y-m-j H:i:s');
         $work_area = $this->input->post('work_area');
         $work_user_close = $this->input->post('work_user');
         $work_company = $this->input->post('work_company');
@@ -222,32 +228,52 @@ class Work extends CI_Controller{
             'work_area' => $work_area,
             'work_status' => $work_status,
             'work_date_close' => $work_date_close,
+            'work_last_modified' => $work_last_modified,
             'work_img_close' => $work_img_close,
             'work_user_close' => $work_user_close,
             'work_company' => $work_company,
         );
-        if($this->Email_model->sendWorkCompleteEmail(
-            $user_data, 
-            $work_area, 
-            $work_date_open,
-            $work_date_close,
-            $work_title,
-            $work_status,
-            $work_user_close,
-            $work_company
-        ) == TRUE)
-        {   
+        // if($this->Email_model->sendWorkCompleteEmail(
+        //     $user_data, 
+        //     $work_area, 
+        //     $work_date_open,
+        //     $work_date_close,
+        //     $work_title,
+        //     $work_status,
+        //     $work_user_close,
+        //     $work_company
+        // ) == TRUE)
+        // {   
             $this->db->where('work_id',$work_id);
             $this->db->update('tb_work', $data);
             $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
             $redirect_path = 'work/complete_work/'.$work_id;
             redirect($redirect_path);
-        }
-        else
-        {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
-            $redirect_path = 'work/complete_work/'.$work_id;
-            redirect($redirect_path);
-        }
+        // }
+        // else
+        // {
+        //     $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+        //     $redirect_path = 'work/complete_work/'.$work_id;
+        //     redirect($redirect_path);
+        // }
+    }
+
+    public function add_comment()
+    {
+        $comment_text = $this->input->post('comment_text');
+        $comment_user_id = $this->input->post('comment_user_id');
+        $comment_work_id = $this->input->post('comment_work_id');
+        $data = array(
+            'comment_text' => $comment_text,
+            'comment_user_id' => $comment_user_id,
+            'comment_work_id' => $comment_work_id,
+        );
+        $this->db->insert('tb_comment',$data);
+        $data_work = array(
+            'work_last_modified' => date('Y-m-j H:i:s'),
+        );
+        $this->db->where('work_id',$comment_work_id);
+        $this->db->update('tb_work',$data_work);
+        redirect('work');
     }
 }
