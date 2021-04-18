@@ -6,16 +6,19 @@ class Permit extends CI_Controller{
         $this->load->model('Permit_model');
         $this->load->model('User_model');
         $this->load->model('Work_model');
+        $this->load->model('Permit_model');
         $this->load->model('Email_model');
     }
     public function index()
     {
         $data['title'] = 'My Permit';
         $usernameFromSession = $this->session->userdata('username');
-        $data['my_permit'] = $this->Permit_model->getMyPermit($usernameFromSession);
+        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+        $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);
+        
     }
     public function this_work_permit($id)
     {
@@ -28,6 +31,79 @@ class Permit extends CI_Controller{
         $this->load->view('permit/this_work_permit',$data);
         $this->load->view('templates/footer',$data);
     }
+    public function add_attach($id)
+    {   
+        $this->form_validation->set_rules('permit_area', 'permit area', 'required');
+		if($this->form_validation->run()==false)
+		{
+        // If false
+        $data['title'] = "Add Attachment";
+        $usernameFromSession = $this->session->userdata('username');
+        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+        $data['workData'] = $this->Permit_model->getWorkByPermit($id);
+        $data['user'] = $this->User_model->getAllUser();
+        $this->load->view('templates/header',$data);
+        $this->load->view('permit/add_attach',$data);
+        $this->load->view('templates/footer',$data);
+        }
+        else
+        {
+            // If true
+            $test = $this->input->post('permit_attach');
+            var_dump($test);
+            $this->upload_attach();
+        }
+    }
+
+    public function upload_attach()
+    {
+        $config['upload_path']          = './assets/img/permit/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $config['max_size']             = 2048;
+        $config['file_name']            = $this->input->post('permit_id').'_'.$this->input->post('permit_area').'_'.$this->input->post('permit_title').'_'.$this->input->post('permit_description');
+        
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('permit_attach'))
+        {
+            $attach_filename = $this->upload->data('file_name');
+            $usernameFromSession = $this->session->userdata('username');
+            $user_data = $this->User_model->userSession($usernameFromSession);
+            $this->_attaching($user_data, $attach_filename);
+        }
+        else
+        {   
+            echo $this->upload->display_errors();
+        }
+    }
+
+    private function _attaching($user_data, $attach_filename)
+    {
+        $permit_giver = $this->input->post('permit_giver');
+        $permit_id = $this->input->post('permit_id');
+        $permit_attach = $attach_filename;
+        $data = array(
+            'permit_giver' => $permit_giver,
+            'permit_attach' => $permit_attach,
+        );
+        $this->db->where('permit_id',$permit_id);
+        if($this->db->update('tb_permit',$data))
+        {
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Attachemnt successfully added!</div></div>');
+            $redirect_path = 'permit';
+            redirect($redirect_path);
+        }
+        else
+        {  
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something wrong, try again later!</div></div>');
+            $redirect_path = 'permit';
+            redirect($redirect_path);
+
+        }
+
+    }
+
     public function new_permit($id)
 	{	
         $this->form_validation->set_rules('permit_date', 'permit date', 'required');
@@ -124,5 +200,15 @@ class Permit extends CI_Controller{
         // { 
         // }
     }
+
+    public function delete_permit($id)
+    {
+        $this->db->where('permit_id',$id);
+        $this->db->delete('tb_permit');
+        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Permit deleted</div></div>');
+        $redirect_path = 'permit/';
+        redirect($redirect_path);
+    }
+
 
 }

@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-md-10">
-	    <a href="<?= base_url('work/new_work') ?>" class="btn btn-default btn-block mb-2"><i class="fas fa-plus"></i>  Create New Work</a>
+	    <a href="<?= base_url('work/new_work') ?>" class="btn btn-default bg-gradient btn-block mb-2"><i class="fas fa-plus"></i>  Create New Work</a>
 	<?php foreach( $work as $w) :?>
 	<div class="row">
 	<div class="col-md-12">
@@ -11,7 +11,7 @@
             <div class="card card-widget">
               <div class="card-header">
                 <div class="user-block">
-                  <img class="img-circle" src="<?= base_url('assets/img/logo/').$userData['user_profile'];?>" alt="User Image">
+                  <img class="img-circle" src="<?= base_url('assets/img/profile/').$userData['user_profile'];?>" alt="User Image">
                   <span class="username" ><a style="color: black;" href="#"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
                   <span class="description"><span class="badge <?php $status = $w['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $w['work_status'];?></span> | <?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : <?= date_format(date_create($w['work_date_created']),'j M y (H:i)');?></span>
                 </div>
@@ -33,18 +33,17 @@
                   </div>
                 </div>
                 <?php endif; ?>
-                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
+                <!-- <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
                 <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
-                <span class="float-right text-muted">127 likes - 3 comments</span>
+                <span class="float-right text-muted">127 likes - 3 comments</span> -->
               </div>
               <!-- /.card-body -->
               <div class="card-footer card-comments">
-              
               <?php foreach($comment as $c):?>
                 <?php if($w['work_id']==$c['comment_work_id']): ?>
                 <div class="card-comment">
                   <!-- User image -->
-                  <img class="img-circle img-sm" src="<?= base_url('assets/img/logo/').$c['user_profile'];?>" alt="User Image">
+                  <img class="img-circle img-sm" src="<?= base_url('assets/img/profile/').$c['user_profile'];?>" alt="User Image">
                   <div class="comment-text">
                     <span class="username">
                       <?= $c['user_firstname'];?> <?= $c['user_lastname'];?> (<?= $c['user_company'];?>)
@@ -62,7 +61,7 @@
               <!-- /.card-footer -->
               <div class="card-footer">
                 <form action="<?= base_url('work/add_comment'); ?>" method="post">
-                  <img class="img-fluid img-circle img-sm" src="<?= base_url('assets/img/logo/').$userData['user_profile'];?>" alt="Alt Text">
+                  <img class="img-fluid img-circle img-sm" src="<?= base_url('assets/img/profile/').$userData['user_profile'];?>" alt="Alt Text">
                   <!-- .img-push is used to add margin to elements next to floating images -->
                   <div class="img-push">
                     <input name="comment_text" type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">

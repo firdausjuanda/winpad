@@ -148,6 +148,7 @@ class Work extends CI_Controller{
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getThisWork($id);
+			$data['comment'] = $this->Comment_model->getWorkComment();
 			$this->load->view('templates/header',$data);
             $this->load->view('work/detail_work',$data);
             $this->load->view('templates/footer',$data);
