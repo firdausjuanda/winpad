@@ -1,20 +1,34 @@
-    <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
-    <p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
-		<div class="col-md-12">
-		<a href="<?= base_url('work/detail_work/') ;?>" class="btn btn-default mb-2"><i class="fa fa-list"> </i> All Permit</a>
-      	<a href="<?= base_url('permit/new_permit/');?>" class="btn btn-outline-success btn-mute mb-2" ><i class="fa fa-check"></i> Release All</a>
 
+		<div class="col-md-12">    
+		<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
+    	<p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
+		<?php if($title=='Unreleased Permit'):?>
+		<a href="<?= base_url('permit/my_all_permit') ;?>" class="btn btn-default mb-2">All Permit</a>
+		<a href="<?= base_url('permit/my_prog_permit') ;?>" class="btn btn-default mb-2">In Progress</a>
+		<?php if($userData['user_role']== 2 || 0):?>
+      	<a href="<?= base_url('permit/release_permit');?>" class="btn btn-success btn-mute mb-2" ><i class="fa fa-check"></i> Release All</a>
+		<?php else:?>
+		<?php endif;?>
+		<?php elseif($title=='My All Permit'):?>
+		<a href="<?= base_url('permit') ;?>" class="btn btn-default mb-2"><i class="fa fa-arrow-left"> </i></a>
+		<?php else:?>
+		<a href="<?= base_url('permit') ;?>" class="btn btn-default mb-2"><i class="fa fa-arrow-left"> </i></a>
+		<?php if($userData['user_role']== 2 || 0):?>
+		<a href="<?= base_url('permit/complete_permit');?>" class="btn btn-info btn-mute mb-2" ><i class="fa fa-check"></i> Complete All</a>
+		<?php else:?>
+		<?php endif;?>
+		<?php endif;?>
           <div class="card card-default card-outline">
             <div class="card-header">
-              <h3 class="card-title">Uncompleted Permits</h3>
+              <h3 class="card-title"><?= $title;?></h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-controls">
               </div>
-              <div class="table-responsive mailbox-messages">
+              <div style="min-height: 400px;" class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
-                  <tbody>
+                  <tbody >
                     <?php if($my_permit!=null): ?>
                       <?php	foreach( $my_permit as $mp) :?>
                         <tr>
@@ -68,7 +82,7 @@
                       <?php endforeach;?>
                               <?php else:?>
                       <tr>
-                        <td>No permit yet :(</td>
+                        <td>No unreleased permit </td>
                       </tr>
                       <?php endif;?>
                   </tbody>

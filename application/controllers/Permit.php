@@ -11,10 +11,17 @@ class Permit extends CI_Controller{
     }
     public function index()
     {
-        $data['title'] = 'My Permit';
+        $data['title'] = 'Unreleased Permit';
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
-        $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
+        if($data['userData']['user_role']== 0)
+        {
+            $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
+        }
+        else
+        {
+            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
+        }
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);
@@ -86,11 +93,12 @@ class Permit extends CI_Controller{
         $data = array(
             'permit_giver' => $permit_giver,
             'permit_attach' => $permit_attach,
+            'permit_attach_status' => 1,
         );
         $this->db->where('permit_id',$permit_id);
         if($this->db->update('tb_permit',$data))
         {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Attachemnt successfully added!</div></div>');
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Attachment successfully added!</div></div>');
             $redirect_path = 'permit';
             redirect($redirect_path);
         }
@@ -208,6 +216,59 @@ class Permit extends CI_Controller{
         $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Permit deleted</div></div>');
         $redirect_path = 'permit/';
         redirect($redirect_path);
+    }
+
+    public function release_permit()
+    {
+        $user_name = $this->session->userdata('username');
+        $permit_to_release = $this->Permit_model->getPermitToRelease($user_name);
+        if(!$permit_to_release)
+        {
+            $data = array(
+                'permit_status' => 'REL',
+            );
+
+            $this->db->where('permit_status','OPN');
+            $this->db->where('permit_user',$user_name);
+            $this->db->update('tb_permit', $data);
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Release</div></div>');
+            $redirect_path = 'permit/';
+            redirect($redirect_path);
+        }
+        else
+        {
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all attachments</div></div>');
+            $redirect_path = 'permit/';
+            redirect($redirect_path);
+        }
+    }
+
+    public function my_all_permit()
+    {
+        $data['title'] = 'My All Permit';
+        $usernameFromSession = $this->session->userdata('username');
+        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+        if($data['userData']['user_role']== 0)
+        {
+            $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
+        }
+        else
+        {
+            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
+        }
+        $this->load->view('templates/header',$data);
+        $this->load->view('permit/my_permit',$data);
+        $this->load->view('templates/footer',$data);
+    }
+    public function my_prog_permit()
+    {
+        $data['title'] = 'In Progress Permit';
+        $usernameFromSession = $this->session->userdata('username');
+        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+        $data['my_permit'] = $this->Permit_model->getMyProgPermit($usernameFromSession);
+        $this->load->view('templates/header',$data);
+        $this->load->view('permit/my_permit',$data);
+        $this->load->view('templates/footer',$data);
     }
 
 
