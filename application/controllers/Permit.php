@@ -249,20 +249,20 @@ class Permit extends CI_Controller{
             'permit_user' => $permit_user,
             'permit_company' => $permit_company,
         );
-        // $send_mail = $this->Email_model->sendPermitEmail(
-        //     $user_data, 
-        //     $permit_date, 
-        //     $permit_category, 
-        //     $permit_no,
-        //     $permit_status,
-        //     $permit_area,
-        //     $permit_title,
-        //     $permit_description,
-        //     $permit_user,
-        //     $permit_company
-        // );
-        // if($send_mail == TRUE)
-        // {
+        $send_mail = $this->Email_model->sendPermitEmail(
+            $user_data, 
+            $permit_date, 
+            $permit_category, 
+            $permit_no,
+            $permit_status,
+            $permit_area,
+            $permit_title,
+            $permit_description,
+            $permit_user,
+            $permit_company
+        );
+        if($send_mail == TRUE)
+        {
             if($this->db->insert('tb_permit',$data)==TRUE)
             {
                 $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Successfully added and email sent!</div></div>');
@@ -277,10 +277,10 @@ class Permit extends CI_Controller{
 
             }
             
-        // }
-        // else
-        // { 
-        // }
+        }
+        else
+        { 
+        }
     }
 
     public function delete_permit($id)

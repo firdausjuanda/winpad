@@ -264,29 +264,29 @@ class Work extends CI_Controller{
         {
             if(!$checked2)
             {
-            // if($this->Email_model->sendWorkCompleteEmail(
-            //     $user_data, 
-            //     $work_area, 
-            //     $work_date_open,
-            //     $work_date_close,
-            //     $work_title,
-            //     $work_status,
-            //     $work_user_close,
-            //     $work_company
-            // ) == TRUE)
-            // {
+            if($this->Email_model->sendWorkCompleteEmail(
+                $user_data, 
+                $work_area, 
+                $work_date_open,
+                $work_date_close,
+                $work_title,
+                $work_status,
+                $work_user_close,
+                $work_company
+            ) == TRUE)
+            {
                 $this->db->where('work_id',$work_id);
                 $this->db->update('tb_work', $data);
                 $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
                 $redirect_path = 'work/complete_work/'.$work_id;
                 redirect($redirect_path);
-            // }
-            // else
-            // {
-            //     $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
-            //     $redirect_path = 'work/complete_work/'.$work_id;
-            //     redirect($redirect_path);
-            // }
+            }
+            else
+            {
+                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+                $redirect_path = 'work/complete_work/'.$work_id;
+                redirect($redirect_path);
+            }
             }
             else
             {   
