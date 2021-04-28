@@ -4,8 +4,11 @@
 	<div class="col-md-12">
                 <a class="btn btn-default mb-2" href="<?= base_url('work'); ?>"><i class="fa fa-arrow-left"></i></a>
                 <a href="<?= base_url('permit/this_work_permit/').$work['work_id'];?>" class="btn btn-outline-secondary mb-2"><i class="fa fa-eye"></i> See Permit</a>
+                <?php if($work['work_user']!=$userData['user_username']):?>
+                <?php else:?>
                 <a href="<?= base_url('work/complete_work/').$work['work_id'];?>" class="btn btn-outline-success mb-2"><i class="fa fa-check"></i> Complete Work</a>
-            <!-- Box Comment -->
+                <?php endif;?>
+                <!-- Box Comment -->
             <div class="card card-widget">
               <div class="card-header">
               <div class="user-block">

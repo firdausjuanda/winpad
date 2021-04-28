@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="permit_title">Acknowledged by</label>
+                                <label for="permit_title">Permit Giver</label>
                                 <input class="form-control" required type="text" name="permit_giver" placeholder="Permit giver">
                             </div>
 

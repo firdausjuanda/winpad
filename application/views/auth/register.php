@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
       </form>
 
-      <div class="social-auth-links text-center">
+      <!-- <div class="social-auth-links text-center">
         <a href="#" class="btn btn-block btn-primary">
           <i class="fab fa-facebook mr-2"></i>
           Sign up using Facebook
@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <i class="fab fa-google-plus mr-2"></i>
           Sign up using Google+
         </a>
-      </div>
+      </div> -->
 
       <a href="<?= base_url('login');?>" class="text-center">I already have a membership</a>
     </div>

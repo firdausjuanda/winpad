@@ -8,6 +8,7 @@ class Work extends CI_Controller{
         $this->load->model('User_model');
         $this->load->model('Work_model');
         $this->load->model('Email_model');
+        $this->load->model('Permit_model');
         $this->load->model('Comment_model');
         $this->load->helper(array('form', 'url'));
         date_default_timezone_set('Asia/Jakarta');
@@ -178,7 +179,6 @@ class Work extends CI_Controller{
             }
             else
             {
-                echo "Success";
                 $this->upload_img_close();
             }
 			
@@ -202,20 +202,43 @@ class Work extends CI_Controller{
 
         if ($this->upload->do_upload('work_img_close'))
         {
+
             $img_close_filename = $this->upload->data('file_name');
-            $usernameFromSession = $this->session->userdata('username');
-            $user_data = $this->User_model->userSession($usernameFromSession);
-            $this->_close($user_data, $img_close_filename);
+            $this->upload_close_permit($img_close_filename);
         }
         else
         {   
             echo $this->upload->display_errors();
         }
     }
-    private function _close($user_data, $img_close_filename)
+    public function upload_close_permit($img_close_filename)
     {
+        $config['upload_path']          = './assets/img/permit/permit_complete_work';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $config['max_size']             = 2048;
+        $config['file_name']            = $this->input->post('work_date_open').'_'.'CP'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
+        
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('work_close_permit'))
+        {   
+            
+            $work_close_permit_filename = $this->upload->data('file_name');
+            $usernameFromSession = $this->session->userdata('username');
+            $user_data = $this->User_model->userSession($usernameFromSession);
+            $this->_close($user_data, $img_close_filename, $work_close_permit_filename);
+        }
+        else
+        {   
+            echo $this->upload->display_errors();
+        }
+    }
+    private function _close($user_data, $img_close_filename, $work_close_permit_filename)
+    {   
         $work_status = 'CLS';
         $work_img_close = $img_close_filename;
+        $work_close_permit = $work_close_permit_filename;
         $work_title = $this->input->post('work_title');
         $work_date_open = $this->input->post('work_date_open');
         $work_date_close = date('Y-m-j');
@@ -229,34 +252,55 @@ class Work extends CI_Controller{
             'work_area' => $work_area,
             'work_status' => $work_status,
             'work_date_close' => $work_date_close,
+            'work_close_permit' => $work_close_permit,
             'work_last_modified' => $work_last_modified,
             'work_img_close' => $work_img_close,
             'work_user_close' => $work_user_close,
             'work_company' => $work_company,
         );
-        // if($this->Email_model->sendWorkCompleteEmail(
-        //     $user_data, 
-        //     $work_area, 
-        //     $work_date_open,
-        //     $work_date_close,
-        //     $work_title,
-        //     $work_status,
-        //     $work_user_close,
-        //     $work_company
-        // ) == TRUE)
-        // {   
-            $this->db->where('work_id',$work_id);
-            $this->db->update('tb_work', $data);
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
+        $checked = $this->Work_model->checkOpenWorkPermit($work_id);
+        $checked2 = $this->Work_model->checkProgWorkPermit($work_id);
+        if(!$checked)
+        {
+            if(!$checked2)
+            {
+            // if($this->Email_model->sendWorkCompleteEmail(
+            //     $user_data, 
+            //     $work_area, 
+            //     $work_date_open,
+            //     $work_date_close,
+            //     $work_title,
+            //     $work_status,
+            //     $work_user_close,
+            //     $work_company
+            // ) == TRUE)
+            // {
+                $this->db->where('work_id',$work_id);
+                $this->db->update('tb_work', $data);
+                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
+                $redirect_path = 'work/complete_work/'.$work_id;
+                redirect($redirect_path);
+            // }
+            // else
+            // {
+            //     $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+            //     $redirect_path = 'work/complete_work/'.$work_id;
+            //     redirect($redirect_path);
+            // }
+            }
+            else
+            {   
+                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all permits related to this work!</div></div>');
+                $redirect_path = 'work/complete_work/'.$work_id;
+                redirect($redirect_path);
+            }
+        }
+        else
+        {
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all permits related to this work!</div></div>');
             $redirect_path = 'work/complete_work/'.$work_id;
             redirect($redirect_path);
-        // }
-        // else
-        // {
-        //     $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
-        //     $redirect_path = 'work/complete_work/'.$work_id;
-        //     redirect($redirect_path);
-        // }
+        }
     }
 
     public function add_comment()
@@ -276,5 +320,91 @@ class Work extends CI_Controller{
         $this->db->where('work_id',$comment_work_id);
         $this->db->update('tb_work',$data_work);
         redirect('work');
+    }
+
+    public function my_work()
+    {
+        $data['title'] = 'My Work';
+        $usernameFromSession = $this->session->userdata('username');
+        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+        if($data['userData']['user_role']== 0)
+        {
+            $data['my_permit'] = $this->Work_model->getOpenWork($usernameFromSession);
+        }
+        else
+        {
+            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
+        }
+        $this->load->view('templates/header',$data);
+        $this->load->view('work/my_work',$data);
+        $this->load->view('templates/footer',$data);
+        
+    }
+    public function my_all_work()
+    {
+        $data['title'] = 'My All Work';
+        $usernameFromSession = $this->session->userdata('username');
+        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+        if($data['userData']['user_role']== 0)
+        {
+            $data['my_permit'] = $this->Work_model->getMyAllWork($usernameFromSession);
+        }
+        else
+        {
+            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
+        }
+        $this->load->view('templates/header',$data);
+        $this->load->view('work/my_work',$data);
+        $this->load->view('templates/footer',$data);
+        
+    }
+    public function revise_work($id)
+    {
+        $data = array(
+            'work_status' => 'OPN',
+            'work_is_revised' => 1,
+        );
+        $this->db->where('work_id',$id);
+        $this->db->update('tb_work',$data);
+        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work is ready to revise!</div></div>');
+        $redirect_path = 'work/complete_work/'.$id;
+        redirect($redirect_path);
+    }
+
+    public function complete_work_without_pic($id)
+    {
+        $data = array(
+            'work_status' => 'CLS',
+            'work_is_revised' => 1,
+        );
+        $this->db->where('work_id',$id);
+        $this->db->update('tb_work',$data);
+        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work is completed!</div></div>');
+        $redirect_path = 'work/complete_work/'.$id;
+        redirect($redirect_path);
+    }
+
+    public function delete_img_close($id)
+    {
+        $data = array(
+            'work_img_close' => '',
+        );
+        $this->db->where('work_id',$id);
+        $this->db->update('tb_work',$data);
+        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Image deleted</div></div>');
+        $redirect_path = 'work/complete_work/'.$id;
+        redirect($redirect_path);
+    }
+
+    public function delete_work_close_permit($id)
+    {
+        $data = array(
+            'work_close_permit' => '',
+        );
+        $this->db->where('work_id',$id);
+        $this->db->update('tb_work',$data);
+        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Closig permit deleted</div></div>');
+        $redirect_path = 'work/complete_work/'.$id;
+        redirect($redirect_path);
     }
 }

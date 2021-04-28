@@ -29,13 +29,13 @@ class Permit extends CI_Controller{
     }
     public function this_work_permit($id)
     {
-        $data['title'] = 'My Permit';
+        $data['title'] = 'This Work Permit';
         $usernameFromSession = $this->session->userdata('username');
 		$data['userData'] = $this->User_model->userSession($usernameFromSession);
-        $data['this_work_permit'] = $this->Permit_model->getThisPermit($id);
+        $data['my_permit'] = $this->Permit_model->getThisPermit($id);
         $data['this_work'] = $this->Work_model->getThisWork($id);
         $this->load->view('templates/header',$data);
-        $this->load->view('permit/this_work_permit',$data);
+        $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);
     }
     public function add_attach($id)
@@ -112,12 +112,82 @@ class Permit extends CI_Controller{
 
     }
 
+    public function add_complete_pic($id)
+    {   
+        $this->form_validation->set_rules('permit_area', 'permit area', 'required');
+		if($this->form_validation->run()==false)
+		{
+        // If false
+        $data['title'] = "Add Complete Picture";
+        $usernameFromSession = $this->session->userdata('username');
+        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+        $data['workData'] = $this->Permit_model->getWorkByPermit($id);
+        $data['user'] = $this->User_model->getAllUser();
+        $this->load->view('templates/header',$data);
+        $this->load->view('permit/add_complete_pic',$data);
+        $this->load->view('templates/footer',$data);
+        }
+        else
+        {
+            // If true
+            $test = $this->input->post('permit_complete_pic');
+            $this->upload_complete_pic();
+        }
+    }
+    public function upload_complete_pic()
+    {
+        $config['upload_path']          = './assets/img/permit_complete/';
+        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $config['max_size']             = 2048;
+        $config['file_name']            = $this->input->post('permit_id').'_'.$this->input->post('permit_area').'_'.$this->input->post('permit_title').'_'.$this->input->post('permit_description');
+        
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('permit_complete_pic'))
+        {
+            $attach_filename = $this->upload->data('file_name');
+            $usernameFromSession = $this->session->userdata('username');
+            $user_data = $this->User_model->userSession($usernameFromSession);
+            $this->_attachingCompletePic($user_data, $attach_filename);
+        }
+        else
+        {   
+            echo $this->upload->display_errors();
+        }
+    }
+    private function _attachingCompletePic($user_data, $attach_filename)
+    {
+        $permit_id = $this->input->post('permit_id');
+        $permit_complete_pic = $attach_filename;
+        $data = array(
+            'permit_complete_pic' => $permit_complete_pic,
+            'permit_attach_status' => 2,
+        );
+        $this->db->where('permit_id',$permit_id);
+        if($this->db->update('tb_permit',$data))
+        {
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Complete Picture successfully added!</div></div>');
+            $redirect_path = 'permit/my_prog_permit';
+            redirect($redirect_path);
+        }
+        else
+        {  
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something wrong, try again later!</div></div>');
+            $redirect_path = 'permit/my_prog_permit';
+            redirect($redirect_path);
+
+        }
+
+    }
+
     public function new_permit($id)
 	{	
         $this->form_validation->set_rules('permit_date', 'permit date', 'required');
         $this->form_validation->set_rules('permit_category', 'permit category', 'required');
         $this->form_validation->set_rules('permit_no', 'permit no', 'required');
         $this->form_validation->set_rules('permit_area', 'permit area', 'required');
+        $this->form_validation->set_rules('permit_apd', 'permit APD', 'required');
         $this->form_validation->set_rules('permit_title', 'permit title', 'required');
 		if($this->session->userdata('id'))
 		{
@@ -159,6 +229,8 @@ class Permit extends CI_Controller{
         $permit_status = 'OPN';
         $permit_area = $this->input->post('permit_area');
         $permit_title = $this->input->post('permit_title');
+        $permit_apd = $this->input->post('permit_apd');
+        $permit_tools = $this->input->post('permit_tools');
         $permit_description = $this->input->post('permit_description');
         $permit_user = $this->input->post('permit_user');
         $permit_company = $this->input->post('permit_company');
@@ -168,6 +240,8 @@ class Permit extends CI_Controller{
             'permit_work_id' => $id,
             'permit_category' => $permit_category,
             'permit_no' => $permit_no,
+            'permit_apd' => $permit_apd,
+            'permit_tools' => $permit_tools,
             'permit_status' => $permit_status,
             'permit_area' => $permit_area,
             'permit_title' => $permit_title,
@@ -242,6 +316,30 @@ class Permit extends CI_Controller{
             redirect($redirect_path);
         }
     }
+    public function complete_permit()
+    {
+        $user_name = $this->session->userdata('username');
+        $permit_to_complete = $this->Permit_model->getPermitToComplete($user_name);
+        if(!$permit_to_complete)
+        {
+            $data = array(
+                'permit_status' => 'CLS',
+            );
+
+            $this->db->where('permit_status','REL');
+            $this->db->where('permit_user',$user_name);
+            $this->db->update('tb_permit', $data);
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Completed</div></div>');
+            $redirect_path = 'permit/my_prog_permit';
+            redirect($redirect_path);
+        }
+        else
+        {
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all permit</div></div>');
+            $redirect_path = 'permit/my_prog_permit';
+            redirect($redirect_path);
+        }
+    }
 
     public function my_all_permit()
     {
@@ -250,7 +348,7 @@ class Permit extends CI_Controller{
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
         if($data['userData']['user_role']== 0)
         {
-            $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getMyPermit($usernameFromSession);
         }
         else
         {

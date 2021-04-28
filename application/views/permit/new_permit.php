@@ -36,11 +36,19 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="permit_no">Permit Serial Number</label>
+                                <label for="permit_apd">Permit Serial Number</label>
                                 <input class="form-control" required type="number" min=0 name="permit_no" placeholder="Serial Number">  
+                            </div>
+                            <div class="form-group">
+                                <label for="permit_apd">Permit APD</label>
+                                <input class="form-control" required type="text" name="permit_apd" placeholder="Input APD">  
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="permit_tools">Work Tools</label>
+                                <input class="form-control" required type="text" name="permit_tools" placeholder="Work Tools">
+                            </div>
                             <div class="form-group">
                                 <label for="permit_area">Area</label>
                                 <input class="form-control" required value="<?= $workData['work_area'];?>" type="text" name="permit_area" readonly>
@@ -71,3 +79,4 @@
             </form>
         </div>
     </div>
+

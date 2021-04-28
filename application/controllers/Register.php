@@ -60,6 +60,7 @@ class Register extends CI_Controller{
             'user_company' => $company,
             'user_password' => md5($password),
             'user_status' => 1,
+            'user_profile' => 'default.webp',
         );
         $this->db->insert('tb_user',$data);
         $this->session->set_flashdata('message','Successfully registered! Please login');

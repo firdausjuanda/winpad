@@ -215,6 +215,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </a>
               </li>
               <li class="nav-item">
+                <a href="<?= base_url('work/my_work');?>" class="nav-link">
+                  <i class="fa fa-globe-asia nav-icon"></i>
+                  <p>My Work</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="<?= base_url('permit');?>" class="nav-link">
                   <i class="fa fa-briefcase nav-icon"></i>
                   <p>My Permit</p>
