@@ -57,7 +57,6 @@ class Permit extends CI_Controller{
         {
             // If true
             $test = $this->input->post('permit_attach');
-            var_dump($test);
             $this->upload_attach();
         }
     }
