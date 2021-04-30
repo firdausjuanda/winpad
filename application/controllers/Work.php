@@ -35,6 +35,9 @@ class Work extends CI_Controller{
     }
     public function new_work()
 	{	
+        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Workline will start on Monday, 3 May 2021!</div></div>');
+        redirect('work');
+
         $this->form_validation->set_rules('work_date_open', 'work date', 'required');
         $this->form_validation->set_rules('work_area', 'work area', 'required');
         $this->form_validation->set_rules('work_title', 'work title', 'required');
@@ -71,16 +74,27 @@ class Work extends CI_Controller{
 	}
     public function upload_img_open()
     {
-        $config['upload_path']          = './assets/img/work/';
+        $path                           = './assets/img/work/';
+        $config['upload_path']          = $path;
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
-        $config['max_size']             = 2048;
+        // $config['max_size']             = 4096;
         $config['file_name']            = $this->input->post('work_date_open').'_'.'O'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
-        
+        ini_set('memory_limit', '-1');
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload('work_img_open'))
         {
+            $data = $this->upload->data();  
+            $config['image_library'] = 'gd2';  
+            $config['source_image'] = $path.$data["file_name"];  
+            $config['create_thumb'] = FALSE;  
+            $config['maintain_ratio'] = TRUE;  
+            $config['quality'] = '100%';  
+            $config['width'] = 1080;  
+            $config['new_image'] = $path.$data["file_name"];  
+            $this->load->library('image_lib', $config);  
+            $this->image_lib->resize();
             $img_open_filename = $this->upload->data('file_name');
             $usernameFromSession = $this->session->userdata('username');
             $user_data = $this->User_model->userSession($usernameFromSession);
@@ -191,18 +205,28 @@ class Work extends CI_Controller{
     }
     
     public function upload_img_close()
-    {
-        $config['upload_path']          = './assets/img/work/';
+    {   
+        $path                           = './assets/img/work/';
+        $config['upload_path']          = $path;
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
-        $config['max_size']             = 2048;
+        $config['max_size']             = 4096;
         $config['file_name']            = $this->input->post('work_date_open').'_'.'C'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
-        
+        ini_set('memory_limit', '-1');
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload('work_img_close'))
         {
-
+            $data = $this->upload->data();  
+            $config['image_library'] = 'gd2';  
+            $config['source_image'] = $path.$data["file_name"];  
+            $config['create_thumb'] = FALSE;  
+            $config['maintain_ratio'] = TRUE;  
+            $config['quality'] = '80%';  
+            $config['width'] = 1080;  
+            $config['new_image'] = $path.$data["file_name"];  
+            $this->load->library('image_lib', $config);  
+            $this->image_lib->resize();
             $img_close_filename = $this->upload->data('file_name');
             $this->upload_close_permit($img_close_filename);
         }
@@ -212,18 +236,28 @@ class Work extends CI_Controller{
         }
     }
     public function upload_close_permit($img_close_filename)
-    {
-        $config['upload_path']          = './assets/img/permit/permit_complete_work';
+    {   
+        $path                           = './assets/img/permit_complete_work/';
+        $config['upload_path']          = $path;
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
-        $config['max_size']             = 2048;
+        $config['max_size']             = 4096;
         $config['file_name']            = $this->input->post('work_date_open').'_'.'CP'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
-        
+        ini_set('memory_limit', '-1');
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload('work_close_permit'))
         {   
-            
+            $data = $this->upload->data();  
+            $config['image_library'] = 'gd2';  
+            $config['source_image'] = $path.$data["file_name"];  
+            $config['create_thumb'] = FALSE;  
+            $config['maintain_ratio'] = TRUE;  
+            $config['quality'] = '100%';  
+            $config['width'] = 1080;  
+            $config['new_image'] = $path.$data["file_name"];  
+            $this->load->library('image_lib', $config);  
+            $this->image_lib->resize();
             $work_close_permit_filename = $this->upload->data('file_name');
             $usernameFromSession = $this->session->userdata('username');
             $user_data = $this->User_model->userSession($usernameFromSession);
@@ -385,7 +419,18 @@ class Work extends CI_Controller{
     }
 
     public function delete_img_close($id)
-    {
+    {   
+        $work = $this->Work_model->getThisWork($id);
+        $doc = $work['work_img_close'];
+        $path = './assets/img/work/';
+        $file = $path.$doc;
+        if(!unlink($file)){
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong.</div></div>');
+            $redirect_path = 'work/complete_work/'.$id;
+            redirect($redirect_path);
+        }
+        else{
+        
         $data = array(
             'work_img_close' => '',
         );
@@ -394,17 +439,30 @@ class Work extends CI_Controller{
         $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Image deleted</div></div>');
         $redirect_path = 'work/complete_work/'.$id;
         redirect($redirect_path);
+        }
     }
 
     public function delete_work_close_permit($id)
     {
+        $work = $this->Work_model->getThisWork($id);
+        $doc = $work['work_close_permit'];
+        $path = './assets/img/permit_complete_work/';
+        $file = $path.$doc;
+        if(!unlink($file)){
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong.</div></div>');
+            $redirect_path = 'work/complete_work/'.$id;
+            redirect($redirect_path);
+        }
+        else{
+        
         $data = array(
             'work_close_permit' => '',
         );
         $this->db->where('work_id',$id);
         $this->db->update('tb_work',$data);
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Closig permit deleted</div></div>');
+        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Closing permit deleted</div></div>');
         $redirect_path = 'work/complete_work/'.$id;
         redirect($redirect_path);
+        }
     }
 }

@@ -63,16 +63,27 @@ class Permit extends CI_Controller{
 
     public function upload_attach()
     {
-        $config['upload_path']          = './assets/img/permit/';
+        $path                           = './assets/img/permit/';
+        $config['upload_path']          = $path;
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
         $config['max_size']             = 2048;
         $config['file_name']            = $this->input->post('permit_id').'_'.$this->input->post('permit_area').'_'.$this->input->post('permit_title').'_'.$this->input->post('permit_description');
         
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
-
+        ini_set('memory_limit', '-1');
         if ($this->upload->do_upload('permit_attach'))
         {
+            $data = $this->upload->data();  
+            $config['image_library'] = 'gd2';  
+            $config['source_image'] = $path.$data["file_name"];  
+            $config['create_thumb'] = FALSE;  
+            $config['maintain_ratio'] = TRUE;  
+            $config['quality'] = '100%';  
+            $config['width'] = 1080;  
+            $config['new_image'] = $path.$data["file_name"];  
+            $this->load->library('image_lib', $config);  
+            $this->image_lib->resize();
             $attach_filename = $this->upload->data('file_name');
             $usernameFromSession = $this->session->userdata('username');
             $user_data = $this->User_model->userSession($usernameFromSession);
@@ -135,16 +146,27 @@ class Permit extends CI_Controller{
     }
     public function upload_complete_pic()
     {
-        $config['upload_path']          = './assets/img/permit_complete/';
+        $path                           = './assets/img/permit_complete/';
+        $config['upload_path']          = $path;
         $config['allowed_types']        = 'gif|jpg|png|jpeg';
         $config['max_size']             = 2048;
         $config['file_name']            = $this->input->post('permit_id').'_'.$this->input->post('permit_area').'_'.$this->input->post('permit_title').'_'.$this->input->post('permit_description');
-        
+        ini_set('memory_limit', '-1');
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload('permit_complete_pic'))
         {
+            $data = $this->upload->data();  
+            $config['image_library'] = 'gd2';  
+            $config['source_image'] = $path.$data["file_name"];  
+            $config['create_thumb'] = FALSE;  
+            $config['maintain_ratio'] = TRUE;  
+            $config['quality'] = '100%';  
+            $config['width'] = 1080;  
+            $config['new_image'] = $path.$data["file_name"];  
+            $this->load->library('image_lib', $config);  
+            $this->image_lib->resize();
             $attach_filename = $this->upload->data('file_name');
             $usernameFromSession = $this->session->userdata('username');
             $user_data = $this->User_model->userSession($usernameFromSession);

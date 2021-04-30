@@ -48,6 +48,9 @@
                                         <input  type="file" class="custom-file-input" name="work_img_close" required id="work_img_close">
                                         <label class="custom-file-label" for="work_img_close">Add Picture</label>
                                     </div>
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">Upload</span>
+                                    </div>
                                 </div>
                               </div>
                             <?php else:?>
@@ -88,7 +91,7 @@
                             Closing Permit
                             </div>
                             <div class="card-body p-0">
-                            <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/permit/permit_complete_work/').$work['work_close_permit'];?>" alt="Photo">  
+                            <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/permit_complete_work/').$work['work_close_permit'];?>" alt="Photo">  
                             </div>
                         </div>
                     </div>
@@ -102,7 +105,7 @@
                             Closing Permit
                             </div>
                             <div class="card-body p-0">
-                            <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/permit/permit_complete_work/').$work['work_close_permit'];?>" alt="Photo">  
+                            <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/permit_complete_work/').$work['work_close_permit'];?>" alt="Photo">  
                             </div>
                         </div>
                         <a class="mb-2 btn btn-sm btn-danger" href="<?= base_url('work/delete_work_close_permit/').$work['work_id'];?>">Delete</a>
@@ -110,6 +113,7 @@
                     <div class="custom-file">
                         <input  type="file" class="custom-file-input" name="work_close_permit" required id="work_close_permit">
                         <label class="custom-file-label" for="work_close_permit">Add Closing Permit</label>
+                        
                     </div>
                     </div>
                     

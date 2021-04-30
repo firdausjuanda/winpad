@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="work_exact_place">Exact place</label>
+                        <label for="work_exact_place">Specific place</label>
                         <input class="form-control" type="text" name="work_exact_place" required value="<?= form_error('work_exact_place');?>" placeholder="Exact place">  
                     </div>
 

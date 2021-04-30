@@ -4,9 +4,9 @@
     	<p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
 		<?php if($title=='My Work'):?>
 		<a href="<?= base_url('work/my_all_work') ;?>" class="btn btn-default mb-2">All Work</a>
-		<a href="<?= base_url('work/my_prog_work') ;?>" class="btn btn-default mb-2">In Progress</a>
+		<!-- <a href="<?= base_url('work/my_prog_work') ;?>" class="btn btn-default mb-2">In Progress</a> -->
 		<?php if($userData['user_role']== 0):?>
-      	<a href="<?= base_url('work/release_work');?>" class="btn btn-success btn-mute mb-2" ><i class="fa fa-check"></i> Release All</a>
+      	<!-- <a href="<?= base_url('work/release_work');?>" class="btn btn-success btn-mute mb-2" ><i class="fa fa-check"></i> Release All</a> -->
 		<?php else:?>
 		<?php endif;?>
 		<?php elseif($title=='My All Work'):?>
