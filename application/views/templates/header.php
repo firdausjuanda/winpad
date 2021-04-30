@@ -208,7 +208,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <?php if($userData['user_role']==0):?>
+              <?php else:?>
               <li class="nav-item">
+                <a href="<?= base_url('admin');?>" class="nav-link">
+                  <i class="fa fa-user nav-icon"></i>
+                  <p>Admin</p>
+                </a>
+              <?php endif;?>
+              </li><li class="nav-item">
                 <a href="<?= base_url('work');?>" class="nav-link">
                   <i class="fa fa-globe-asia nav-icon"></i>
                   <p>Workline</p>

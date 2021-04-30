@@ -15,4 +15,11 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->row_array();
     }
+    public function getThisUser($id){
+        $this->db->select('*');
+        $this->db->from('tb_user');
+        $this->db->where('user_id', $id, 'left');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
 }
