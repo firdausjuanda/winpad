@@ -47,6 +47,7 @@ class Register extends CI_Controller{
         $lastname = $this->input->post('user_lastname');
         $phone = $this->input->post('user_phone');
         $email = $this->input->post('user_email');
+        $dept = $this->input->post('user_dept');
         $company = $this->input->post('user_company');
         $password = $this->input->post('user_password');
 
@@ -56,7 +57,7 @@ class Register extends CI_Controller{
             'user_lastname' => $lastname,
             'user_phone' => $phone,
             'user_email' => $email,
-            'user_dept' => '',
+            'user_dept' => $dept,
             'user_company' => $company,
             'user_password' => md5($password),
             'user_status' => 1,

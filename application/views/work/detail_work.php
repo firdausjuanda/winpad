@@ -12,7 +12,7 @@
             <div class="card card-widget">
               <div class="card-header">
               <div class="user-block">
-                  <img class="img-circle" src="<?= base_url('assets/img/profile/').$userData['user_profile'];?>" alt="User Image">
+                  <img class="img-circle" src="<?= base_url('assets/img/profile/').$work['user_profile'];?>" alt="User Image">
                   <span class="username" ><a style="color: black;" href="#"><?= $work['work_user'];?> (<?= $work['work_company'];?>)</a></span>
                   <span class="description"><span class="badge <?php $status = $work['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $work['work_status'];?></span> | <?= $work['work_area'];?> | Start work: <?= date_format(date_create($work['work_date_open']),"j M y");?> | Created : <?= date_format(date_create($work['work_date_created']),'j M y (H:i)');?></span>
                 </div>
@@ -34,9 +34,52 @@
                   </div>
                 </div>
                 <?php endif; ?>
+                <div class="row">
+                <div class="input-group mb-2">
+                  <?php if($work['work_status']=='CLS'):?>
+                    <?php if($work['work_close_permit']==null):?>
+                    <?php else:?>
+                    <div class="col-md-12">
+                        <div class="card card-default">
+                            <div class="card-header">
+                            Closing Permit
+                            </div>
+                            <div class="card-body p-0">
+                            <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/permit_complete_work/').$work['work_close_permit'];?>" alt="Photo">  
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                  <?php else:?>
+                  
+                    <?php if($work['work_close_permit']==null):?>
+                  
+                    <?php else:?>
+                    <div class="col-md-12">
+                        <div class="card card-default">
+                            <div class="card-header">
+                            Closing Permit
+                            </div>
+                            <div class="card-body p-0">
+                            <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/permit_complete_work/').$work['work_close_permit'];?>" alt="Photo">  
+                            </div>
+                        </div>
+                        <a class="mb-2 btn btn-sm btn-danger btn-block" href="<?= base_url('work/delete_work_close_permit/').$work['work_id'];?>">Delete Permit</a>
+                    </div>
+                    <?php endif;?>
+                    
+                    
+                  <?php endif;?>
+                </div>
+                <!-- <div class="col-md-12 float-left callout callout-danger">
+                    <h5>Warning!</h5>
+                    <p>Pastikan area kerja sudah bersih dan rapi sebelum melakukan.</p>
+                </div> -->
+              </div>
                 <!-- <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
                 <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button>
                 <span class="float-right text-muted">127 likes - 3 comments</span> -->
+
               </div>
               <!-- /.card-body -->
               <div class="card-footer card-comments">

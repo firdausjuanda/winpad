@@ -11,15 +11,13 @@ class Email_model extends CI_Model{
         
     }
     public function sendPermitEmail(
-    $user_data,$permit_date, 
-    $permit_category, 
-    $permit_no,
-    $permit_status,
-    $permit_area,
-    $permit_title,
-    $permit_description,
-    $permit_user,
-    $permit_company
+        $permit_to_send,
+        $user_company,
+        $email_managers,
+        $email_area,
+        $email_user,
+        $user_firstname,
+        $user_lastname
     )
     {
         
@@ -35,74 +33,92 @@ class Email_model extends CI_Model{
         $mail->SMTPSecure = 'ssl';
         $mail->Port     = 465;
         
-        $mail->setFrom('no-reply@firdgroup.com', 'Work Permit');
+        $mail->setFrom('no-reply@firdgroup.com', 'Winpad System [Permit]');
         // $mail->addReplyTo('no-reply@firdgroup.com', 'No Reply');
         
         // Add a recipient
-        $mail->addAddress('firdausjuanda@hotmail.com');
-        
-        // Add cc or bcc 
-        // $mail->addCC('firdaus.juanda@wilmar.co.id');
-        // $mail->addBCC('bcc@example.com');
-        
+        $mail->addAddress($email_user);   
+
+        foreach($email_area as $v)
+        {
+            $mail->addAddress($v['user_email']);   
+        }
+
+        foreach($email_managers as $v)
+        {
+            //Add cc or bcc
+            $mail->addCC($v['user_email']);
+        }
         // Email subject
-        $mail->Subject = '[Permit] - '.$permit_title;
+        $mail->Subject = 'Work Permits Released from '.$user_company;
         
         // Set email format to HTML
         $mail->isHTML(true);
         
-        $date_open = date_format(date_create($permit_date),"j M y");
+        // $date_open = date_format(date_create($permit_date),"j M y");
         // Email body content
         $mailContent = "
-        <p>Dear All,</br>
-        Work Permit has just submitted as follows: </p>
-            <table>
-                <tr>
-                    <td>Category </td>
-                    <td>:</td>
-                    <td><strong> $permit_category </strong></td>
-                </tr>
-                <tr>
-                    <td>Number </td>
-                    <td>:</td>
-                    <td><strong> $permit_no </strong></td>
-                </tr>
-                <tr>
-                    <td>Title </td>
-                    <td>:</td>
-                    <td><strong> $permit_title</strong> </td>
-                </tr>
-                <tr>
-                    <td>Decription </td>
-                    <td>:</td>
-                    <td><strong> $permit_description </strong></td>
-                </tr>
-                <tr>
-                    <td>Date </td>
-                    <td>:</td>
-                    <td><strong> $date_open </strong></td>
-                </tr>
-                <tr>
-                    <td>Area </td>
-                    <td>:</td>
-                    <td><strong> $permit_area </strong></td>
-                </tr>
-                <tr>
-                    <td>Status </td>
-                    <td>:</td>
-                    <td><strong> $permit_status </strong></td>
-                </tr>
-                <tr>
-                    <td>User </td>
-                    <td>:</td>
-                    <td><strong> $permit_user </strong></td>
-                </tr>
-                <tr>
-                    <td>Company </td>
-                    <td>:</td>
-                    <td><strong> $permit_company </strong></td>
-                </tr>
+        <style>
+            table, td, th {
+            border: 1px solid black;
+            }
+
+            table {
+            width: 100%;
+            border-collapse: collapse;
+            }
+        </style>
+        <p>Dear All,</p>
+        <p><strong>$user_firstname $user_lastname ($user_company)</strong> has just submitted Work Permits as follows: </p>
+        <table>
+            <tr>
+                <th>No.</th>
+                <th>Date</th>
+                <th>Area</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>No</th>
+                <th>Description</th>
+                <th>Giver</th>
+                <th>APD</th>
+                <th>Tools</th>
+            </tr>
+        ";
+        $i = 1;
+        foreach($permit_to_send as $permit)
+        {   
+            $category = $permit['permit_category'];
+            $no = $permit['permit_no'];
+            $title = $permit['permit_title'];
+            $area = $permit['permit_area'];
+            $description = $permit['permit_description'];
+            $date = $permit['permit_date'];
+            $apd = $permit['permit_apd'];
+            $tools = $permit['permit_tools'];
+            $giver = $permit['permit_giver'];   
+            $mailContent .= "
+            
+            <tr>
+                <td>$i</td>
+                <td>$date</td>
+                <td>$area</td>
+                <td>$title</td>
+                <td>$category</td>
+                <td>$no</td>
+                <td>$description</td>
+                <td>$giver</td>
+                <td>$apd</td>
+                <td>$tools</td>
+            </tr>
+            
+            ";
+            
+        $i++;
+        }
+            
+        $mailContent .= "
             </table>
+            This email is auto-generated to notify activities on <a href='https://winpad.firdgroup.com/login'>Winpad<a>.
             <p>Sincerely,</p>
             <p><strong>Winpad System</strong></p>
             ";
@@ -117,15 +133,17 @@ class Email_model extends CI_Model{
         return $mail->send();
         // }
     }
-
     function sendWorkEmail(
         $work_date_open, 
         $work_area, 
         $work_title,
-        $work_status,
         $work_exact_place,
-        $work_user,
-        $work_company)
+        $work_company,
+        $email_managers,
+        $email_area,
+        $email_user,
+        $user_firstname,
+        $user_lastname)
     {
         // PHPMailer object
         $mail = $this->phpmailer_lib->load();
@@ -139,18 +157,28 @@ class Email_model extends CI_Model{
         $mail->SMTPSecure = 'ssl';
         $mail->Port     = 465;
         
-        $mail->setFrom('no-reply@firdgroup.com', 'Workline');
+        $mail->setFrom('no-reply@firdgroup.com', 'Winpad System [Create Work]');
         // $mail->addReplyTo('no-reply@firdgroup.com', 'No Reply');
         
-        // Add a recipient
-        $mail->addAddress('firdausjuanda@hotmail.com');
         
-        // Add cc or bcc 
-        // $mail->addCC('firdaus.juanda@wilmar.co.id');
+        // Add a recipient
+        $mail->addAddress($email_user);   
+
+        foreach($email_area as $v)
+        {
+            $mail->addAddress($v['user_email']);   
+        }
+
+        foreach($email_managers as $v)
+        {
+            //Add cc or bcc
+            $mail->addCC($v['user_email']);
+        }
+        
         // $mail->addBCC('bcc@example.com');
         
         // Email subject
-        $mail->Subject = '[Work] Create - '.$work_title;
+        $mail->Subject = 'Work Created from '.$work_company.' - '.$work_title;
         
         // Set email format to HTML
         $mail->isHTML(true);
@@ -158,9 +186,10 @@ class Email_model extends CI_Model{
         
         $date_open = date_format(date_create($work_date_open),"j M y");
         // Email body content
+
         $mailContent = "
-        <p>Dear All,</br>
-        Work has just created with following details: </p>
+        <p>Dear All,</p>
+        <p> <strong>$user_firstname $user_lastname ($work_company)</strong> has just started new work with following details: </p>
             <table>
                 <tr>
                     <td>Title </td>
@@ -178,26 +207,116 @@ class Email_model extends CI_Model{
                     <td> $work_area </td>
                 </tr>
                 <tr>
-                    <td>Exact Place </td>
+                    <td>Specific Place </td>
                     <td>:</td>
                     <td> $work_exact_place </td>
                 </tr>
+            </table>
+            </br>
+            This email is auto-generated to notify activities on <a href='https://winpad.firdgroup.com/login'>Winpad<a>.
+            <p>Sincerely,</p>
+            <p><strong>Winpad System</strong></p>
+            ";
+        $mail->Body = $mailContent;
+        
+        // Send email
+        // if(!$mail->send()){
+        //     echo 'Message could not be sent.';
+        //     echo 'Mailer Error: ' . $mail->ErrorInfo;
+        // }else{
+            return $mail->send();
+        //     echo "Success";
+        // }
+    }
+
+    function sendWorkCompleteEmail(
+        $work_area, 
+        $work_exact_place, 
+        $work_date_open,
+        $work_date_close,
+        $work_title,
+        $work_status,
+        $work_company,
+        $user_firstname,
+        $user_lastname,
+        $email_area,
+        $email_user,
+        $email_managers
+        )
+    {
+        // PHPMailer object
+        $mail = $this->phpmailer_lib->load();
+        
+        // SMTP configuration
+        $mail->isSMTP();
+        $mail->Host     = 'mail.firdgroup.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'no-reply@firdgroup.com';
+        $mail->Password = 'Juanda12325800*';
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port     = 465;
+        
+        $mail->setFrom('no-reply@firdgroup.com', 'Winpad System [Complete Work]');
+        // $mail->addReplyTo('no-reply@firdgroup.com', 'No Reply');
+        
+        // Add a recipient
+        $mail->addAddress($email_user);   
+
+        foreach($email_area as $v)
+        {
+            $mail->addAddress($v['user_email']);   
+        }
+
+        foreach($email_managers as $v)
+        {
+            //Add cc or bcc
+            $mail->addCC($v['user_email']);
+        }
+        // Email subject
+        $mail->Subject = 'Work Completed by '.$work_company.' - '.$work_title;
+        
+        // Set email format to HTML
+        $mail->isHTML(true);
+        
+        
+        // $date_open = date_format(date_create($work_date_open),"j M y");
+        // Email body content
+        $mailContent = "
+        <p> <strong>$user_firstname $user_lastname ($work_company)</strong> has just completed a work with as follows: </p>
+            <table>
                 <tr>
-                    <td>Status </td>
+                    <td>Title </td>
+                    <td>:</td>
+                    <td> $work_title </td>
+                </tr>
+                <tr>
+                    <td>Date </td>
+                    <td>:</td>
+                    <td> $work_date_open </td>
+                </tr>
+                <tr>
+                    <td>Date </td>
+                    <td>:</td>
+                    <td> $work_date_close </td>
+                </tr>
+                <tr>
+                    <td>Area </td>
+                    <td>:</td>
+                    <td> $work_area </td>
+                </tr>
+                <tr>
+                    <td>Area </td>
                     <td>:</td>
                     <td> $work_status </td>
                 </tr>
                 <tr>
-                    <td>User </td>
+                    <td>Specific Place </td>
                     <td>:</td>
-                    <td> $work_user</td>
-                </tr>
-                <tr>
-                    <td>Company </td>
-                    <td>:</td>
-                    <td> $work_company </td>
+                    <td> $work_exact_place </td>
                 </tr>
             </table>
+            </br>
+            This email is auto-generated to notify activities on <a href='https://winpad.firdgroup.com/login'>Winpad<a>.
             <p>Sincerely,</p>
             <p><strong>Winpad System</strong></p>
             ";
@@ -212,14 +331,19 @@ class Email_model extends CI_Model{
         // }
     }
 
-    function sendWorkCompleteEmail(
-        $work_date_open, 
-        $work_date_close, 
-        $work_area,
+    function sendCommentEmail(
+        $work_area, 
+        $work_exact_place,
         $work_title,
-        $work_status,
-        $work_user_close,
-        $work_company)
+        $work_company,
+        $user_commenter_firstname,
+        $user_commenter_lastname,
+        $user_commenter_company,
+        $email_area,
+        $email_user,
+        $email_managers,
+        $comment_text
+        )
     {
         // PHPMailer object
         $mail = $this->phpmailer_lib->load();
@@ -233,18 +357,24 @@ class Email_model extends CI_Model{
         $mail->SMTPSecure = 'ssl';
         $mail->Port     = 465;
         
-        $mail->setFrom('no-reply@firdgroup.com', 'Workline');
+        $mail->setFrom('no-reply@firdgroup.com', 'Winpad System [Comments]');
         // $mail->addReplyTo('no-reply@firdgroup.com', 'No Reply');
         
         // Add a recipient
-        $mail->addAddress('firdausjuanda@hotmail.com');
-        
-        // Add cc or bcc 
-        // $mail->addCC('firdaus.juanda@wilmar.co.id');
-        // $mail->addBCC('bcc@example.com');
-        
+        $mail->addAddress($email_user);   
+
+        foreach($email_area as $v)
+        {
+            $mail->addAddress($v['user_email']);   
+        }
+
+        foreach($email_managers as $v)
+        {
+            //Add cc or bcc
+            $mail->addCC($v['user_email']);
+        }
         // Email subject
-        $mail->Subject = '[Work] Complete - '.$work_title;
+        $mail->Subject = 'Work Commented by '.$user_commenter_firstname.' '.$user_commenter_lastname.' ('.$user_commenter_company.')';
         
         // Set email format to HTML
         $mail->isHTML(true);
@@ -253,8 +383,7 @@ class Email_model extends CI_Model{
         // $date_open = date_format(date_create($work_date_open),"j M y");
         // Email body content
         $mailContent = "
-        <p>Dear All,</br>
-        Work has just <strong>completed</strong> with following details: </p>
+        <p> <strong>$user_commenter_firstname $user_commenter_lastname ($user_commenter_company)</strong> commented on this work: </p>
             <table>
                 <tr>
                     <td>Title </td>
@@ -262,36 +391,23 @@ class Email_model extends CI_Model{
                     <td> $work_title </td>
                 </tr>
                 <tr>
-                    <td>Start </td>
-                    <td>:</td>
-                    <td> $work_date_open </td>
-                </tr>
-                <tr>
-                    <td>Complete </td>
-                    <td>:</td>
-                    <td> $work_date_close </td>
-                </tr>
-                <tr>
                     <td>Area </td>
                     <td>:</td>
                     <td> $work_area </td>
                 </tr>
                 <tr>
-                    <td>Status </td>
+                    <td>Specific Place </td>
                     <td>:</td>
-                    <td> $work_status </td>
+                    <td> $work_exact_place </td>
                 </tr>
                 <tr>
-                    <td>User </td>
+                    <td>Comment </td>
                     <td>:</td>
-                    <td> $work_user_close</td>
-                </tr>
-                <tr>
-                    <td>Company </td>
-                    <td>:</td>
-                    <td> $work_company </td>
+                    <td> <strong>$comment_text</strong> </td>
                 </tr>
             </table>
+            </br>
+            This email is auto-generated to notify activities on <a href='https://winpad.firdgroup.com/login'>Winpad<a>.
             <p>Sincerely,</p>
             <p><strong>Winpad System</strong></p>
             ";

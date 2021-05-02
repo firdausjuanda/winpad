@@ -5,6 +5,7 @@ class Test extends CI_Controller{
     {
         parent:: __construct();
         $this->load->model('Work_model');
+        $this->load->model('User_model');
     }
 
     public function delete_file()
@@ -57,5 +58,11 @@ class Test extends CI_Controller{
             }
         }
     }
+
+    public function get_email()
+    {
+        json_encode($this->User_model->getEmailManagers());
+    }
+   
 }
     

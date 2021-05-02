@@ -5,8 +5,8 @@
 <div class="row">
               
 	<div class="col-md-12">
-      <?php $path = 'work/complete_work/'.$work['work_id'];?>
-      <?= form_open_multipart($path);?>
+        <?php $path = 'work/upload_work_img_close/'.$work['work_id'];?>
+        <?= form_open_multipart($path);?>
         <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
             <a class="btn btn-default mb-2" href="<?= base_url('work/detail_work/').$work['work_id']; ?>"><i class="fa fa-arrow-left"></i></a>
             <!-- Box Comment -->
@@ -36,6 +36,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-md-6">
                         <div class="card card-default">
                             <div class="card-header">
@@ -48,27 +49,18 @@
                                         <input  type="file" class="custom-file-input" name="work_img_close" required id="work_img_close">
                                         <label class="custom-file-label" for="work_img_close">Add Picture</label>
                                     </div>
-                                    <div class="input-group-append">
-                                      <span class="input-group-text">Upload</span>
-                                    </div>
+                                    <button  type="submit" class="btn btn-primary ml-2" class="custom-file-input">Upload</button>
+
                                 </div>
                               </div>
                             <?php else:?>
                                 <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$work['work_img_close'];?>" alt="Photo">
                                 <?php if($work['work_status']=='OPN'):?>
                                 <a class="p-2 btn btn-sm btn-danger" href="<?= base_url('work/delete_img_close/').$work['work_id'];?>">Delete</a>
-                                <div class="card-body p-0">
-                                    <div class="input-group m-5" style="width: 75%;">
-                                        <div class="custom-file">
-                                            <input  type="file" class="custom-file-input" name="work_img_close" required id="work_img_close">
-                                            <label class="custom-file-label" for="work_img_close">Revise Picture</label>
-                                        </div>
-                                    </div>
-                                </div>
+                              
                                 <?php else:?>
                                 <?php endif;?>
                             <?php endif?>
-                            
                         </div>
                         <input type="hidden" name="work_id" value="<?= $work['work_id'];?>">
                         <input type="hidden" name="work_date_open" value="<?= $work['work_date_open'];?>">
@@ -76,10 +68,11 @@
                         <input type="hidden" name="work_title" value="<?= $work['work_title'];?>">
                         <input type="hidden" name="work_user" value="<?= $work['work_user'];?>">
                         <input type="hidden" name="work_company" value="<?= $work['work_company'];?>">
-                        
-                        
+                        <?= form_close();?> 
                     </div>
                 </div>
+                <?php $path = 'work/upload_work_permit_close/'.$work['work_id'];?>
+                <?= form_open_multipart($path);?>
                 <div class="row">
                 <div class="input-group mb-2">
                   <?php if($work['work_status']=='CLS'):?>
@@ -97,7 +90,14 @@
                     </div>
                     <?php endif;?>
                   <?php else:?>
+                  
                     <?php if($work['work_close_permit']==null):?>
+                    <div class="custom-file">
+                        <input  type="file" class="custom-file-input" style="width: 75%" name="work_close_permit" required id="work_close_permit">
+                        <label class="custom-file-label" for="work_close_permit">Add Closing Permit</label>
+                    </div>
+                    <button  type="submit" class="btn btn-primary ml-2" class="custom-file-input">Upload</button>
+                    
                     <?php else:?>
                     <div class="col-md-12">
                         <div class="card card-default">
@@ -108,16 +108,19 @@
                             <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/permit_complete_work/').$work['work_close_permit'];?>" alt="Photo">  
                             </div>
                         </div>
-                        <a class="mb-2 btn btn-sm btn-danger" href="<?= base_url('work/delete_work_close_permit/').$work['work_id'];?>">Delete</a>
-                        <?php endif;?>
-                    <div class="custom-file">
-                        <input  type="file" class="custom-file-input" name="work_close_permit" required id="work_close_permit">
-                        <label class="custom-file-label" for="work_close_permit">Add Closing Permit</label>
-                        
+                        <a class="mb-2 btn btn-sm btn-danger btn-block" href="<?= base_url('work/delete_work_close_permit/').$work['work_id'];?>">Delete Permit</a>
                     </div>
-                    </div>
+                    <?php endif;?>
+                    
                     
                   <?php endif;?>
+                  <input type="hidden" name="work_id" value="<?= $work['work_id'];?>">
+                  <input type="hidden" name="work_date_open" value="<?= $work['work_date_open'];?>">
+                  <input type="hidden" name="work_area" value="<?= $work['work_area'];?>">
+                  <input type="hidden" name="work_title" value="<?= $work['work_title'];?>">
+                  <input type="hidden" name="work_user" value="<?= $work['work_user'];?>">
+                  <input type="hidden" name="work_company" value="<?= $work['work_company'];?>">
+                  <?= form_close();?>
                 </div>
                 <!-- <div class="col-md-12 float-left callout callout-danger">
                     <h5>Warning!</h5>
@@ -140,14 +143,12 @@
                     <a href="<?= base_url('work/revise_work/').$work['work_id'];?>" class="btn btn-block btn-default btn-sm">Revise this work</a>
                   <?php else:?>
                     <?php if($work['work_is_revised']==0):?>
-                    <button type="sumbit" class="form-control btn btn-success btn-sm">Complete this work</button>
+                    <a href="<?= base_url('work/close_work/').$work['work_id'];?>" class="btn btn-block btn-success btn-sm">Complete this work</a>
                     <?php else:?>
-                    <a href="<?=base_url('work/complete_work_without_pic/').$work['work_id'];?>" class="mb-2 btn-block btn btn btn-info btn-sm">Complete this work without add new picture</a>
-                    <button type="sumbit" class="form-control btn btn-success btn-sm">Complete this work</button>
+                    <a href="<?= base_url('work/close_work/').$work['work_id'];?>" class="btn btn-block btn-success btn-sm">Complete this work</a>
                     <?php endif;?>
                   <?php endif;?>
                   </div>
-                </form>
               </div>
               <!-- /.card-footer -->
             </div>

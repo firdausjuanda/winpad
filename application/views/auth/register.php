@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="register-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>WINPAD</b>System</a>
+      <a href="<?= base_url();?>" class="h1"><b>WINPAD</b>System</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Register a new membership</p>
@@ -79,6 +79,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <option value="AR01">ARA</option>
             <option value="PB01">Paraboss</option>
          </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <select name="user_company" class="form-control">
+            <option value="">(Please select)</option>
+            <option value="">Wilmar Nabati Indonesia</option>
+            <option value="TB71">Teluk Bayur Balking Terminal</option>
+            <option value="EB01">Empat Bersaudara Engineering</option>
+            <option value="BS01">Bima Sakti Engineering</option>
+            <option value="AR01">ARA</option>
+            <option value="PB01">Paraboss</option>
+         </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+        <select class="form-control" required name="user_dept" name="user_dept">
+            <option value="">(Select Department)</option>
+            <option value="EHS">EHS</option>
+            <option value="Factory">Factory or PGA</option>
+            <option value="Utility">Utility</option>
+            <option value="Production">Production</option>
+            <option value="Office">Office</option>
+            <option value="WB">Weight Bridge</option>
+            <option value="Store">Store</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Tank Farm">Tank Farm</option>
+            <option value="Shipping">Shipping</option>
+            <option value="CPC">CPC</option>
+            <option value="TBBT">TBBT</option>
+          </select>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>

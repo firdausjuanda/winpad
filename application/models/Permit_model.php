@@ -88,6 +88,37 @@ class Permit_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function getPermitToSend($user_name){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->where('permit_status','OPN');
+        $this->db->where('permit_user',$user_name);
+        $this->db->where('permit_attach_status', 1);
+        $this->db->order_by('permit_work_id','desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function getPermitWorkIdToSend($user_name){
+        $this->db->distinct();
+        $this->db->select('permit_work_id');
+        $this->db->from('tb_permit');
+        $this->db->where('permit_status','OPN');
+        $this->db->where('permit_user',$user_name);
+        $this->db->where('permit_attach_status', 1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function getPermitAreaToSend($user_name){
+        $this->db->distinct();
+        $this->db->select('permit_area');
+        $this->db->from('tb_permit');
+        $this->db->where('permit_status','OPN');
+        $this->db->where('permit_user',$user_name);
+        $this->db->where('permit_attach_status', 1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
     public function getPermitToComplete($user_name){
         $this->db->select('*');
         $this->db->from('tb_permit');

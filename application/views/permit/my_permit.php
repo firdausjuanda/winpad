@@ -5,12 +5,9 @@
 		<?php if($title=='Unreleased Permit'):?>
 			<a href="<?= base_url('permit/my_all_permit') ;?>" class="btn btn-default mb-2">All Permit</a>
 			<a href="<?= base_url('permit/my_prog_permit') ;?>" class="btn btn-default mb-2">In Progress</a>
-			<?php if($userData['user_role']== 0):?>
-				<?php if($my_permit==null):?>
-				<?php else:?>
-				<a href="<?= base_url('permit/release_permit');?>" class="btn btn-success btn-mute mb-2" ><i class="fa fa-check"></i> Release All</a>
-				<?php endif;?>
+			<?php if($my_permit==null):?>
 			<?php else:?>
+			<a href="<?= base_url('permit/release_permit');?>" class="btn btn-success btn-mute mb-2" ><i class="fa fa-check"></i> Release All</a>
 			<?php endif;?>
 		<?php elseif($title=='My All Permit'):?>
 			<a href="<?= base_url('permit') ;?>" class="btn btn-default mb-2"><i class="fa fa-arrow-left"> </i></a>
@@ -169,9 +166,11 @@
 											<?php else:?>
 										<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Change Attachment</a>
 											<?php endif;?>
+											<?php if($this_work['work_user']!=$userData['user_username']):?>
+											<?php else:?>
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
-										
+											<?php endif;?>
 										<?php else:?>
 										<?php endif;?>
 									</div>

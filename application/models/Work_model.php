@@ -14,6 +14,7 @@ class Work_model extends CI_Model {
     {   
         $this->db->select('*');
         $this->db->from('tb_work');
+        $this->db->join('tb_user','tb_user.user_username=tb_work.work_user','tb_work', 'left');
         $this->db->where('work_id',$id);
         $this->db->order_by('work_date_open','desc');
         return $this->db->get()->row_array();
@@ -54,6 +55,33 @@ class Work_model extends CI_Model {
         $this->db->join('tb_work','tb_work.work_user=tb_permit.permit_user','tb_permit', 'left');
         $this->db->where('permit_status', 'REL', 'left');
         $this->db->where('work_id', $work_id, 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function checkWorkFinalPic($work_id)
+    {
+        $this->db->select('work_img_close');
+        $this->db->from('tb_work');
+        $this->db->where('work_id', $work_id, 'left');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+    public function checkWorkFinalPermit($work_id)
+    {
+        $this->db->select('work_close_permit');
+        $this->db->from('tb_work');
+        $this->db->where('work_id', $work_id, 'left');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+    public function getWorkToSend($work_id_to_send){
+        $this->db->select('*');
+        $this->db->from('tb_work');
+
+        foreach($work_id_to_send as $v)
+        {
+            $this->db->or_where('work_id', $v['permit_work_id']);
+        }
         $query = $this->db->get();
         return $query->result_array();
     }

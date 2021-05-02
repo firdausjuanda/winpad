@@ -189,7 +189,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <img style="width: 40px; height:40px" src="<?= base_url('assets/img/profile/').$userData['user_profile'];?>" class="img-circle elevation-1" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?= $userData['user_firstname'];?> <?= $userData['user_lastname'];?> </a>
+          <a href="<?= base_url().'profile';?>" class="d-block"><?= $userData['user_firstname'];?> <?= $userData['user_lastname'];?> </a>
         </div>
       </div>
 
