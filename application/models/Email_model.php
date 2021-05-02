@@ -290,14 +290,9 @@ class Email_model extends CI_Model{
                     <td> $work_title </td>
                 </tr>
                 <tr>
-                    <td>Date </td>
+                    <td>Date Start</td>
                     <td>:</td>
                     <td> $work_date_open </td>
-                </tr>
-                <tr>
-                    <td>Date </td>
-                    <td>:</td>
-                    <td> $work_date_close </td>
                 </tr>
                 <tr>
                     <td>Area </td>
@@ -305,7 +300,7 @@ class Email_model extends CI_Model{
                     <td> $work_area </td>
                 </tr>
                 <tr>
-                    <td>Area </td>
+                    <td>Status </td>
                     <td>:</td>
                     <td> $work_status </td>
                 </tr>
