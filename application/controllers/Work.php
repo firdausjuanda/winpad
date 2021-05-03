@@ -451,6 +451,8 @@ class Work extends CI_Controller{
         $work_exact_place = $work_data['work_exact_place'];
         $work_title = $work_data['work_title'];
         $work_company = $work_data['work_company'];
+        $company = $work_data['work_company'];
+        $email_worker = $this->User_model->getThisEmailUser($company);
         $usernameFromSession = $this->session->userdata('username');
         $user_data = $this->User_model->userSession($usernameFromSession);
         $email_managers = $this->User_model->getEmailManagers();
@@ -468,6 +470,7 @@ class Work extends CI_Controller{
             $email_area,
             $email_user,
             $email_managers,
+            $email_worker,
             $comment_text
         ) == TRUE)
         {

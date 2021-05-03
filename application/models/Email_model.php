@@ -68,7 +68,6 @@ class Email_model extends CI_Model{
             border-collapse: collapse;
             }
         </style>
-        <p>Dear All,</p>
         <p><strong>$user_firstname $user_lastname ($user_company)</strong> has just submitted Work Permits as follows: </p>
         <table>
             <tr>
@@ -188,7 +187,6 @@ class Email_model extends CI_Model{
         // Email body content
 
         $mailContent = "
-        <p>Dear All,</p>
         <p> <strong>$user_firstname $user_lastname ($work_company)</strong> has just started new work with following details: </p>
             <table>
                 <tr>
@@ -337,6 +335,7 @@ class Email_model extends CI_Model{
         $email_area,
         $email_user,
         $email_managers,
+        $email_worker,
         $comment_text
         )
     {
@@ -359,6 +358,10 @@ class Email_model extends CI_Model{
         $mail->addAddress($email_user);   
 
         foreach($email_area as $v)
+        {
+            $mail->addAddress($v['user_email']);   
+        }
+        foreach($email_worker as $v)
         {
             $mail->addAddress($v['user_email']);   
         }

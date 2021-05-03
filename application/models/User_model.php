@@ -45,6 +45,13 @@ class User_model extends CI_Model {
         $this->db->where('user_company', 'NI74', 'left');
         return $this->db->get()->result_array();
     }
+    public function getThisEmailUser($company)
+    {
+        $this->db->select('user_email');
+        $this->db->from('tb_user');
+        $this->db->or_where('user_company', $company, 'left');
+        return $this->db->get()->result_array();
+    }
     public function getEmailAreas($area)
     {
         $this->db->distinct();
