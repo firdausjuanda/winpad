@@ -39,6 +39,23 @@
 							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_username'];?></td></a>
 							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_firstname'];?></td></a>
 							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_lastname'];?></td></a>
+							<td class="mailbox-subject">
+							<?php if($mp['user_status']==1):?>
+							(E)
+							<?php else:?>
+							(D)
+							<?php endif;?>
+							<?php if($mp['user_role']==1):?>
+							(A)
+							<?php else:?>
+							(M)
+							<?php endif;?>
+							<?php if($mp['user_is_manage']==1):?>
+							(M)
+							<?php else:?>
+							(U)
+							<?php endif;?>
+							</td>
 							<td class="mailbox-attachment">
 							<div class="btn-group">
 								<button style="color: <?php if($mp['user_status']==0){echo 'red';}elseif($mp['user_status']==1){echo 'green';}?>;" class="btn btn-default"><i class="fa <?php if($mp['user_status']==0){echo 'fa-times';}else{echo 'fa-check';}?>"></i></button>
@@ -51,7 +68,7 @@
 										<?php else:?>
 										<a class="dropdown-item" href="<?= base_url('admin/unset_admin/').$mp['user_id'];?>">Unset from Admin</a>
 										<?php endif;?>
-                                        <?php if($mp['user_status']==0):?>
+                                        <?php if($mp['user_is_manage']==0):?>
                                         <a class="dropdown-item" href="<?= base_url('admin/set_manage/').$mp['user_id'];?>">Set as Management</a>
                                         <?php else:?>
                                         <a class="dropdown-item" href="<?= base_url('admin/unset_manage/').$mp['user_id'];?>">Unset from Management</a>
