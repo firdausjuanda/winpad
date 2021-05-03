@@ -300,7 +300,7 @@ class Email_model extends CI_Model{
                 <tr>
                     <td>Status </td>
                     <td>:</td>
-                    <td> $work_status </td>
+                    <td> CLS </td>
                 </tr>
                 <tr>
                     <td>Specific Place </td>

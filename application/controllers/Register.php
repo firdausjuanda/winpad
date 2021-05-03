@@ -9,7 +9,7 @@ class Register extends CI_Controller{
         if($this->session->userdata('id')!=0)
         {
 
-            $this->session->set_flashdata('message','You cannot register unless you logged out!');
+            $this->session->set_flashdata('message','Please log in!');
             redirect('home');
         }
         else

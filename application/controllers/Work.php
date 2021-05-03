@@ -135,6 +135,7 @@ class Work extends CI_Controller{
             'work_user' => $work_user,
             'work_company' => $work_company,
         );
+        $this->db->insert('tb_work',$data);
         if(
             $this->Email_model->sendWorkEmail(
             $work_date_open, 
@@ -151,13 +152,12 @@ class Work extends CI_Controller{
 
         == TRUE)
         {   
-            $this->db->insert('tb_work',$data);
             $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
             redirect('work');
         }
         else
         {   
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Saved, but email not sent!</div></div>');
             redirect('work');
         }
         
@@ -366,6 +366,8 @@ class Work extends CI_Controller{
                         $area = $work_area;
                         $email_area = $this->User_model->getEmailArea($area);
                         $email_user = $user_data['user_email'];
+                        $this->db->where('work_id',$work_id);
+                        $this->db->update('tb_work', $data);
                         if($this->Email_model->sendWorkCompleteEmail(
                             $work_area, 
                             $work_exact_place, 
@@ -381,15 +383,13 @@ class Work extends CI_Controller{
                             $email_managers
                         ) == TRUE)
                         {
-                            $this->db->where('work_id',$work_id);
-                            $this->db->update('tb_work', $data);
                             $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work completed and email sent!</div></div>');
                             $redirect_path = 'work/complete_work/'.$work_id;
                             redirect($redirect_path);
                         }
                         else
                         {
-                            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+                            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Saved, but email not sent!</div></div>');
                             $redirect_path = 'work/complete_work/'.$work_id;
                             redirect($redirect_path);
                         }
@@ -481,7 +481,7 @@ class Work extends CI_Controller{
         }
         else
         {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-warning">Comment posted, but email not sent!</div></div>');
             $redirect_path = 'work/';
             redirect($redirect_path);
         }

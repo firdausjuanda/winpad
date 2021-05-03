@@ -284,7 +284,7 @@ class Permit extends CI_Controller{
         {
             $this->db->where('permit_id',$id);
             $this->db->delete('tb_permit');
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Permit deleted</div></div>');
+            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit deleted</div></div>');
             $redirect_path = 'permit/';
             redirect($redirect_path);
         }
@@ -338,7 +338,7 @@ class Permit extends CI_Controller{
             }
             else
             {   
-                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-warning">Permit released, but email not sent!</div></div>');
                 redirect('permit/');
             }
 
