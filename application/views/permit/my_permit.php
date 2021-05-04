@@ -6,8 +6,9 @@
 			<a href="<?= base_url('permit/my_all_permit') ;?>" class="btn btn-default mb-2">All Permit</a>
 			<a href="<?= base_url('permit/my_prog_permit') ;?>" class="btn btn-default mb-2">In Progress</a>
 			<?php if($my_permit==null):?>
-			<?php else:?>
+			<?php elseif($userData['user_role']== 0):?>
 			<a href="<?= base_url('permit/release_permit');?>" class="btn btn-success btn-mute mb-2" ><i class="fa fa-check"></i> Release All</a>
+			<?php else:?>
 			<?php endif;?>
 		<?php elseif($title=='My All Permit'):?>
 			<a href="<?= base_url('permit') ;?>" class="btn btn-default mb-2"><i class="fa fa-arrow-left"> </i></a>

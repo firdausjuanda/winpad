@@ -33,6 +33,7 @@
                                     <option value="Engineering">Engineering</option>
                                     <option value="Tank Farm">Tank Farm</option>
                                     <option value="Shipping">Shipping</option>
+                                    <option value="QC">QC</option>
                                     <option value="CPC">CPC</option>
                                     <option value="MBA">MBA</option>
                                     <option value="TBBT">TBBT</option>

@@ -97,6 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <option value="Store">Store</option>
             <option value="Engineering">Engineering</option>
             <option value="Tank Farm">Tank Farm</option>
+            <option value="QC">QC</option>
             <option value="Shipping">Shipping</option>
             <option value="CPC">CPC</option>
             <option value="TBBT">TBBT</option>
