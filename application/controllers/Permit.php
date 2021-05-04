@@ -14,13 +14,17 @@ class Permit extends CI_Controller{
         $data['title'] = 'Unreleased Permit';
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
-        if($data['userData']['user_role']== 0)
+        if($data['userData']['user_role']== 1)
         {
-            $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin();
         }
         elseif($data['userData']['user_is_manage']== 1)
         {
-            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin();
+        }
+        else
+        {
+            $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
         }
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
@@ -380,13 +384,17 @@ class Permit extends CI_Controller{
         $data['title'] = 'My All Permit';
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
-        if($data['userData']['user_role']== 0)
+        if($data['userData']['user_role']== 1)
         {
-            $data['my_permit'] = $this->Permit_model->getMyPermit($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getAllPermit();
         }
         elseif($data['userData']['user_is_manage']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getAllPermit();
+        }
+        else 
+        {
+            $data['my_permit'] = $this->Permit_model->getMyPermit($usernameFromSession);
         }
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
@@ -398,13 +406,17 @@ class Permit extends CI_Controller{
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
         
-        if($data['userData']['user_role']== 0)
+        if($data['userData']['user_role']== 1)
         {
-            $data['my_permit'] = $this->Permit_model->getMyProgPermit($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getProgPermitForAdmin();
         }
         elseif($data['userData']['user_is_manage']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getProgPermitForAdmin();
+        }
+        else 
+        {
+            $data['my_permit'] = $this->Permit_model->getMyProgPermit($usernameFromSession);
         }
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
