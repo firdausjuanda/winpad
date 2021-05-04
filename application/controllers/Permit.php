@@ -18,7 +18,7 @@ class Permit extends CI_Controller{
         {
             $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
         }
-        else
+        elseif($data['userData']['user_is_manage']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
         }
@@ -384,7 +384,7 @@ class Permit extends CI_Controller{
         {
             $data['my_permit'] = $this->Permit_model->getMyPermit($usernameFromSession);
         }
-        else
+        elseif($data['userData']['user_is_manage']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getPermit();
         }
@@ -402,7 +402,7 @@ class Permit extends CI_Controller{
         {
             $data['my_permit'] = $this->Permit_model->getMyProgPermit($usernameFromSession);
         }
-        else
+        elseif($data['userData']['user_is_manage']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin();
         }
