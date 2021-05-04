@@ -76,7 +76,7 @@ class Work extends CI_Controller{
     {
         $path                           = './assets/img/work/';
         $config['upload_path']          = $path;
-        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $config['allowed_types']        = 'png|gif|jpg|jpeg|tiff|pdf';
         $config['max_size']             = 5120;
         $config['file_name']            = $this->input->post('work_date_open').'_'.'O'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
         ini_set('memory_limit', '-1');
@@ -220,7 +220,7 @@ class Work extends CI_Controller{
     {   
         $path                           = './assets/img/work/';
         $config['upload_path']          = $path;
-        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $config['allowed_types']        = 'png|gif|jpg|jpeg|tiff|pdf';
         $config['max_size']             = 5120;
         $config['file_name']            = $this->input->post('work_date_open').'_'.'C'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
         ini_set('memory_limit', '-1');
@@ -284,7 +284,7 @@ class Work extends CI_Controller{
     {   
         $path                           = './assets/img/permit_complete_work/';
         $config['upload_path']          = $path;
-        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+        $config['allowed_types']        = 'png|gif|jpg|jpeg|tiff|pdf';
         $config['max_size']             = 5120;
         $config['file_name']            = $this->input->post('work_date_open').'_'.'P'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
         ini_set('memory_limit', '-1');
