@@ -5,6 +5,8 @@ class Permit_model extends CI_Model {
 	public function getAllPermit(){
         $this->db->select('*');
         $this->db->from('tb_permit');
+        $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
+        $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
         return $query->result_array();
