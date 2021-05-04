@@ -386,7 +386,7 @@ class Permit extends CI_Controller{
         }
         else
         {
-            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getPermit();
         }
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
@@ -397,7 +397,15 @@ class Permit extends CI_Controller{
         $data['title'] = 'In Progress Permit';
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
-        $data['my_permit'] = $this->Permit_model->getMyProgPermit($usernameFromSession);
+        
+        if($data['userData']['user_role']== 0)
+        {
+            $data['my_permit'] = $this->Permit_model->getMyProgPermit($usernameFromSession);
+        }
+        else
+        {
+            $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin();
+        }
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);
