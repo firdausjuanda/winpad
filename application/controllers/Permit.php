@@ -67,7 +67,7 @@ class Permit extends CI_Controller{
         $config['upload_path']          = $path;
         $config['allowed_types']        = 'png|gif|jpg|jpeg|tiff|pdf';
         $config['max_size']             = 5120;
-        $config['file_name']            = $this->input->post('permit_id').'_'.$this->input->post('permit_area').'_'.$this->input->post('permit_title').'_'.$this->input->post('permit_description');
+        $config['file_name']            = $this->input->post('permit_id').'_'.$this->input->post('permit_area').'_'.$this->input->post('permit_title');
         
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
@@ -150,7 +150,7 @@ class Permit extends CI_Controller{
         $config['upload_path']          = $path;
         $config['allowed_types']        = 'png|gif|jpg|jpeg|tiff|pdf';
         $config['max_size']             = 5120;
-        $config['file_name']            = $this->input->post('permit_id').'_'.$this->input->post('permit_area').'_'.$this->input->post('permit_title').'_'.$this->input->post('permit_description');
+        $config['file_name']            = $this->input->post('permit_id').'_'.$this->input->post('permit_area').'_'.$this->input->post('permit_title');
         ini_set('memory_limit', '-1');
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
