@@ -101,6 +101,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <option value="Shipping">Shipping</option>
             <option value="CPC">CPC</option>
             <option value="TBBT">TBBT</option>
+            <option value="Safety Officer (Vendor)">Safety Officer (Vendor)</option>
+            <option value="Koordinator (Vendor)">Koordinator (Vendor)</option>
+            <option value="Teknisi (Vendor)">Teknisi (Vendor)</option>
           </select>
           <div class="input-group-append">
             <div class="input-group-text">
