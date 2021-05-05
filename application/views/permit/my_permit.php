@@ -137,7 +137,7 @@
 										<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Add Picture</a>
 										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
 										<?php elseif($mp['permit_attach_status']==2):?>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_attach'];?>">See Picture</a>
+										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
 										<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Change Attachment</a>
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
@@ -163,7 +163,7 @@
 												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
 											<?php endif;?>
 										<?php elseif($mp['permit_attach_status']==2):?>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_attach'];?>">See Picture</a>
+										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
 											<?php if($this_work['work_user']!=$userData['user_username']):?>
 											<?php else:?>
 										<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_attach'];?>">Change Picture</a>
@@ -201,7 +201,7 @@
 												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
 											<?php endif;?>
 										<?php elseif($mp['permit_attach_status']==2):?>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_attach'];?>">See Picture</a>
+										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
 											<?php if($mp['work_user']!=$userData['user_username']):?>
 											<?php else:?>
 										<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_attach'];?>">Change Picture</a>
