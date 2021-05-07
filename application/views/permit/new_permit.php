@@ -28,10 +28,11 @@
                                     <option value="HOWP">Hot Work Permit</option>
                                     <option value="COWP">Cold Work Permit</option>
                                     <option value="WAHP">Work at Height Permit</option>
+                                    <option value="CSEP">Confined Space Permit</option>
                                     <option value="LOWP">LOTO Work Permit</option>
                                     <option value="EXWP">Excapation Work Permit</option>
                                     <option value="DIWP">Dig Work Permit</option>
-                                    <option value="HWP">Hot Work Permit</option>
+                                    <!-- <option value="HWP">Hot Work Permit</option> -->
                                 </select>
                             </div>
 
