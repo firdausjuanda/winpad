@@ -48,7 +48,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="work_title">Title</label>
-                                <input class="form-control"  type="text" name="work_title" required value="<?= form_error('work_title');?>" maxlength="40" style="text-transform: uppercase" placeholder="Title">
+                                <input class="form-control"  type="text" name="work_title" required value="<?= form_error('work_title');?>" maxlength="40" placeholder="Title">
                             </div>
 
                             <div class="form-group">

@@ -8,6 +8,7 @@ class Home extends CI_Controller {
 		$this->load->model('User_model');
 		$this->load->model('Permit_model');
 		$this->load->model('Work_model');
+		redirect('work');
 	}
 	public function index()
 	{	
