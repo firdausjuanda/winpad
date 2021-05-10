@@ -7,7 +7,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
 ?>
 
 <div class="row">
-  <div class="col-md-10">
+  <div class="col-md-8">
 	    <a href="<?= base_url('work/new_work') ?>" class="btn btn-default bg-gradient btn-block mb-2"><i class="fas fa-plus"></i>  Create New Work</a>
       <p class="m-1" style="font-style: italic; color:dimgray;">Work will be dissapeared 3 days after status CLS.</p>
 	<?php foreach( $work as $w) :?>
