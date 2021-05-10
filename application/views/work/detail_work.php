@@ -22,7 +22,7 @@
                 <strong><p class="mb-0"><span class="badge badge-success">Work ID:</span> <?= $work['work_id'];?></p></strong>
                 <strong><p class="mb-0"><span class="badge badge-success">Title:</span> <?= $work['work_title'];?></p></strong>
 			  	      <p class="mb-2" ><span class="badge badge-success">Analysis:</span> <?= $work['work_description'];?></p>
-                <?php if($status == 'OPN'): ?>
+                <?php if(!$work['work_img_close']): ?>
                 <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$work['work_img_open'];?>" alt="Photo"><br>
                 <?php else:?>
                 <div class="row">
@@ -64,7 +64,6 @@
                             <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/permit_complete_work/').$work['work_close_permit'];?>" alt="Photo">  
                             </div>
                         </div>
-                        <a class="mb-2 btn btn-sm btn-danger btn-block" href="<?= base_url('work/delete_work_close_permit/').$work['work_id'];?>">Delete Permit</a>
                     </div>
                     <?php endif;?>
                     
