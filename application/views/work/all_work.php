@@ -4,6 +4,7 @@
 <?php 
 $today = date('Y-m-d');
 $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
+
 ?>
 
 <div class="row">
@@ -34,6 +35,10 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
+                    <?php if(!$w['work_date_close']):?>
+                    <?php else:?>
+                    <strong><p class="mb-0"><span class="badge badge-success">Completed:</span> <?= date_format(date_create($w['work_date_close']),"j M y")?></p></strong>
+                    <?php endif;?>
                     <strong><p class="mb-0"><span class="badge badge-success">Work ID:</span> <?= $w['work_id'];?></p></strong>
                     <strong><p class="mb-0"><span class="badge badge-success">Title:</span> <?= $w['work_title'];?></p></strong>
                     <p class="mb-2" ><span class="badge badge-success">Analysis:</span> <?= $w['work_description'];?></p>

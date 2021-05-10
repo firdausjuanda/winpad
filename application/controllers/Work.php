@@ -324,8 +324,8 @@ class Work extends CI_Controller{
     
     public function close_work($work_id)
     {   
-        $work_date_close = date('Y-m-j');
-        $work_last_modified = date('Y-m-j H:i:s');
+        $work_date_close = date('Y-m-d');
+        $work_last_modified = date('Y-m-d H:i:s');
         $usernameFromSession = $this->session->userdata('username');
         $user_data = $this->User_model->userSession($usernameFromSession);
 
