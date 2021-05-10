@@ -80,7 +80,7 @@ class Permit_model extends CI_Model {
         $this->db->where('permit_work_id', $id, 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
-        return $query->result_array();
+        return $query->row_array();
     }
     public function getWorkByPermit($id){
         $this->db->select('*');
