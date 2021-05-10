@@ -281,7 +281,7 @@ class Permit extends CI_Controller{
 
     public function delete_permit($id)
     {   
-        $permit_data = $this->Permit_model->getThisPermit($id);
+        $permit_data = $this->Permit_model->getThisPermitToDelete($id);
         $usernameFromSession = $this->session->userdata('username');
         $user_data = $this->User_model->userSession($usernameFromSession);
         if($user_data['user_username'] == $permit_data['permit_user'])
