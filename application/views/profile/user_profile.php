@@ -30,7 +30,7 @@
                   </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Change Profile</b></a>
+                <!-- <a href="#" class="btn btn-primary btn-block"><b>Change Profile</b></a> -->
               </div>
               <!-- /.card-body -->
             </div>
