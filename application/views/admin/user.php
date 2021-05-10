@@ -36,24 +36,24 @@
 							<td class="mailbox-name"><a style="color: #000;" href="#"><?= $mp['user_username'];?> (<?= $mp['user_company'];?>)</a></td>
 							<td class="mailbox-subject"><?= $mp['user_email'];?></td>
 							<td class="mailbox-subject"><?= $mp['user_phone'];?></td>
-							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_username'];?></td></a>
 							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_firstname'];?></td></a>
 							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_lastname'];?></td></a>
+							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_dept'];?></td></a>
 							<td class="mailbox-subject">
 							<?php if($mp['user_status']==1):?>
-							(E)
+							<a class="badge badge-default badge-sm">Enabled</a>
 							<?php else:?>
-							(D)
+							<a class="badge badge-danger badge-sm">Dissabled</a>
 							<?php endif;?>
 							<?php if($mp['user_role']==1):?>
-							(A)
+							<a class="badge badge-success badge-sm">Admin</a>
 							<?php else:?>
-							(M)
+							<a class="badge badge-default badge-sm">Main</a>
 							<?php endif;?>
 							<?php if($mp['user_is_manage']==1):?>
-							(M)
+							<a class="badge badge-primary badge-sm">Management</a>
 							<?php else:?>
-							(U)
+							<a class="badge badge-default badge-sm">Default</a>
 							<?php endif;?>
 							</td>
 							<td class="mailbox-attachment">
