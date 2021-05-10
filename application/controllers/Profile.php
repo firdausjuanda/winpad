@@ -33,12 +33,20 @@ class Profile extends CI_Controller{
     public function user($user_username)
     {
         $data['title'] = "User Profile";
-        $usernameFromSession = $user_username;
+        $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
-        $user_id = $data['userData']['user_id'];
-        $data['count_user_work'] = $this->User_model->countUserWork($user_username);
-        $data['count_user_permit'] = $this->User_model->countUserPermit($user_username);
-        $data['count_user_comment'] = $this->User_model->countUserComment($user_id);
+        $data['user'] = $this->User_model->getThisUserbyUsername($user_username);
+        if(!$data['user'])
+        {
+            $data['user'] = [];
+        }
+        else
+        {
+            $user_id = $data['user']['user_id'];
+            $data['count_user_work'] = $this->User_model->countUserWork($user_username);
+            $data['count_user_permit'] = $this->User_model->countUserPermit($user_username);
+            $data['count_user_comment'] = $this->User_model->countUserComment($user_id);
+        }
         $this->load->view('templates/header',$data);
         $this->load->view('profile/user_profile',$data);
         $this->load->view('templates/footer',$data);

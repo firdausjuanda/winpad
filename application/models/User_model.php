@@ -22,6 +22,13 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->row_array();
     }
+    public function getThisUserbyUsername($user_username){
+        $this->db->select('*');
+        $this->db->from('tb_user');
+        $this->db->where('user_username', $user_username, 'left');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
     public function countUserWork($user_username){
         $this->db->select('*');
         $this->db->from('tb_work');
