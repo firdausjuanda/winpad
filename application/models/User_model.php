@@ -22,6 +22,24 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->row_array();
     }
+    public function countUserWork($user_username){
+        $this->db->select('*');
+        $this->db->from('tb_work');
+        $this->db->where('work_user', $user_username, 'left');
+        return $this->db->count_all_results();
+    }
+    public function countUserPermit($user_username){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->where('permit_user', $user_username, 'left');
+        return $this->db->count_all_results();
+    }
+    public function countUserComment($user_id){
+        $this->db->select('*');
+        $this->db->from('tb_comment');
+        $this->db->where('comment_user_id', $user_id, 'left');
+        return $this->db->count_all_results();
+    }
     public function getUserComment($comment_user_id){
         $this->db->select('*');
         $this->db->from('tb_user');
@@ -64,4 +82,6 @@ class User_model extends CI_Model {
         $this->db->where('user_company', 'NI74', 'left');
         return $this->db->get()->result_array();
     }
+
+
 }

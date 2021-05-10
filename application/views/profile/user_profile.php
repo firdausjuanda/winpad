@@ -40,81 +40,54 @@
             <div class="card">
               <div class="card-header">
                 <ul class="nav nav-pills">
-                  <li class="nav-item">Edit Profile</li>
+                  <li class="nav-item">Detail Profile</li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
-                    <form class="form-horizontal"  method="post" action="<?= base_url('profile/edit_profile/').$userData['user_id'];?>">
                       <div class="form-group row">
                         <label for="user_username" class="col-sm-4 col-form-label">Username</label>
                         <div class="col-sm-8">
-                          <input type="text" required class="form-control" name="user_username" value="<?= $userData['user_username'];?>" readonly placeholder="Username">
+                          <input type="text" style="background-color: white;" readonly class="form-control" name="user_username" value="<?= $userData['user_username'];?>" readonly placeholder="Username">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="user_firstname" class="col-sm-4 col-form-label">First Name</label>
                         <div class="col-sm-8">
-                          <input type="text" required class="form-control" name="user_firstname" value="<?= $userData['user_firstname'];?>" placeholder="First Name">
+                          <input type="text" readonly style="background-color: white;" class="form-control" name="user_firstname" value="<?= $userData['user_firstname'];?>" placeholder="First Name">
                         </div>
                       </div><div class="form-group row">
                         <label for="user_lastname" class="col-sm-4 col-form-label">Last Name</label>
                         <div class="col-sm-8">
-                          <input type="text" required class="form-control" name="user_lastname" value="<?= $userData['user_lastname'];?>" placeholder="Last Name">
+                          <input type="text" readonly style="background-color: white;" class="form-control" name="user_lastname" value="<?= $userData['user_lastname'];?>" placeholder="Last Name">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="user_email" class="col-sm-4 col-form-label">Email</label>
                         <div class="col-sm-8">
-                          <input type="email" required class="form-control" name="user_email" value="<?= $userData['user_email'];?>" placeholder="Email">
+                          <input type="email" readonly style="background-color: white;" class="form-control" name="user_email" value="<?= $userData['user_email'];?>" placeholder="Email">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="user_phone" class="col-sm-4 col-form-label">Phone</label>
                         <div class="col-sm-8">
-                          <input type="number" required minlength="0" maxlength="12" class="form-control" name="user_phone" value="<?= $userData['user_phone'];?>" placeholder="Name">
+                          <input type="number" readonly style="background-color: white;" minlength="0" maxlength="12" class="form-control" name="user_phone" value="<?= $userData['user_phone'];?>" placeholder="Name">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="user_company" class="col-sm-4 col-form-label">Company</label>
                         <div class="col-sm-8">
-                          <input type="text" required class="form-control" name="user_company" value="<?= $userData['user_company'];?>" readonly placeholder="Name">
-                        </div>
-                      </div><div class="form-group row">
-                        <label for="user_dept" class="col-sm-4 col-form-label">Department</label>
-                        <div class="col-sm-8">
-                        <select class="form-control" required name="user_dept" name="user_dept">
-                            <?php if($userData['user_dept']==null):?>
-                            <option value="">-Select Department-</option>
-                            <?php else:?>
-                            <option value="<?= $userData['user_dept']?>"><?= $userData['user_dept']?></option>
-                            <?php endif;?>
-                            <option value="EHS">EHS</option>
-                            <option value="Factory">Factory or PGA</option>
-                            <option value="Utility">Utility</option>
-                            <option value="Production">Production</option>
-                            <option value="Office">Office</option>
-                            <option value="WB">Weight Bridge</option>
-                            <option value="Store">Store</option>
-                            <option value="Engineering">Engineering</option>
-                            <option value="Tank Farm">Tank Farm</option>
-                            <option value="QC">QC</option>
-                            <option value="Shipping">Shipping</option> 
-                            <option value="CPC">CPC</option>
-                            <option value="TBBT">TBBT</option>
-                            <option value="Safety Officer (Vendor)">Safety Officer (Vendor)</option>
-                            <option value="Koordinator (Vendor)">Koordinator (Vendor)</option>
-                            <option value="Teknisi (Vendor)">Teknisi (Vendor)</option>
-                        </select>
-
+                          <input type="text" readonly style="background-color: white;" class="form-control" name="user_company" value="<?= $userData['user_company'];?>" placeholder="Name">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <div class="offset-sm-4 col-sm-8">
-                          <button type="submit" class="btn btn-success">Save</button>
+                        <label for="user_company" class="col-sm-4 col-form-label">Department</label>
+                        <div class="col-sm-8">
+                          <input type="text" readonly style="background-color: white;" class="form-control" name="user_dept" value="<?= $userData['user_dept'];?>" readonly placeholder="Dept">
                         </div>
                       </div>
-                    </form>
+                        </div>
+                      </div>
                   </div>
                   <!-- /.tab-pane -->
                 </div>

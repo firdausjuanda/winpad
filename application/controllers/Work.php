@@ -29,7 +29,7 @@ class Work extends CI_Controller{
 		}
 		else
 		{	
-			$this->session->set_flashdata('message','You cannot go to home page unless you logged in!');
+			$this->session->set_flashdata('message','Please login!');
 			redirect('login');
 		}
     }

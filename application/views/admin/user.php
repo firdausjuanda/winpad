@@ -32,13 +32,13 @@
                       <?php	foreach( $allUser as $mp) :?>
                         <tr>
 							<td style="width: 10%;" class="mailbox-date"><?= date_format(date_create($mp['user_date_created']),'j M y');?></td>
-							<td class="mailbox-star"><a style="color: #000;" href="#"><?= number_format($mp['user_id']);?></a></td>
-							<td class="mailbox-name"><a style="color: #000;" href="#"><?= $mp['user_username'];?> (<?= $mp['user_company'];?>)</a></td>
+							<td class="mailbox-star"><a style="color: #000;" href="<?= base_url('profile/user/').$mp['user_username'];?>"><?= number_format($mp['user_id']);?></a></td>
+							<td class="mailbox-name"><a style="color: #000;" href="<?= base_url('profile/user/').$mp['user_username'];?>"><?= $mp['user_username'];?> (<?= $mp['user_company'];?>)</a></td>
 							<td class="mailbox-subject"><?= $mp['user_email'];?></td>
 							<td class="mailbox-subject"><?= $mp['user_phone'];?></td>
-							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_firstname'];?></td></a>
-							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_lastname'];?></td></a>
-							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['user_id']?>"><?= $mp['user_dept'];?></td></a>
+							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('profile/user/').$mp['user_username'];?>"><?= $mp['user_firstname'];?></td></a>
+							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('profile/user/').$mp['user_username'];?>"><?= $mp['user_lastname'];?></td></a>
+							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('profile/user/').$mp['user_username'];?>"><?= $mp['user_dept'];?></td></a>
 							<td class="mailbox-subject">
 							<?php if($mp['user_status']==1):?>
 							<a class="badge badge-default badge-sm">Enabled</a>
