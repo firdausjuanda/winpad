@@ -105,7 +105,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                 <div class="card-header">
                   <div class="user-block">
                     <img class="img-circle" src="<?= base_url('assets/img/profile/').$w['user_profile'];?>" alt="User Image">
-                    <span class="username" ><a style="color: black;" href="#"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
+                    <span class="username" ><a style="color: black;" href="<?= base_url('profile/user/').$w['user_username'];?>"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
                     <span class="description"><span class="badge <?php $status = $w['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $w['work_status'];?></span> | <?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : <?= date_format(date_create($w['work_date_created']),'j M y (H:i)');?></span>
                   </div>
                 </div>
@@ -139,7 +139,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                     <img class="img-circle img-sm" src="<?= base_url('assets/img/profile/').$c['user_profile'];?>" alt="User Image">
                     <div class="comment-text">
                       <span class="username">
-                        <?= $c['user_firstname'];?> <?= $c['user_lastname'];?> (<?= $c['user_company'];?>)
+                        <a href="<?= base_url('profile/user/').$c['user_username'];?>"><?= $c['user_firstname'];?> <?= $c['user_lastname'];?> (<?= $c['user_company'];?>)</a>
                         <span class="text-muted float-right"><?php echo date_format(date_create($c['comment_date_created']),'j M y (H:i)');?></span>
                       </span><!-- /.username -->
                       <?= $c['comment_text'];?>
