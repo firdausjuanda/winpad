@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<a href="<?= base_url('new_permit') ?>">Add New Permit</a>
 	<a href="<?= base_url('my_permit') ?>">See My Permit</a>
 	<h3>Permit List</h3>
-	<table border="1">
+	<table>
 		<tr>
 			<th>Date</th>
 			<th>Category</th>

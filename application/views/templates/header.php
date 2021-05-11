@@ -234,12 +234,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <p>My Permit</p>
                 </a>
               </li>
+              <?php if($userData['user_is_manage']== 1):?>
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Summary</p>
+                <a href="<?= base_url('docline');?>" class="nav-link">
+                  <i class="fa fa-list nav-icon"></i>
+                  <p>Docline</p>
                 </a>
               </li>
+              <?php else:?>
+              <?php endif;?>
               <hr>
               <li>
               Developed by: 
