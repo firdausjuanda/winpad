@@ -568,7 +568,7 @@ class Work extends CI_Controller{
 					$this->db->insert('tb_notif', $data_notif);
 				} 
 			} else {}
-		};die;
+		}
         if($this->Email_model->sendCommentEmail(
             $work_area, 
             $work_exact_place,
