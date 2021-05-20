@@ -20,7 +20,7 @@ class Docline extends CI_Controller {
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('doc/index',$data);
@@ -35,7 +35,7 @@ class Docline extends CI_Controller {
         $data['all_licence'] = $this->Doc_model->getAllLicence();
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('doc/list_licence',$data);
@@ -50,7 +50,7 @@ class Docline extends CI_Controller {
         $data['this_licence'] = $this->Doc_model->getThisLicence($id);
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('doc/upload_doc_licence',$data);
@@ -68,7 +68,7 @@ class Docline extends CI_Controller {
             $data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
-			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
             $this->load->view('templates/header',$data);
             $this->load->view('doc/add_licence',$data);
@@ -123,7 +123,7 @@ class Docline extends CI_Controller {
             $data['this_licence'] = $this->Doc_model->getThisLicence($id);
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
-			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
             $this->load->view('templates/header',$data);
             $this->load->view('doc/edit_licence',$data);

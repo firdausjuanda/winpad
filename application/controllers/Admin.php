@@ -27,7 +27,7 @@ class Admin extends CI_Controller{
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('admin/index',$data);
@@ -44,7 +44,7 @@ class Admin extends CI_Controller{
         );
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('admin/user',$data);

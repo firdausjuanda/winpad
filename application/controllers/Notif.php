@@ -22,7 +22,7 @@ class Notif extends CI_Controller{
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
-			$data['notif'] = $this->Notif_model->getMyCompanyNotifNoLimit($company);
+			$data['notif'] = $this->Notif_model->getMyCompanyNotifNoLimit($user_id);
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();

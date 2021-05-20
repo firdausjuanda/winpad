@@ -32,7 +32,7 @@ class Profile extends CI_Controller{
         $data['count_user_comment'] = $this->User_model->countUserComment($user_id);
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('profile/index',$data);
@@ -57,7 +57,7 @@ class Profile extends CI_Controller{
         }
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('profile/user_profile',$data);
@@ -76,7 +76,7 @@ class Profile extends CI_Controller{
             $data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
-			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
             $this->load->view('templates/header',$data);
             $this->load->view('profile/index',$data);

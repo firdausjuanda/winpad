@@ -32,7 +32,7 @@ class Permit extends CI_Controller{
         }
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
@@ -48,7 +48,7 @@ class Permit extends CI_Controller{
         $data['this_work'] = $this->Work_model->getThisWork($id);
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
@@ -67,7 +67,7 @@ class Permit extends CI_Controller{
         $data['user'] = $this->User_model->getAllUser();
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/add_attach',$data);
@@ -155,7 +155,7 @@ class Permit extends CI_Controller{
         $data['user'] = $this->User_model->getAllUser();
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/add_complete_pic',$data);
@@ -245,7 +245,7 @@ class Permit extends CI_Controller{
                 $data['user'] = $this->User_model->getAllUser();
 				$company = $data['userData']['user_company'];
 				$user_id = $data['userData']['user_id'];
-				$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+				$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 				$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
                 $this->load->view('templates/header',$data);
                 $this->load->view('permit/new_permit',$data);
@@ -426,7 +426,7 @@ class Permit extends CI_Controller{
         }
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
@@ -453,7 +453,7 @@ class Permit extends CI_Controller{
         }
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);

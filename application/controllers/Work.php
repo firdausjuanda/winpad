@@ -24,7 +24,8 @@ class Work extends CI_Controller{
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
-			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
+			// var_dump($data['notif']);die;
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
@@ -51,7 +52,7 @@ class Work extends CI_Controller{
 			$data['comment'] = $this->Comment_model->getWorkComment();
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
-			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
 			$this->load->view('templates/header',$data);
             $this->load->view('work/work_history',$data);
@@ -86,7 +87,7 @@ class Work extends CI_Controller{
                 $data['user'] = $this->User_model->getAllUser();
 				$company = $data['userData']['user_company'];
 				$user_id = $data['userData']['user_id'];
-				$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+				$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 				$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
                 $this->load->view('templates/header',$data);
                 $this->load->view('work/new_work',$data);
@@ -208,7 +209,7 @@ class Work extends CI_Controller{
 			$data['comment'] = $this->Comment_model->getWorkComment();
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
-			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
 			$this->load->view('templates/header',$data);
             $this->load->view('work/detail_work',$data);
@@ -229,7 +230,7 @@ class Work extends CI_Controller{
         $data['work'] = $this->Work_model->getThisWork($id);
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('work/complete_work',$data);
@@ -613,7 +614,7 @@ class Work extends CI_Controller{
         }
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('work/my_work',$data);
@@ -635,7 +636,7 @@ class Work extends CI_Controller{
         }
 		$company = $data['userData']['user_company'];
 		$user_id = $data['userData']['user_id'];
-		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('work/my_work',$data);
