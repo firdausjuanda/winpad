@@ -109,7 +109,7 @@
 							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_title'];?></td></a>
 							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_description'];?></td></a>
 							<td class="mailbox-attachment">
-							<?php if($mp['work_status']=='OPN'):?>
+							
 							<div class="btn-group">
 								<?php if($title=='Unreleased Permit'||'This Work Permit'):?>
 									<button style="color: <?php if($mp['permit_attach_status']==0){echo 'red';}elseif($mp['permit_attach_status']==1){echo 'green';}else{echo 'blue';}?>;" class="btn btn-default"><i class="fa <?php if($mp['permit_attach_status']==0){echo 'fa-times';}else{echo 'fa-check';}?>"></i></button>
@@ -121,108 +121,119 @@
 								</button>
 									<?php if($title=='Unreleased Permit'):?>
 									<div class="dropdown-menu" role="menu">
+									<?php if($mp['work_company'] != $userData['user_company']):?>
+									<?php else:?>
 										<?php if($mp['permit_attach']==null):?>
 										<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Add Attachment</a>
 										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
 										<?php else:?>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
-										<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Change Attachment</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
+											<?php if($mp['work_status']=='OPN'):?>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+												<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Change Attachment</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
+											<?php else:?>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+											<?php endif;?>
 										<?php endif;?>
+									<?php endif;?>
 									</div>
 									<?php elseif($title=='In Progress Permit'):?>
-										<div class="dropdown-menu" role="menu">
-										<?php if($mp['permit_attach_status']==1):?>
-										<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Add Picture</a>
-										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
-										<?php elseif($mp['permit_attach_status']==2):?>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
-										<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Change Attachment</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
+										<?php if($mp['work_company'] != $userData['user_company']):?>
 										<?php else:?>
+											<div class="dropdown-menu" role="menu">
+											<?php if($mp['permit_attach_status']==1):?>
+												<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Add Picture</a>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
+											<?php elseif($mp['permit_attach_status']==2):?>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
+												<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Change Picture</a>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+												<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Change Attachment</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
+											<?php else:?>
+											<?php endif;?>
 										<?php endif;?>
 									</div>
 									<?php elseif($title=='This Work Permit'):?>
 										<div class="dropdown-menu" role="menu">
 										<?php if($mp['permit_attach_status']==0):?>
-											<?php if($this_work['work_user']!=$userData['user_username']):?>
+											<?php if($this_work['work_company']!=$userData['user_company']):?>
 											<?php else:?>
 												<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Add Attachment</a>
 												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
 											<?php endif;?>
 										<?php elseif($mp['permit_attach_status']==1):?>
-											<?php if($this_work['work_user']!=$userData['user_username']):?>
+											<?php if($this_work['work_company']!=$userData['user_company']):?>
 											<?php else:?>
 												<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Add Picture</a>
 											<?php endif;?>
 												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
-											<?php if($this_work['work_user']!=$userData['user_username']):?>
+											<?php if($this_work['work_company']!=$userData['user_company']):?>
 											<?php else:?>
 												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
 											<?php endif;?>
 										<?php elseif($mp['permit_attach_status']==2):?>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
-											<?php if($this_work['work_user']!=$userData['user_username']):?>
-											<?php else:?>
-										<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_attach'];?>">Change Picture</a>
-											<?php endif;?>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
-											<?php if($this_work['work_user']!=$userData['user_username']):?>
-											<?php else:?>
-										<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Change Attachment</a>
-											<?php endif;?>
-											<?php if($this_work['work_user']!=$userData['user_username']):?>
-											<?php else:?>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
-											<?php endif;?>
+											<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
+												<?php if($this_work['work_company']!=$userData['user_company']):?>
+												<?php else:?>
+													<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_attach'];?>">Change Picture</a>
+												<?php endif;?>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+												<?php if($this_work['work_company']!=$userData['user_company']):?>
+												<?php else:?>
+													<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Change Attachment</a>
+												<?php endif;?>
+												<?php if($this_work['work_company']!=$userData['user_company']):?>
+												<?php else:?>
+													<div class="dropdown-divider"></div>
+													<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
+												<?php endif;?>
 										<?php else:?>
 										<?php endif;?>
 										</div>
 										<?php elseif($title=='My All Permit'):?>
 										<div class="dropdown-menu" role="menu">
 										<?php if($mp['permit_attach_status']==0):?>
-											<?php if($mp['work_user']!=$userData['user_username']):?>
+											<?php if($mp['work_company']!=$userData['user_company']):?>
 											<?php else:?>
 												<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Add Attachment</a>
 												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
 											<?php endif;?>
 										<?php elseif($mp['permit_attach_status']==1):?>
-											<?php if($mp['work_user']!=$userData['user_username']):?>
+											<?php if($mp['work_company']!=$userData['user_company']):?>
 											<?php else:?>
 												<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Add Picture</a>
 											<?php endif;?>
 												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
-											<?php if($mp['work_user']!=$userData['user_username']):?>
+											<?php if($mp['work_company']!=$userData['user_company']):?>
 											<?php else:?>
 												<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
 											<?php endif;?>
 										<?php elseif($mp['permit_attach_status']==2):?>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
-											<?php if($mp['work_user']!=$userData['user_username']):?>
-											<?php else:?>
-										<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_attach'];?>">Change Picture</a>
-											<?php endif;?>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
-											<?php if($mp['work_user']!=$userData['user_username']):?>
-											<?php else:?>
-										<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Change Attachment</a>
-											<?php endif;?>
-											<?php if($mp['work_user']!=$userData['user_username']):?>
-											<?php else:?>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
-											<?php endif;?>
+											<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
+												<?php if($mp['work_company']!=$userData['user_company']):?>
+												<?php else:?>
+											<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_attach'];?>">Change Picture</a>
+												<?php endif;?>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+												<?php if($mp['work_company']!=$userData['user_company']):?>
+												<?php else:?>
+											<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Change Attachment</a>
+												<?php endif;?>
+												<?php if($mp['work_company']!=$userData['user_company']):?>
+												<?php else:?>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="<?= base_url('permit/delete_permit/').$mp['permit_id'];?>">Delete Permit</a>
+												<?php endif;?>
 										<?php else:?>
 										<?php endif;?>
 										</div>
 									<?php endif;?>
-								<?php else:?>
-								<?php endif;?>
 							</div>
 							</td>
 						</tr>
