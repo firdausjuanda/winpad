@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="media dropdown-item">
 						<div class="media-body">
 							<h3 class="dropdown-item-title">
-								<strong>No recent recent activity</strong> 
+								<strong>No recent activity</strong> 
 								<span class="float-right text-sm text-danger"></span>
 							</h3>
 							<p class="text-sm">Activities will listed here</p>
