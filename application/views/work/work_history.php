@@ -1,38 +1,21 @@
 
 <?= $this->session->flashdata('message'); ?>
 
-<?php 
-$today = date('Y-m-d');
-$hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
-
-?>
-
-
 <div class="row">
   <div class="col-md-8">
-
-		<!-- <div class="alert alert-success alert-dismissible">
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<h5><i class="icon fas fa-info"></i> Fitur Baru!</h5>
-			<p><i class="icon fas fa-check"></i>Sudah Bisa ganti photo profile</p>
-			<p><i class="icon fas fa-check"></i>Notifikasi dibagian atas</p>
-			<p><i class="icon fas fa-check"></i>Workline History</p>
-		</div> -->
-
     <div class="row">
-      <div class="div col-6">
-        <a href="<?= base_url('work/work_history') ?>" class="btn btn-default bg-gradient btn-block mb-2"><i class="fas fa-clock mr-1"> </i>  History</a>
-      </div>
-      <div class="div col-6">
-        <a href="<?= base_url('work/new_work') ?>" class="btn btn-default bg-gradient btn-block mb-2"><i class="fas fa-plus mr-1"> </i>  New Work</a>
-      </div>
+      <!-- <div class="div col-6">
+        <a href="<?= base_url('work/new_work') ?>" class="btn btn-default bg-gradient btn-block mb-2"><i class="fas fa-list mr-1"> </i>  Archieve</a>
+      </div> -->
+		<div class="mb-2">
+			<div class="col-12">
+				<a class="btn btn-default" href="<?= base_url('work') ?>"><i class="fa fa-arrow-left"></i></a>
+			</div>
+		</div>
     </div>
-		
-	    
-      <p class="m-1" style="font-style: italic; color:dimgray;">Work will be dissapeared 3 days after status CLS.</p>
+	
+    <p class="m-1" style="font-style: italic; color:dimgray;">Only Work status CLS will be listed here.</p>
 	<?php foreach( $work as $w) :?>
-  <?php if($w['work_status'] == 'CLS'):?>
-    <?php if($w['work_date_close'] > $hidden_day):?>
       <div class="row">
       <div class="col-md-12">
                 <!-- Box Comment -->
@@ -41,47 +24,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                     <div class="user-block">
                       <img class="img-circle" src="<?= base_url('assets/img/profile/').$w['user_profile'];?>" alt="User Image">
                       <span class="username" ><a style="color: black;" href="<?= base_url('profile/user/').$w['user_username'];?>"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
-                      <span class="description"><span class="badge <?php $status = $w['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $w['work_status'];?></span> | <?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : 
-												<?php 
-					$date = $w['work_date_created'];
-					if(empty($date)) {
-						return "No date provided";
-					}
-					
-					$periods         = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
-					$lengths         = array("60","60","24","7","4.35","12","10");
-					$now             = time();
-					$unix_date         = strtotime($date);
-					
-						// check validity of date
-					if(empty($unix_date)) {   
-						return "Bad date";
-					}
-				
-					// is it future date or past date
-					if($now > $unix_date) {   
-						$difference     = $now - $unix_date;
-						$tense         = "ago";
-						
-					} else {
-						$difference     = $unix_date - $now;
-						$tense         = "from now";
-					}
-					
-					for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-						$difference /= $lengths[$j];
-					}
-					
-					$difference = round($difference);
-					
-					if($difference != 1) {
-						$periods[$j].= "s";
-					}
-					
-					echo "$difference $periods[$j] {$tense}";
-					
-					?>
-											</span>
+                      <span class="description"><span class="badge <?php $status = $w['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $w['work_status'];?></span> | <?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : <?= date_format(date_create($w['work_date_created']),'j M y (H:i)');?></span>
                     </div>
                   </div>
                   <!-- /.card-header -->
@@ -146,9 +89,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                 </div>
                 <!-- /.card -->
               </div>
-      </div>    
-    <?php endif;?>
-  <?php else:?>
+      </div> 
     <div class="row">
     <div class="col-md-12">
               <!-- Box Comment -->
@@ -157,48 +98,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                   <div class="user-block">
                     <img class="img-circle" src="<?= base_url('assets/img/profile/').$w['user_profile'];?>" alt="User Image">
                     <span class="username" ><a style="color: black;" href="<?= base_url('profile/user/').$w['user_username'];?>"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
-                    <span class="description"><span class="badge <?php $status = $w['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $w['work_status'];?></span> | <?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : 
-										
-											<?php 
-					$date = $w['work_date_created'];
-					if(empty($date)) {
-						return "No date provided";
-					}
-					
-					$periods         = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
-					$lengths         = array("60","60","24","7","4.35","12","10");
-					$now             = time();
-					$unix_date         = strtotime($date);
-					
-						// check validity of date
-					if(empty($unix_date)) {   
-						return "Bad date";
-					}
-				
-					// is it future date or past date
-					if($now > $unix_date) {   
-						$difference     = $now - $unix_date;
-						$tense         = "ago";
-						
-					} else {
-						$difference     = $unix_date - $now;
-						$tense         = "from now";
-					}
-					
-					for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-						$difference /= $lengths[$j];
-					}
-					
-					$difference = round($difference);
-					
-					if($difference != 1) {
-						$periods[$j].= "s";
-					}
-					
-					echo "$difference $periods[$j] {$tense}";
-					
-					?>
-										</span>
+                    <span class="description"><span class="badge <?php $status = $w['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $w['work_status'];?></span> | <?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : <?= date_format(date_create($w['work_date_created']),'j M y (H:i)');?></span>
                   </div>
                 </div>
                 <!-- /.card-header -->
@@ -232,49 +132,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                     <div class="comment-text">
                       <span class="username">
                         <a href="<?= base_url('profile/user/').$c['user_username'];?>"><?= $c['user_firstname'];?> <?= $c['user_lastname'];?> (<?= $c['user_company'];?>)</a>
-                        <span class="text-muted float-right">
-												
-												<?php 
-					$date = $c['comment_date_created'];
-					if(empty($date)) {
-						return "No date provided";
-					}
-					
-					$periods         = array("sec", "min", "hour", "day", "week", "month", "year", "decade");
-					$lengths         = array("60","60","24","7","4.35","12","10");
-					$now             = time();
-					$unix_date         = strtotime($date);
-					
-						// check validity of date
-					if(empty($unix_date)) {   
-						return "Bad date";
-					}
-				
-					// is it future date or past date
-					if($now > $unix_date) {   
-						$difference     = $now - $unix_date;
-						$tense         = "ago";
-						
-					} else {
-						$difference     = $unix_date - $now;
-						$tense         = "from now";
-					}
-					
-					for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-						$difference /= $lengths[$j];
-					}
-					
-					$difference = round($difference);
-					
-					if($difference != 1) {
-						$periods[$j].= "s";
-					}
-					
-					echo "$difference $periods[$j] {$tense}";
-					
-					?>
-
-												</span>
+                        <span class="text-muted float-right"><?php echo date_format(date_create($c['comment_date_created']),'j M y (H:i)');?></span>
                       </span><!-- /.username -->
                       <?= $c['comment_text'];?>
                     </div>
@@ -302,7 +160,6 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
               <!-- /.card -->
             </div>
     </div>
-  <?php endif;?>
 	
 	<?php endforeach;?>
   </div>

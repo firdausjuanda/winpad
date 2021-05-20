@@ -10,6 +10,8 @@ class Work extends CI_Controller{
         $this->load->model('Email_model');
         $this->load->model('Permit_model');
         $this->load->model('Comment_model');
+        $this->load->model('Notif_model');
+        $this->load->model('Time_model');
         $this->load->helper(array('form', 'url'));
         date_default_timezone_set('Asia/Jakarta');
     }
@@ -20,11 +22,39 @@ class Work extends CI_Controller{
 			$data['title'] = "Workline";
 			$usernameFromSession = $this->session->userdata('username');
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+			$company = $data['userData']['user_company'];
+			$user_id = $data['userData']['user_id'];
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
 			$data['comment'] = $this->Comment_model->getWorkComment();
 			$this->load->view('templates/header',$data);
             $this->load->view('work/all_work',$data);
+            $this->load->view('templates/footer',$data);
+		}
+		else
+		{	
+			$this->session->set_flashdata('message','Please login!');
+			redirect('login');
+		}
+    }
+    public function work_history()
+    {
+        if($this->session->userdata('id'))
+		{
+			$data['title'] = "Workline History";
+			$usernameFromSession = $this->session->userdata('username');
+			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+			$data['user'] = $this->User_model->getAllUser();
+			$data['work'] = $this->Work_model->getHistoryWork();
+			$data['comment'] = $this->Comment_model->getWorkComment();
+			$company = $data['userData']['user_company'];
+			$user_id = $data['userData']['user_id'];
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
+			$this->load->view('templates/header',$data);
+            $this->load->view('work/work_history',$data);
             $this->load->view('templates/footer',$data);
 		}
 		else
@@ -54,6 +84,10 @@ class Work extends CI_Controller{
                 $usernameFromSession = $this->session->userdata('username');
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
                 $data['user'] = $this->User_model->getAllUser();
+				$company = $data['userData']['user_company'];
+				$user_id = $data['userData']['user_id'];
+				$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+				$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
                 $this->load->view('templates/header',$data);
                 $this->load->view('work/new_work',$data);
                 $this->load->view('templates/footer',$data);
@@ -172,6 +206,10 @@ class Work extends CI_Controller{
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getThisWork($id);
 			$data['comment'] = $this->Comment_model->getWorkComment();
+			$company = $data['userData']['user_company'];
+			$user_id = $data['userData']['user_id'];
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
 			$this->load->view('templates/header',$data);
             $this->load->view('work/detail_work',$data);
             $this->load->view('templates/footer',$data);
@@ -189,6 +227,10 @@ class Work extends CI_Controller{
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
         $data['user'] = $this->User_model->getAllUser();
         $data['work'] = $this->Work_model->getThisWork($id);
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('work/complete_work',$data);
         $this->load->view('templates/footer',$data);
@@ -447,18 +489,86 @@ class Work extends CI_Controller{
         $user_commenter_firstname = $user_commenter['user_firstname'];
         $user_commenter_lastname = $user_commenter['user_lastname'];
         $user_commenter_company = $user_commenter['user_company'];
+        $uId = $user_commenter['user_id'];
         $work_area = $work_data['work_area'];
         $work_exact_place = $work_data['work_exact_place'];
         $work_title = $work_data['work_title'];
         $work_company = $work_data['work_company'];
         $company = $work_data['work_company'];
         $email_worker = $this->User_model->getThisEmailUser($company);
+        $workers_id = $this->User_model->getIdsWorkers($company);
         $usernameFromSession = $this->session->userdata('username');
         $user_data = $this->User_model->userSession($usernameFromSession);
         $email_managers = $this->User_model->getEmailManagers();
+        $managers_id = $this->User_model->getIdsManagers();
+		$mId = $managers_id;
+		$wId = $workers_id;
         $area = $work_area;
+		$area_id = $this->User_model->getIdsArea($area);
+		$aId = $area_id;
         $email_area = $this->User_model->getEmailArea($area);
         $email_user = $user_data['user_email'];
+		//send by admin -> return ke admin
+		//send by user -> return 0 admin 0
+		foreach($wId as $val){
+			if($val['notif_user_to'] != $user_data['user_id']) {
+				if($val['user_is_manage']==1){
+					} else {
+						$data_notif = array(
+							'notif_user_by' => $uId,
+							'notif_user_to' => $val['notif_user_to'],
+							'notif_company_to' => $val['notif_company_to'],
+							'notif_message' => 'Commented on work '.$work_data['work_title'],
+							'notif_status' => 0,
+							'notif_type' => 'comment',
+							'notif_link' => 'work/detail_work/'.$id,
+						);
+						// var_dump($data_notif);die;
+						$this->db->insert('tb_notif', $data_notif);
+					}
+			} else {}
+		}
+
+		// send by user -> admin 1 | other user 0
+		// send by admin -> admin 0 | other user 1 | coba 0
+		foreach($mId as $val){
+			if($val['notif_user_to'] != $user_data['user_id']) {
+				if($val['user_is_manage'] != 1){
+				} else {
+					$data_notif = array(
+						'notif_user_by' => $uId,
+						'notif_user_to' => $val['notif_user_to'],
+						'notif_company_to' => $val['notif_company_to'],
+						'notif_message' => 'Commented on work '.$work_data['work_title'],
+						'notif_status' => 0,
+						'notif_type' => 'comment',
+						'notif_link' => 'work/detail_work/'.$id,
+					);
+					// var_dump($data_notif);
+					$this->db->insert('tb_notif', $data_notif);
+				}
+			} else {}
+		}
+		// send by coba -> admin 0 | other user 0
+
+		foreach($aId as $val){
+			if($val['notif_user_to'] != $user_data['user_id']) {
+				if($val['user_is_manage'] == 1){
+				}else {
+					$data_notif = array(
+						'notif_user_by' => $uId,
+						'notif_user_to' => $val['notif_user_to'],
+						'notif_company_to' => $val['notif_company_to'],
+						'notif_message' => 'Commented on work '.$work_data['work_title'],
+						'notif_status' => 0,
+						'notif_type' => 'comment',
+						'notif_link' => 'work/detail_work/'.$id,
+					);
+					// var_dump($data_notif);
+					$this->db->insert('tb_notif', $data_notif);
+				} 
+			} else {}
+		};die;
         if($this->Email_model->sendCommentEmail(
             $work_area, 
             $work_exact_place,
@@ -485,7 +595,8 @@ class Work extends CI_Controller{
             $redirect_path = 'work/';
             redirect($redirect_path);
         }
-    }
+   	}
+	
 
     public function my_work()
     {
@@ -500,6 +611,10 @@ class Work extends CI_Controller{
         {
             $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
         }
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('work/my_work',$data);
         $this->load->view('templates/footer',$data);
@@ -518,6 +633,10 @@ class Work extends CI_Controller{
         {
             $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin($usernameFromSession);
         }
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('work/my_work',$data);
         $this->load->view('templates/footer',$data);

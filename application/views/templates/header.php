@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/fontawesome-free/css/all.min.css'?> ">
 
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
 
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'?> ">
 
@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/daterangepicker/daterangepicker.css'?> ">
 
-  <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/summernote/summernote-bs4.min.css'?> ">
+  <!-- <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/summernote/summernote-bs4.min.css'?> "> -->
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm">
 <div class="wrapper">
@@ -77,67 +77,102 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        <!-- <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a> -->
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <?php if(!$count_notif):?>
+					<?php else:?>
+					<span class="badge badge-danger navbar-badge"><?= $count_notif?></span>
+					<?php endif;?>
+        </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="<?= base_url('assets/vendor/admin-lte/').'dist/img/user1-128x128.jpg';?>" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
+				<?php if(!$notif):?>
+					<div class="media dropdown-item">
+						<div class="media-body">
+							<h3 class="dropdown-item-title">
+								<strong>No recent recent activity</strong> 
+								<span class="float-right text-sm text-danger"></span>
+							</h3>
+							<p class="text-sm">Activities will listed here</p>
+						</div>
+					</div>
+				<?php else:?>
+					<?php foreach ($notif as $n):?>
+					<?php if($n['notif_user_to']!=$userData['user_id']):?>
+					<?php else:?>
+						<a href="<?= base_url('notif/goto/').$n['notif_id'];?>" class="dropdown-item">
+							<!-- Message Start -->
+							<div class="media">
+								<img src="<?= base_url('assets/img/profile/').$n['user_profile'];?>" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+								<div class="media-body">
+									<h3 style="
+										font-weight:<?php if($n['notif_status']==0){echo 'bold';}else{ echo 'normal';}?>;
+									" class="dropdown-item-title">
+										<?= $n['user_firstname']?> <?= $n['user_lastname']?>
+										<span class="float-right text-sm text-danger"></span>
+									</h3>
+									<p class="text-sm"><?= $n['notif_message'];?></p>
+									<p class="text-sm text-muted">
+									
+									<?php 
+									$date = $n['notif_date_created'];
+									if(empty($date)) {
+										return "No date provided";
+									}
+									
+									$periods         = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+									$lengths         = array("60","60","24","7","4.35","12","10");
+									$now             = time();
+									$unix_date       = strtotime($date);
+									
+										// check validity of date
+									if(empty($unix_date)) {   
+										return "Bad date";
+									}
+								
+									// is it future date or past date
+									if($now > $unix_date) {   
+										$difference     = $now - $unix_date;
+										$tense         = "ago";
+										
+									} else {
+										$difference     = $unix_date - $now;
+										$tense         = "from now";
+									}
+									
+									for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+										$difference /= $lengths[$j];
+									}
+									
+									$difference = round($difference);
+									
+									if($difference != 1) {
+										$periods[$j].= "s";
+									}
+									
+									echo "$difference $periods[$j] {$tense}";
+									
+									?>
+									
+									
+									</p>
+								</div>
+							</div>
+							<!-- Message End -->
+						</a>
+						<?php endif;?>
+						<?php endforeach;?>
+					
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="<?= base_url('assets/vendor/admin-lte/').'dist/img/user8-128x128.jpg';?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="<?= base_url('assets/vendor/admin-lte/').'dist/img/user3-128x128.jpg';?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+          <a href="<?= base_url('notif');?>" class="dropdown-item dropdown-footer">See All Notifications</a>
+					<?php endif;?>
         </div>
+
       </li>
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <!-- <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-danger navbar-badge">15</span>
         </a> -->
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -160,11 +195,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
-      </li>
+      </li> -->
       <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>

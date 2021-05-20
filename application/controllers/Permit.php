@@ -8,12 +8,16 @@ class Permit extends CI_Controller{
         $this->load->model('Work_model');
         $this->load->model('Permit_model');
         $this->load->model('Email_model');
+        $this->load->model('Notif_model');
+        $this->load->helper(array('form', 'url'));
+        date_default_timezone_set('Asia/Jakarta');
     }
     public function index()
     {
         $data['title'] = 'Unreleased Permit';
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$company = $data['userData']['user_company'];
         if($data['userData']['user_role']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin();
@@ -21,11 +25,15 @@ class Permit extends CI_Controller{
         elseif($data['userData']['user_is_manage']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getOpenPermitForAdmin();
-        }
+		}
         else
         {
-            $data['my_permit'] = $this->Permit_model->getOpenPermit($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getOpenPermitByCompany($company);
         }
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);
@@ -38,6 +46,10 @@ class Permit extends CI_Controller{
 		$data['userData'] = $this->User_model->userSession($usernameFromSession);
         $data['my_permit'] = $this->Permit_model->getThisPermit($id);
         $data['this_work'] = $this->Work_model->getThisWork($id);
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);
@@ -53,6 +65,10 @@ class Permit extends CI_Controller{
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
         $data['workData'] = $this->Permit_model->getWorkByPermit($id);
         $data['user'] = $this->User_model->getAllUser();
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/add_attach',$data);
         $this->load->view('templates/footer',$data);
@@ -137,6 +153,10 @@ class Permit extends CI_Controller{
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
         $data['workData'] = $this->Permit_model->getWorkByPermit($id);
         $data['user'] = $this->User_model->getAllUser();
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/add_complete_pic',$data);
         $this->load->view('templates/footer',$data);
@@ -223,6 +243,10 @@ class Permit extends CI_Controller{
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
                 $data['workData'] = $this->Work_model->getThisWork($id);
                 $data['user'] = $this->User_model->getAllUser();
+				$company = $data['userData']['user_company'];
+				$user_id = $data['userData']['user_id'];
+				$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+				$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
                 $this->load->view('templates/header',$data);
                 $this->load->view('permit/new_permit',$data);
                 $this->load->view('templates/footer',$data);
@@ -301,12 +325,12 @@ class Permit extends CI_Controller{
     public function release_permit()
     {
         $user_name = $this->session->userdata('username');
-        $permit_to_release = $this->Permit_model->getPermitToRelease($user_name);
         $permit_to_send = $this->Permit_model->getPermitToSend($user_name);
-        $work_id_to_send = $this->Permit_model->getPermitWorkIdToSend($user_name);
         $permit_area_to_send = $this->Permit_model->getPermitAreaToSend($user_name);
         $usernameFromSession = $this->session->userdata('username');
         $user_data = $this->User_model->userSession($usernameFromSession);
+		$company = $user_data['user_company'];
+		$permit_to_release = $this->Permit_model->getPermitToReleaseByCompany($company);
         if(!$permit_to_release)
         {
             $data = array(
@@ -356,8 +380,11 @@ class Permit extends CI_Controller{
     }
     public function complete_permit()
     {
-        $user_name = $this->session->userdata('username');
-        $permit_to_complete = $this->Permit_model->getPermitToComplete($user_name);
+		$usernameFromSession = $this->session->userdata('username');
+        $user_data = $this->User_model->userSession($usernameFromSession);
+		$company = $user_data['user_company'];
+		$user_name = $user_data['user_username'];
+        $permit_to_complete = $this->Permit_model->getPermitToCompleteByCompany($company);
         if(!$permit_to_complete)
         {
             $data = array(
@@ -384,6 +411,7 @@ class Permit extends CI_Controller{
         $data['title'] = 'My All Permit';
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$company = $data['userData']['user_company'];
         if($data['userData']['user_role']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getAllPermit();
@@ -394,8 +422,12 @@ class Permit extends CI_Controller{
         }
         else 
         {
-            $data['my_permit'] = $this->Permit_model->getMyPermit($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getMyPermitByCompany($company);
         }
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);
@@ -405,6 +437,7 @@ class Permit extends CI_Controller{
         $data['title'] = 'In Progress Permit';
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$company = $data['userData']['user_company'];
         
         if($data['userData']['user_role']== 1)
         {
@@ -416,8 +449,12 @@ class Permit extends CI_Controller{
         }
         else 
         {
-            $data['my_permit'] = $this->Permit_model->getMyProgPermit($usernameFromSession);
+            $data['my_permit'] = $this->Permit_model->getMyProgPermitByCompany($company);
         }
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);

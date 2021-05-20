@@ -21,6 +21,16 @@ class Permit_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+	public function getMyPermitByCompany($company){ 
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
+        $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->where('user_company', $company, 'left');
+        $this->db->order_by('permit_id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function getOpenPermitForAdmin(){
         $this->db->select('*');
         $this->db->from('tb_permit');
@@ -52,6 +62,17 @@ class Permit_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+	public function getOpenPermitByCompany($company){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
+        $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->where('user_company', $company, 'left');
+        $this->db->where('permit_status', 'OPN', 'left');
+        $this->db->order_by('permit_id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function getAllMyPermit($usernameFromSession){
         $this->db->select('*');
         $this->db->from('tb_permit');
@@ -68,6 +89,17 @@ class Permit_model extends CI_Model {
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
         $this->db->where('user_username', $usernameFromSession, 'left');
+        $this->db->where('permit_status', 'REL', 'left');
+        $this->db->order_by('permit_id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+	public function getMyProgPermitByCompany($company){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
+        $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->where('user_company', $company, 'left');
         $this->db->where('permit_status', 'REL', 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
@@ -109,6 +141,15 @@ class Permit_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+	public function getPermitToReleaseByCompany($company){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->where('permit_status','OPN');
+        $this->db->where('permit_company',$company);
+        $this->db->where('permit_attach_status', 0);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function getPermitToSend($user_name){
         $this->db->select('*');
         $this->db->from('tb_permit');
@@ -145,6 +186,15 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->where('permit_status','REL');
         $this->db->where('permit_user',$user_name);
+        $this->db->where('permit_attach_status', 1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function getPermitToCompleteByCompany($company){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->where('permit_status','REL');
+        $this->db->where('permit_company',$company);
         $this->db->where('permit_attach_status', 1);
         $query = $this->db->get();
         return $query->result_array();

@@ -8,6 +8,9 @@ class Docline extends CI_Controller {
         parent::__construct();
         $this->load->model('User_model');
         $this->load->model('Doc_model');
+        $this->load->model('Notif_model');
+        $this->load->helper(array('form', 'url'));
+        date_default_timezone_set('Asia/Jakarta');
     }
 
     public function index()
@@ -15,6 +18,10 @@ class Docline extends CI_Controller {
         $data['title'] = "Docline";
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('doc/index',$data);
         $this->load->view('templates/footer',$data);
@@ -26,6 +33,10 @@ class Docline extends CI_Controller {
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
         $data['all_licence'] = $this->Doc_model->getAllLicence();
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('doc/list_licence',$data);
         $this->load->view('templates/footer',$data);
@@ -37,6 +48,10 @@ class Docline extends CI_Controller {
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
         $data['this_licence'] = $this->Doc_model->getThisLicence($id);
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('doc/upload_doc_licence',$data);
         $this->load->view('templates/footer',$data);
@@ -51,6 +66,10 @@ class Docline extends CI_Controller {
             $data['title'] = "Add Licence";
             $usernameFromSession = $this->session->userdata('username');
             $data['userData'] = $this->User_model->userSession($usernameFromSession);
+			$company = $data['userData']['user_company'];
+			$user_id = $data['userData']['user_id'];
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
             $this->load->view('templates/header',$data);
             $this->load->view('doc/add_licence',$data);
             $this->load->view('templates/footer',$data);
@@ -102,6 +121,10 @@ class Docline extends CI_Controller {
             $usernameFromSession = $this->session->userdata('username');
             $data['userData'] = $this->User_model->userSession($usernameFromSession);
             $data['this_licence'] = $this->Doc_model->getThisLicence($id);
+			$company = $data['userData']['user_company'];
+			$user_id = $data['userData']['user_id'];
+			$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
             $this->load->view('templates/header',$data);
             $this->load->view('doc/edit_licence',$data);
             $this->load->view('templates/footer',$data);
@@ -209,7 +232,7 @@ class Docline extends CI_Controller {
         {   
             $err = $this->upload->display_errors();
             $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Fail! $err </div></div>");
-            $redirect_path = 'docline/licence'.$id;
+            $redirect_path = 'docline/licence/'.$id;
             redirect($redirect_path);
         }
     }

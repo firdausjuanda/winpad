@@ -6,6 +6,7 @@ class Admin extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('User_model');
+        $this->load->model('Notif_model');
         $usernameFromSession = $this->session->userdata('username');
         $user = $this->User_model->userSession($usernameFromSession);
         $user_role = $user['user_role'];
@@ -15,12 +16,19 @@ class Admin extends CI_Controller{
             $redirect_path = 'work';
             redirect($redirect_path);
         }
+
+        $this->load->helper(array('form', 'url'));
+        date_default_timezone_set('Asia/Jakarta');
     }
 
     public function index(){
         $data['title'] = 'Administrator';
         $usernameFromSession = $this->session->userdata('username');
         $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('admin/index',$data);
         $this->load->view('templates/footer',$data);
@@ -34,6 +42,10 @@ class Admin extends CI_Controller{
             'userData' => $this->User_model->userSession($usernameFromSession),
             'allUser' => $this->User_model->getAllUser(),
         );
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($company);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
         $this->load->view('templates/header',$data);
         $this->load->view('admin/user',$data);
         $this->load->view('templates/footer',$data);

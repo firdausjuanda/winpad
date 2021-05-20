@@ -70,9 +70,32 @@ class User_model extends CI_Model {
         $this->db->where('user_company', 'NI74', 'left');
         return $this->db->get()->result_array();
     }
+    public function getIdsManagers()
+    {
+        $this->db->distinct();
+        $this->db->select('user_id as `notif_user_to`, user_company as `notif_company_to`, user_is_manage');
+        $this->db->from('tb_user');
+        $this->db->where('user_is_manage', 1, 'left');
+        return $this->db->get()->result_array('user_email');
+    }
+    public function getIdsArea($area)
+    {
+        $this->db->select('user_id as `notif_user_to`, user_company as `notif_company_to`, user_is_manage');
+        $this->db->from('tb_user');
+        $this->db->or_where('user_dept', $area, 'left');
+        $this->db->where('user_company', 'NI74', 'left');
+        return $this->db->get()->result_array();
+    }
     public function getThisEmailUser($company)
     {
         $this->db->select('user_email');
+        $this->db->from('tb_user');
+        $this->db->or_where('user_company', $company, 'left');
+        return $this->db->get()->result_array();
+    }
+    public function getIdsWorkers($company)
+    {
+        $this->db->select('user_id as `notif_user_to`, user_company as `notif_company_to`, user_is_manage');
         $this->db->from('tb_user');
         $this->db->or_where('user_company', $company, 'left');
         return $this->db->get()->result_array();
