@@ -33,7 +33,7 @@ class Email_model extends CI_Model{
         $mail->SMTPSecure = 'ssl';
         $mail->Port     = 465;
         
-        $mail->setFrom('no-reply@firdgroup.com', 'Winpad System [Permit]');
+        $mail->setFrom('no-reply@firdgroup.com', "$user_firstname $user_lastname");
         // $mail->addReplyTo('no-reply@firdgroup.com', 'No Reply');
         
         // Add a recipient
@@ -50,7 +50,7 @@ class Email_model extends CI_Model{
             $mail->addCC($v['user_email']);
         }
         // Email subject
-        $mail->Subject = 'Work Permits Released from '.$user_company;
+        $mail->Subject = 'Work Permits Released';
         
         // Set email format to HTML
         $mail->isHTML(true);
@@ -68,7 +68,7 @@ class Email_model extends CI_Model{
             border-collapse: collapse;
             }
         </style>
-        <p><strong>$user_firstname $user_lastname ($user_company)</strong> has just submitted Work Permits as follows: </p>
+        <p><strong>$user_firstname $user_lastname ($user_company)</strong> has just released the following work permit: </p>
         <table>
             <tr>
                 <th>No.</th>
@@ -156,7 +156,7 @@ class Email_model extends CI_Model{
         $mail->SMTPSecure = 'ssl';
         $mail->Port     = 465;
         
-        $mail->setFrom('no-reply@firdgroup.com', 'Winpad System [Create Work]');
+        $mail->setFrom('no-reply@firdgroup.com', "$user_firstname $user_lastname");
         // $mail->addReplyTo('no-reply@firdgroup.com', 'No Reply');
         
         
@@ -254,7 +254,7 @@ class Email_model extends CI_Model{
         $mail->SMTPSecure = 'ssl';
         $mail->Port     = 465;
         
-        $mail->setFrom('no-reply@firdgroup.com', 'Winpad System [Complete Work]');
+        $mail->setFrom('no-reply@firdgroup.com', "$user_firstname $user_lastname");
         // $mail->addReplyTo('no-reply@firdgroup.com', 'No Reply');
         
         // Add a recipient
@@ -351,7 +351,7 @@ class Email_model extends CI_Model{
         $mail->SMTPSecure = 'ssl';
         $mail->Port     = 465;
         
-        $mail->setFrom('no-reply@firdgroup.com', 'Winpad System [Comments]');
+        $mail->setFrom('no-reply@firdgroup.com', "$user_commenter_firstname $user_commenter_lastname");
         // $mail->addReplyTo('no-reply@firdgroup.com', 'No Reply');
         
         // Add a recipient
@@ -372,7 +372,7 @@ class Email_model extends CI_Model{
             $mail->addCC($v['user_email']);
         }
         // Email subject
-        $mail->Subject = 'Work Commented by '.$user_commenter_firstname.' '.$user_commenter_lastname.' ('.$user_commenter_company.')';
+        $mail->Subject = $work_title;
         
         // Set email format to HTML
         $mail->isHTML(true);
