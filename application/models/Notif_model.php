@@ -13,6 +13,7 @@ class Notif_model extends CI_Model {
 	public function getThisNotif($id){
         $this->db->select('*');
         $this->db->from('tb_notif');
+		$this->db->where('notif_id',$id);
         $query = $this->db->get();
         return $query->row_array();
     }

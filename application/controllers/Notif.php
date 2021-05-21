@@ -41,7 +41,7 @@ class Notif extends CI_Controller{
 	public function goto($id)
     {
 		
-		$notif_data = $this->Notif_model->getThisNotif($id);
+		$notif_data = $this->Notif_model->getThisNotif($id); 
 		$link = $notif_data['notif_link'];
 
 		$data = array(
