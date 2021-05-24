@@ -11,13 +11,14 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
 <div class="row">
   <div class="col-md-8">
 
-		<!-- <div class="alert alert-success alert-dismissible">
+	<?php if(!$bc):?>
+	<?php else:?>
+		<div class="alert alert-success alert-dismissible">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<h5><i class="icon fas fa-info"></i> Fitur Baru!</h5>
-			<p><i class="icon fas fa-check"></i>Sudah Bisa ganti photo profile</p>
-			<p><i class="icon fas fa-check"></i>Notifikasi dibagian atas</p>
-			<p><i class="icon fas fa-check"></i>Workline History</p>
-		</div> -->
+			<h5><i class="icon fas fa-info"></i> <?= $bc['bc_title'];?></h5>
+			<p><i class="icon fas fa-check"></i><?= $bc['bc_message'];?></p>
+		</div>
+		<?php endif;?>
 
     <div class="row">
       <div class="div col-6">

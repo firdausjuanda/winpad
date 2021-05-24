@@ -12,20 +12,21 @@ class Work extends CI_Controller{
         $this->load->model('Comment_model');
         $this->load->model('Notif_model');
         $this->load->model('Time_model');
+        $this->load->model('Bc_model');
         $this->load->helper(array('form', 'url'));
         date_default_timezone_set('Asia/Jakarta');
     }
     public function index()
     {
-        if($this->session->userdata('id'))
+        if($this->session->userdata('id')) 
 		{
 			$data['title'] = "Workline";
 			$usernameFromSession = $this->session->userdata('username');
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+			$data['bc'] = $this->Bc_model->getBc();
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
 			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
-			// var_dump($data['notif']);die;
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
@@ -171,6 +172,7 @@ class Work extends CI_Controller{
             'work_company' => $work_company,
         );
         $this->db->insert('tb_work',$data);
+		
         if(
             $this->Email_model->sendWorkEmail(
             $work_date_open, 
@@ -716,4 +718,65 @@ class Work extends CI_Controller{
         redirect($redirect_path);
         }
     }
+
+	public function delete_work($id)
+	{
+		$work = $this->Work_model->getThisWork($id);
+		$permit = $this->Permit_model->getThisPermit($id);
+
+		//Deleting permits
+        $path_permit = './assets/img/permit/';
+
+		foreach($permit as $val ){
+			if(!$val['permit_attach']){} 
+			else {
+			$file_permit = $path_permit.$val['permit_attach'];
+			if(!unlink($file_permit)){}
+			}
+		}
+
+		//Deleting permit complete pictures
+        $path_permit_comp = './assets/img/permit_complete/';
+
+		foreach($permit as $val_comp ){
+			if(!$val_comp['permit_complete_pic']){} 
+			else {
+			$file_permit_comp = $path_permit_comp.$val_comp['permit_complete_pic'];
+			if(!unlink($file_permit_comp)){}
+			}
+		}
+
+		//Deleting img open
+		$img_open = $work['work_img_open'];
+        $path_img_open = './assets/img/work/';
+        $file_img_open = $path_img_open.$img_open;
+		if(!unlink($file_img_open)){}
+
+		//Deleting permits from MySQL
+		$this->db->where('permit_work_id',$id);
+        $this->db->delete('tb_permit');
+
+		//Deleting comment
+        $this->db->where('comment_work_id',$id);
+        $this->db->delete('tb_comment');
+
+		//Deleting closing permit
+        $close_permit = $work['work_close_permit'];
+        $path_close_permit = './assets/img/permit_complete_work/';
+        $file_close_permit = $path_close_permit.$close_permit;
+		if(!unlink($file_close_permit)){}
+
+		//Deleting img close
+		$img_close = $work['work_img_close'];
+        $path_img_close = './assets/img/work/';
+        $file_img_close = $path_img_close.$img_close;
+		if(!unlink($file_img_close)){}
+
+		//Deleting work
+        $this->db->where('work_id',$id);
+        $this->db->delete('tb_work');
+        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work deleted</div></div>');
+        $redirect_path = 'work';
+        redirect($redirect_path);
+	}
 }

@@ -3,10 +3,11 @@
 <div class="row">
 	<div class="col-md-12">
                 <a class="btn btn-default mb-2" href="<?= base_url('work'); ?>"><i class="fa fa-arrow-left"></i></a>
-                <a href="<?= base_url('permit/this_work_permit/').$work['work_id'];?>" class="btn btn-outline-secondary mb-2"><i class="fa fa-eye"></i> See Permit</a>
+                <a href="<?= base_url('permit/this_work_permit/').$work['work_id'];?>" class="btn btn-outline-secondary mb-2"><i class="fa fa-eye"></i></a>
                 <?php if($work['work_user']!=$userData['user_username']):?>
                 <?php else:?>
-                <a href="<?= base_url('work/complete_work/').$work['work_id'];?>" class="btn btn-outline-success mb-2"><i class="fa fa-check"></i> Complete Work</a>
+                <a href="<?= base_url('work/complete_work/').$work['work_id'];?>" class="btn btn-outline-success mb-2"><i class="fa fa-check"></i></a>
+                <a href="#" data-toggle="modal" data-target="#modal-sm" class="btn btn-outline-danger mb-2"><i class="fa fa-trash"></i></a>
                 <?php endif;?>
                 <!-- Box Comment -->
             <div class="card card-widget">
@@ -117,4 +118,27 @@
             </div>
             <!-- /.card -->
           </div>
+	</div>
+
+	<div class="modal fade" id="modal-sm">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Delete work?</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>All datas related to this work will be deleted permanently, are you sure?
+					</p>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<a href="<?= base_url('work/delete_work/').$work['work_id'];?>" class="btn btn-outline-danger mb-2"><i class="fa fa-trash"></i> Delete</a>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
 	</div>
