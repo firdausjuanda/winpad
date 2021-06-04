@@ -103,11 +103,11 @@
 								}
 							?>
 							"><?= $mp['permit_status'];?></a></td>
-							<td class="mailbox-star"><a style="color: #000;" href="#"><?= number_format($mp['permit_no']);?></a></td>
-							<td class="mailbox-name"><a style="color: #000;" href="#"><?= $mp['permit_user'];?> (<?= $mp['permit_company'];?>)</a></td>
+							<td class="mailbox-star"><a href="#"><?= number_format($mp['permit_no']);?></a></td>
+							<td class="mailbox-name"><a href="#"><?= $mp['permit_user'];?> (<?= $mp['permit_company'];?>)</a></td>
 							<td class="mailbox-subject"><?= $mp['permit_area'];?></td>
-							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_title'];?></td></a>
-							<td class="mailbox-subject"><a style="color: #000;" href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_description'];?></td></a>
+							<td class="mailbox-subject"><a href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_title'];?></td></a>
+							<td class="mailbox-subject"><a href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_description'];?></td></a>
 							<td class="mailbox-attachment">
 							
 							<div class="btn-group">

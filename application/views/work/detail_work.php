@@ -14,7 +14,7 @@
               <div class="card-header">
               <div class="user-block">
                   <img class="img-circle" src="<?= base_url('assets/img/profile/').$work['user_profile'];?>" alt="User Image">
-                  <span class="username" ><a style="color: black;" href="#"><?= $work['work_user'];?> (<?= $work['work_company'];?>)</a></span>
+                  <span class="username" ><a href="#"><?= $work['work_user'];?> (<?= $work['work_company'];?>)</a></span>
                   <span class="description"><span class="badge <?php $status = $work['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $work['work_status'];?></span> | <?= $work['work_area'];?> | Start work: <?= date_format(date_create($work['work_date_open']),"j M y");?> | Created : <?= date_format(date_create($work['work_date_created']),'j M y (H:i)');?></span>
                 </div>
               </div>
