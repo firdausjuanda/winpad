@@ -23,6 +23,7 @@ class Work extends CI_Controller{
 			$data['title'] = "Workline";
 			$usernameFromSession = $this->session->userdata('username');
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+			// var_dump($data['userData']);die;
 			$data['bc'] = $this->Bc_model->getBc();
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];

@@ -111,4 +111,33 @@ class Profile extends CI_Controller{
         }
 
     }
+
+	public function dark_mode()
+	{
+		
+        $this->form_validation->set_rules('user_id', 'id', 'required', array('required' => 'You must provide a %s.'));
+        
+		if($this->form_validation->run() == false)
+		{
+			echo "false";
+		}
+		else
+		{
+		
+		$user_dark = $this->input->post('user_dark');
+		$user_id = $this->input->post('user_id');
+
+		$data = array(
+			'user_dark' => $user_dark,
+			'user_id' => $user_id,
+		);
+		$this->db->where('user_id', $user_id);
+		$this->db->update('tb_user', $data);
+
+		$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Dark mode changed</div></div>");
+		$redirect_path = 'work';
+		redirect($redirect_path);	
+		}
+
+	}
 }

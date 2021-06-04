@@ -28,16 +28,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <!-- <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/summernote/summernote-bs4.min.css'?> "> -->
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm <?php if($userData['user_dark']==1){echo 'dark-mode';}else{}?>">
 <div class="wrapper">
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__wobble" src="<?= base_url('assets/img/logo/').'fird_logo.png'?>" alt="AdminLTELogo" height="30">
+		<?php if($userData['user_dark']==1):?>
+    <img class="animation__wobble" src="<?= base_url('assets/img/logo/').'fird_logo_white.png';?>" height="30">
+		<?php else:?>
+    <img class="animation__wobble" src="<?= base_url('assets/img/logo/').'fird_logo.png';?>" height="30">
+		<?php endif;?>
   </div>
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand <?php if($userData['user_dark']==1){echo 'navbar-dark';}else{ echo 'navbar-white navbar-light';}?>">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -45,16 +49,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </li>
       <!-- <li class="nav-item d-none d-sm-inline-block">
         <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
       </li> -->
+			
+      
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+		
+			
+
       <!-- Navbar Search -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
           <i class="fas fa-search"></i>
         </a>
@@ -73,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
           </form>
         </div>
-      </li>
+      </li> -->
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
@@ -200,6 +206,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li> -->
+			<li class="nav-item d-sm-inline-block">
+				<div class="form-group m-0 mt-1">
+					<form action="<?= base_url('profile/dark_mode');?>" method="post" id="changeDark">
+						<input type="hidden" name="user_id" value="<?= $userData['user_id']; ?>">
+						<div class="custom-control custom-switch">
+						<input type="checkbox" <?php if($userData['user_dark'] == '1'){ echo 'checked';}else{}?> value=1 name="user_dark" class="custom-control-input" onchange="changeDark.submit()" id="customSwitch1">
+						<label class="custom-control-label" for="customSwitch1">Dark mode</label>
+						</div>
+					</form>
+				</div>
+      </li>	
       <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
@@ -210,7 +227,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-light-primary elevation-0">
+  <aside class="main-sidebar  elevation-0 <?php if($userData['user_dark']==1){echo 'sidebar-dark-primary';}else{ echo 'sidebar-light-primary';}?>">
     <!-- Brand Logo -->
     <a href="<?= base_url('work');?>" class="brand-link">
       <span class="brand-text ml-3 font-weight-bold">WINPAD</span>
@@ -282,7 +299,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <li>
               Developed by: 
               <br >
+							<?php if($userData['user_dark']==1):?>
+              <a href="https://www.firdgroup.com"><img src="<?= base_url('assets/img/logo/fird_logo_white.png')?>" alt="Fird Logo" width="70px"></a>
+							<?php else:?>
               <a href="https://www.firdgroup.com"><img src="<?= base_url('assets/img/logo/fird_logo.png')?>" alt="Fird Logo" width="70px"></a>
+							<?php endif;?>
               </li>
         </ul>
 

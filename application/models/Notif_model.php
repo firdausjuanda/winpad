@@ -23,7 +23,7 @@ class Notif_model extends CI_Model {
         $this->db->join('tb_user','tb_user.user_id=tb_notif.notif_user_by','tb_notif', 'left');
 		$this->db->where('notif_user_to',$user_id);
         $this->db->order_by('notif_id', 'desc');
-        $this->db->limit(5);
+        $this->db->limit(3);
         $query = $this->db->get();
         return $query->result_array();
     }
