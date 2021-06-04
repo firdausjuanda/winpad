@@ -157,7 +157,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                 <div class="card-header">
                   <div class="user-block">
                     <img class="img-circle" src="<?= base_url('assets/img/profile/').$w['user_profile'];?>" alt="User Image">
-                    <span class="username" ><a style="color: black;" href="<?= base_url('profile/user/').$w['user_username'];?>"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
+                    <span class="username" ><a href="<?= base_url('profile/user/').$w['user_username'];?>"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
                     <span class="description"><span class="badge <?php $status = $w['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $w['work_status'];?></span> | <?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : 
 										
 											<?php 
