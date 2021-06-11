@@ -44,44 +44,44 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                       <span class="username" ><a href="<?= base_url('profile/user/').$w['user_username'];?>"><?= $w['work_user'];?> (<?= $w['work_company'];?>)</a></span>
                       <span class="description"><span class="badge <?php $status = $w['work_status']; if($status == 'OPN'){ echo 'badge-danger'; }else{echo 'badge-success';} ?> "><?= $w['work_status'];?></span> | <?= $w['work_area'];?> | Start work: <?= date_format(date_create($w['work_date_open']),"j M y");?> | Created : 
 												<?php 
-					$date = $w['work_date_created'];
-					if(empty($date)) {
-						return "No date provided";
-					}
-					
-					$periods         = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
-					$lengths         = array("60","60","24","7","4.35","12","10");
-					$now             = time();
-					$unix_date         = strtotime($date);
-					
-						// check validity of date
-					if(empty($unix_date)) {   
-						return "Bad date";
-					}
-				
-					// is it future date or past date
-					if($now > $unix_date) {   
-						$difference     = $now - $unix_date;
-						$tense         = "ago";
-						
-					} else {
-						$difference     = $unix_date - $now;
-						$tense         = "from now";
-					}
-					
-					for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-						$difference /= $lengths[$j];
-					}
-					
-					$difference = round($difference);
-					
-					if($difference != 1) {
-						$periods[$j].= "s";
-					}
-					
-					echo "$difference $periods[$j] {$tense}";
-					
-					?>
+											$date = $w['work_date_created'];
+											if(empty($date)) {
+												return "No date provided";
+											}
+											
+											$periods         = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+											$lengths         = array("60","60","24","7","4.35","12","10");
+											$now             = time();
+											$unix_date         = strtotime($date);
+											
+												// check validity of date
+											if(empty($unix_date)) {   
+												return "Bad date";
+											}
+										
+											// is it future date or past date
+											if($now > $unix_date) {   
+												$difference     = $now - $unix_date;
+												$tense         = "ago";
+												
+											} else {
+												$difference     = $unix_date - $now;
+												$tense         = "from now";
+											}
+											
+											for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+												$difference /= $lengths[$j];
+											}
+											
+											$difference = round($difference);
+											
+											if($difference != 1) {
+												$periods[$j].= "s";
+											}
+											
+											echo "$difference $periods[$j] {$tense}";
+											
+											?>
 											</span>
                     </div>
                   </div>
@@ -94,7 +94,7 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                     <strong><p class="mb-0"><span class="badge badge-success">Work ID:</span> <?= $w['work_id'];?></p></strong>
                     <strong><p class="mb-0"><span class="badge badge-success">Title:</span> <?= $w['work_title'];?></p></strong>
                     <p class="mb-2" ><span class="badge badge-success">Analysis:</span> <?= $w['work_description'];?></p>
-                    <?php if($status == 'OPN'): ?>
+                    <?php if($w['work_img_close'] == null): ?>
                     <a href="<?= base_url('work/detail_work/').$w['work_id'];?>"> <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$w['work_img_open'];?>" alt="Photo"></a><br>
                     <?php else:?>
                     <div class="row">
@@ -236,44 +236,44 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                         <span class="text-muted float-right">
 												
 												<?php 
-					$date = $c['comment_date_created'];
-					if(empty($date)) {
-						return "No date provided";
-					}
-					
-					$periods         = array("sec", "min", "hour", "day", "week", "month", "year", "decade");
-					$lengths         = array("60","60","24","7","4.35","12","10");
-					$now             = time();
-					$unix_date         = strtotime($date);
-					
-						// check validity of date
-					if(empty($unix_date)) {   
-						return "Bad date";
-					}
-				
-					// is it future date or past date
-					if($now > $unix_date) {   
-						$difference     = $now - $unix_date;
-						$tense         = "ago";
-						
-					} else {
-						$difference     = $unix_date - $now;
-						$tense         = "from now";
-					}
-					
-					for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-						$difference /= $lengths[$j];
-					}
-					
-					$difference = round($difference);
-					
-					if($difference != 1) {
-						$periods[$j].= "s";
-					}
-					
-					echo "$difference $periods[$j] {$tense}";
-					
-					?>
+													$date = $c['comment_date_created'];
+													if(empty($date)) {
+														return "No date provided";
+													}
+													
+													$periods         = array("sec", "min", "hour", "day", "week", "month", "year", "decade");
+													$lengths         = array("60","60","24","7","4.35","12","10");
+													$now             = time();
+													$unix_date         = strtotime($date);
+													
+														// check validity of date
+													if(empty($unix_date)) {   
+														return "Bad date";
+													}
+												
+													// is it future date or past date
+													if($now > $unix_date) {   
+														$difference     = $now - $unix_date;
+														$tense         = "ago";
+														
+													} else {
+														$difference     = $unix_date - $now;
+														$tense         = "from now";
+													}
+													
+													for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+														$difference /= $lengths[$j];
+													}
+													
+													$difference = round($difference);
+													
+													if($difference != 1) {
+														$periods[$j].= "s";
+													}
+													
+													echo "$difference $periods[$j] {$tense}";
+													
+													?>
 
 												</span>
                       </span><!-- /.username -->

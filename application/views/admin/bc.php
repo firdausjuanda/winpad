@@ -28,8 +28,8 @@
 
 							<div class="form-group">
 								<div class="custom-control custom-switch">
-								<input type="checkbox" <?php if($bc['bc_displayed'] == 'true'){ echo 'checked';}else{}?> value=true name="bc_displayed" class="custom-control-input" id="customSwitch1">
-								<label class="custom-control-label" for="customSwitch1">Display in workline</label>
+								<input type="checkbox" <?php if($bc['bc_displayed'] == 'true'){ echo 'checked';}else{}?> value=true name="bc_displayed" class="custom-control-input" id="displayed">
+								<label class="custom-control-label" for="displayed">Display in workline</label>
 								</div>
 							</div>
                         </div>

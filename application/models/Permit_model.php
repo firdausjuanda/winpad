@@ -150,6 +150,14 @@ class Permit_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+	public function getPermitEmptyByCompany($company){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->where('permit_status','OPN');
+        $this->db->where('permit_company',$company);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function getPermitToSend($user_name){
         $this->db->select('*');
         $this->db->from('tb_permit');

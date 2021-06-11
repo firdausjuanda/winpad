@@ -47,6 +47,7 @@
                     <?php if($my_permit!=null): ?>
 					<thead>
 				  	<tr>
+						<td><strong>Id</strong></td>
 						<td><strong>Working Date</strong></td>
 						<td><strong>Created</strong></td>
 						<td><strong>Category</strong></td>
@@ -54,14 +55,18 @@
 						<td><strong>Permit No</strong></td>
 						<td><strong>User(Company)</strong></td>
 						<td><strong>Area</strong></td>
+						<td><strong>Giver</strong></td>
 						<td><strong>Title</strong></td>
 						<td><strong>Description</strong></td>
+						<td><strong>Tools</strong></td>
+						<td><strong>APD</strong></td>
 						<td></td>
 					  </tr>
 				  </thead>
                   <tbody >
                       <?php	foreach( $my_permit as $mp) :?>
                         <tr>
+							<td class="mailbox-date"><?= $mp['permit_id'];?></td>
 							<td style="width: 10%;" class="mailbox-date"><?= date_format(date_create($mp['permit_date']),'j M y');?></td>
 							<td style="width: 10%;" class="mailbox-date"><?= date_format(date_create($mp['permit_date_created']),'j M y (H:i)');?></td>
 							<td class="mailbox-star"><a href="#" class="badge 
@@ -106,8 +111,11 @@
 							<td class="mailbox-star"><a href="#"><?= number_format($mp['permit_no']);?></a></td>
 							<td class="mailbox-name"><a href="#"><?= $mp['permit_user'];?> (<?= $mp['permit_company'];?>)</a></td>
 							<td class="mailbox-subject"><?= $mp['permit_area'];?></td>
+							<td class="mailbox-subject"><?= $mp['permit_giver'];?></td>
 							<td class="mailbox-subject"><a href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_title'];?></td></a>
 							<td class="mailbox-subject"><a href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_description'];?></td></a>
+							<td class="mailbox-subject"><a href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_tools'];?></td></a>
+							<td class="mailbox-subject"><a href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_apd'];?></td></a>
 							<td class="mailbox-attachment">
 							
 							<div class="btn-group">
@@ -122,6 +130,13 @@
 									<?php if($title=='Unreleased Permit'):?>
 									<div class="dropdown-menu" role="menu">
 									<?php if($mp['work_company'] != $userData['user_company']):?>
+										<?php if($mp['permit_attach_status']==1):?>
+											<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+										<?php elseif($mp['permit_attach_status']==2):?>
+											<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
+											<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+										<?php else:?>
+										<?php endif;?>
 									<?php else:?>
 										<?php if($mp['permit_attach']==null):?>
 										<a class="dropdown-item" href="<?= base_url('permit/add_attach/').$mp['permit_id'];?>">Add Attachment</a>
@@ -140,6 +155,14 @@
 									</div>
 									<?php elseif($title=='In Progress Permit'):?>
 										<?php if($mp['work_company'] != $userData['user_company']):?>
+											<div class="dropdown-menu" role="menu">
+											<?php if($mp['permit_attach_status']==1):?>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+											<?php elseif($mp['permit_attach_status']==2):?>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit_complete/').$mp['permit_complete_pic'];?>">See Picture</a>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
+											<?php else:?>
+											<?php endif;?>
 										<?php else:?>
 											<div class="dropdown-menu" role="menu">
 											<?php if($mp['permit_attach_status']==1):?>
@@ -167,6 +190,7 @@
 											<?php endif;?>
 										<?php elseif($mp['permit_attach_status']==1):?>
 											<?php if($this_work['work_company']!=$userData['user_company']):?>
+												<a class="dropdown-item" target="_blank" href="<?= base_url('assets/img/permit/').$mp['permit_attach'];?>">See Attachment</a>
 											<?php else:?>
 												<a class="dropdown-item" href="<?= base_url('permit/add_complete_pic/').$mp['permit_id'];?>">Add Picture</a>
 											<?php endif;?>

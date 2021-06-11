@@ -32,13 +32,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="wrapper">
 
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
+  <!-- <div class="preloader flex-column justify-content-center align-items-center">
 		<?php if($userData['user_dark']==1):?>
     <img class="animation__wobble" src="<?= base_url('assets/img/logo/').'fird_logo_white.png';?>" height="30">
 		<?php else:?>
     <img class="animation__wobble" src="<?= base_url('assets/img/logo/').'fird_logo.png';?>" height="30">
 		<?php endif;?>
-  </div>
+  </div> -->
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand <?php if($userData['user_dark']==1){echo 'navbar-dark';}else{ echo 'navbar-white navbar-light';}?>">
@@ -286,7 +286,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <p>My Permit</p>
                 </a>
               </li>
-              <?php if($userData['user_is_manage']== 1):?>
+              <?php if($userData['user_docline_access']== 1):?>
               <li class="nav-item">
                 <a href="<?= base_url('docline');?>" class="nav-link">
                   <i class="fa fa-list nav-icon"></i>

@@ -2,7 +2,7 @@
 
     <div class="mb-2">
         <div class="col-12">
-            <a class="btn btn-default" href="<?= base_url('permit'); ?>"> <i class="fa fa-arrow-left"></i> </a>
+            <a class="btn btn-default" href="<?= base_url('docline/licence/'); ?>"> <i class="fa fa-arrow-left"></i> </a>
         </div>
     </div>
 

@@ -153,7 +153,7 @@ class Work extends CI_Controller{
         $work_img_open = $img_open_filename;
         $work_user = $this->input->post('work_user');
         $work_company = $this->input->post('work_company');
-        $work_last_modified = date('Y-m-j H:i:s');
+        $work_last_modified = date('Y-m-d H:i:s');
         $email_managers = $this->User_model->getEmailManagers();
         $area = $work_area;
         $email_area = $this->User_model->getEmailArea($area);
@@ -482,7 +482,7 @@ class Work extends CI_Controller{
         );
         $this->db->insert('tb_comment',$data);
         $data_work = array(
-            'work_last_modified' => date('Y-m-j H:i:s'),
+            'work_last_modified' => date('Y-m-d H:i:s'),
         );
         $this->db->where('work_id',$comment_work_id);
         $this->db->update('tb_work',$data_work);

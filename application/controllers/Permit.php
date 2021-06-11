@@ -331,52 +331,62 @@ class Permit extends CI_Controller{
         $user_data = $this->User_model->userSession($usernameFromSession);
 		$company = $user_data['user_company'];
 		$permit_to_release = $this->Permit_model->getPermitToReleaseByCompany($company);
-        if(!$permit_to_release)
-        {
-            $data = array(
-                'permit_status' => 'REL',
-            );
+		$permit_empty = $this->Permit_model->getPermitEmptyByCompany($company);
+		if($permit_empty!=null)
+		{
+			if(!$permit_to_release)
+			{
+				$data = array(
+					'permit_status' => 'REL',
+				);
 
-            $this->db->where('permit_status','OPN');
-            $this->db->where('permit_user',$user_name);
-            $this->db->update('tb_permit', $data);
-            $user_firstname     = $user_data['user_firstname'];
-            $user_lastname      = $user_data['user_lastname'];
-            $user_company       = $user_data['user_company'];
-            $email_user         = $user_data['user_email'];
-            $area               = $permit_area_to_send;
-            $email_managers = $this->User_model->getEmailManagers();
-            $email_area = $this->User_model->getEmailAreas($area);
-           
-            if(
-                $this->Email_model->sendPermitEmail(
-                $permit_to_send,
-                $user_company,
-                $email_managers,
-                $email_area,
-                $email_user,
-                $user_firstname,
-                $user_lastname
-                )
-    
-            == TRUE)
-            {   
-                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit released and email sent!</div></div>');
-                redirect('permit/');
-            }
-            else
-            {   
-                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-warning">Permit released, but email not sent!</div></div>');
-                redirect('permit/');
-            }
+				$this->db->where('permit_status','OPN');
+				$this->db->where('permit_user',$user_name);
+				$this->db->update('tb_permit', $data);
+				$user_firstname     = $user_data['user_firstname'];
+				$user_lastname      = $user_data['user_lastname'];
+				$user_company       = $user_data['user_company'];
+				$email_user         = $user_data['user_email'];
+				$area               = $permit_area_to_send;
+				$email_managers = $this->User_model->getEmailManagers();
+				$email_area = $this->User_model->getEmailAreas($area);
+			
+				if(
+				    $this->Email_model->sendPermitEmail(
+				    $permit_to_send,
+				    $user_company,
+				    $email_managers,
+				    $email_area,
+				    $email_user,
+				    $user_firstname,
+				    $user_lastname
+				    )
+		
+				== TRUE)
+				{   
+					$this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit released and email sent!</div></div>');
+					redirect('permit/');
+				}
+				else
+				{   
+				    $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-warning">Permit released, but email not sent!</div></div>');
+				    redirect('permit/');
+				}
 
-        }
-        else
-        {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all attachments</div></div>');
-            $redirect_path = 'permit/';
-            redirect($redirect_path);
-        }
+			}
+			else
+			{
+				$this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all attachments</div></div>');
+				$redirect_path = 'permit/';
+				redirect($redirect_path);
+			}
+		}
+		else 
+		{
+			$this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">No permit to release!</div></div>');
+			$redirect_path = 'permit/';
+			redirect($redirect_path);
+		}
     }
     public function complete_permit()
     {

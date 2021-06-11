@@ -11,6 +11,14 @@ class Docline extends CI_Controller {
         $this->load->model('Notif_model');
         $this->load->helper(array('form', 'url'));
         date_default_timezone_set('Asia/Jakarta');
+		$usernameFromSession = $this->session->userdata('username');
+        $userData = $this->User_model->userSession($usernameFromSession);
+		if($userData['user_docline_access']==0)
+        {
+            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You are not allowed to access docline page!</div></div>");
+            $redirect_path = 'work';
+            redirect($redirect_path);
+        }
     }
 
     public function index()
@@ -172,10 +180,8 @@ class Docline extends CI_Controller {
         $licence_data = $this->Doc_model->getThislicenceToDelete($id);
         $usernameFromSession = $this->session->userdata('username');
         $user_data = $this->User_model->userSession($usernameFromSession);
-        if($user_data['user_id'] == $licence_data['licence_user_id'])
+        if($user_data['user_docline_super'] == 1)
         {
-            
-
             $licence = $this->Doc_model->getThisLicence($id);
             $doc = $licence['licence_doc'];
             $path = './assets/doc/licence/';
@@ -198,7 +204,7 @@ class Docline extends CI_Controller {
 
         
         $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Not allowed</div></div>');
-        $redirect_path = 'licence/';
+        $redirect_path = 'docline/licence/';
         redirect($redirect_path);
         
     }
