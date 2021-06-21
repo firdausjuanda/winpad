@@ -10,6 +10,13 @@ class Permit extends CI_Controller{
         $this->load->model('Email_model');
         $this->load->model('Notif_model');
         $this->load->helper(array('form', 'url'));
+        $usernameFromSession = $this->session->userdata('username');
+		if($usernameFromSession == null)
+        {
+            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Please Login</div></div>");
+            $redirect_path = 'login';
+            redirect($redirect_path);
+        }
         date_default_timezone_set('Asia/Jakarta');
     }
     public function index()

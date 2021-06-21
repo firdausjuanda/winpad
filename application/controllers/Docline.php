@@ -13,6 +13,12 @@ class Docline extends CI_Controller {
         date_default_timezone_set('Asia/Jakarta');
 		$usernameFromSession = $this->session->userdata('username');
         $userData = $this->User_model->userSession($usernameFromSession);
+        if($usernameFromSession == null)
+        {
+            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Please Login</div></div>");
+            $redirect_path = 'login';
+            redirect($redirect_path);
+        }
 		if($userData['user_docline_access']==0)
         {
             $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You are not allowed to access docline page!</div></div>");

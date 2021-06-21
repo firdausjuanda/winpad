@@ -10,6 +10,12 @@ class Admin extends CI_Controller{
         $usernameFromSession = $this->session->userdata('username');
         $user = $this->User_model->userSession($usernameFromSession);
         $user_role = $user['user_role'];
+        if($usernameFromSession == null)
+        {
+            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Please Login</div></div>");
+            $redirect_path = 'login';
+            redirect($redirect_path);
+        }
         if($user_role==0)
         {
             $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You are not allowed to access admin page!</div></div>");
