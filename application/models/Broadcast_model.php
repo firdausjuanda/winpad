@@ -1,6 +1,6 @@
 <?php
 
-class Bc_model extends CI_Model {
+class Broadcast_model extends CI_Model {
 
     public function getBc()
     {   

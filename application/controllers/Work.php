@@ -12,7 +12,7 @@ class Work extends CI_Controller{
         $this->load->model('Comment_model');
         $this->load->model('Notif_model');
         $this->load->model('Time_model');
-        $this->load->model('Bc_model');
+        $this->load->model('Broadcast_model');
         $this->load->helper(array('form', 'url'));
         date_default_timezone_set('Asia/Jakarta');
     }
@@ -24,7 +24,7 @@ class Work extends CI_Controller{
 			$usernameFromSession = $this->session->userdata('username');
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
 			// var_dump($data['userData']);die;
-			$data['bc'] = $this->Bc_model->getBc();
+			$data['bc'] = $this->Broadcast_model->getBc();
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
 			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
