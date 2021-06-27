@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'http://localhost:8888/Winpad/';
-$config['base_url'] = 'https://winpad.firdgroup.com/';
+$config['base_url'] = 'https://winpad-dev.firdgroup.com/';
 
 /*
 |--------------------------------------------------------------------------
