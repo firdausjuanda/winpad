@@ -23,12 +23,11 @@ class Work extends CI_Controller{
 			$data['title'] = "Workline";
 			$usernameFromSession = $this->session->userdata('username');
 			$data['userData'] = $this->User_model->userSession($usernameFromSession);
-			// var_dump($data['userData']);die;
-			$data['bc'] = $this->Broadcast_model->getBc();
 			$company = $data['userData']['user_company'];
 			$user_id = $data['userData']['user_id'];
 			$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 			$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
+			$data['bc'] = $this->Broadcast_model->getBc();
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
 			$data['comment'] = $this->Comment_model->getWorkComment();
@@ -72,11 +71,11 @@ class Work extends CI_Controller{
         // redirect('work');
 
         $this->form_validation->set_rules('work_date_open', 'work date', 'required');
+        $this->form_validation->set_rules('work_company', 'work company', 'required');
         $this->form_validation->set_rules('work_area', 'work area', 'required');
         $this->form_validation->set_rules('work_title', 'work title', 'required');
         $this->form_validation->set_rules('work_description', 'work title', 'required');
         $this->form_validation->set_rules('work_exact_place', 'work exact place', 'required');
-        // $this->form_validation->set_rules('work_img_open', 'work image open', 'required');
 		if($this->session->userdata('id'))
 		{
             
@@ -99,7 +98,7 @@ class Work extends CI_Controller{
             else
             {
                 // If true
-                $this->upload_img_open();
+                $this->upload_document();
             }
 			
 		}
@@ -109,7 +108,7 @@ class Work extends CI_Controller{
 		}
 		
 	}
-    public function upload_img_open()
+    public function upload_document()
     {
         $path                           = './assets/img/work/';
         $config['upload_path']          = $path;
@@ -118,8 +117,7 @@ class Work extends CI_Controller{
         $config['file_name']            = $this->input->post('work_date_open').'_'.'O'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
         ini_set('memory_limit', '-1');
         $this->load->library('upload', $config);
-        $this->upload->initialize($config);
-
+		$this->upload->initialize($config);
         if ($this->upload->do_upload('work_img_open'))
         {
             $data = $this->upload->data();  
@@ -133,35 +131,67 @@ class Work extends CI_Controller{
             $this->load->library('image_lib', $config);  
             $this->image_lib->resize();
             $img_open_filename = $this->upload->data('file_name');
-            $usernameFromSession = $this->session->userdata('username');
-            $user_data = $this->User_model->userSession($usernameFromSession);
-            $this->add($user_data, $img_open_filename);
+			
+			// Upload JSEA
+			$jsea_path                         	 = './assets/img/jsea/';
+			$jsea_config['upload_path']          = $jsea_path;
+			$jsea_config['allowed_types']        = 'png|gif|jpg|jpeg|tiff|pdf';
+			$jsea_config['max_size']             = 5120;
+			$jsea_config['file_name']            = $this->input->post('work_date_open').'_'.'j'.'_'.$this->input->post('work_area').'_'.$this->input->post('work_title');
+			ini_set('memory_limit', '-1');
+			$this->load->library('upload', $jsea_config);
+			$this->upload->initialize($jsea_config);
+			if($this->upload->do_upload('work_jsea'))
+			{
+				$jsea_data = $this->upload->data();  
+				$jsea_config['image_library'] = 'gd2';  
+				$jsea_config['source_image'] = $path.$jsea_data["file_name"];  
+				$jsea_config['create_thumb'] = FALSE;  
+				$jsea_config['maintain_ratio'] = TRUE;  
+				$jsea_config['quality'] = '90%';  
+				$jsea_config['width'] = 1080;  
+				$jsea_config['new_image'] = $path.$jsea_data["file_name"];  
+				$this->load->library('image_lib', $jsea_config);  
+				$this->image_lib->resize();	
+				$jsea_filename = $this->upload->data('file_name');
+				$usernameFromSession = $this->session->userdata('username');
+				$user_data = $this->User_model->userSession($usernameFromSession);
+				$this->add($user_data, $img_open_filename, $jsea_filename);
+			}
+			else 
+			{
+				echo $this->upload->display_errors();
+			}
         }
         else
         {   
             echo $this->upload->display_errors();
         }
     }
-    public function add($user_data, $img_open_filename)
+    public function add($user_data, $img_open_filename, $jsea_filename)
     {
         $work_date_open = $this->input->post('work_date_open');
+        $work_company = $this->input->post('work_company');
         $work_area = $this->input->post('work_area');
         $work_title = $this->input->post('work_title');
         $work_description = $this->input->post('work_description');
         $work_status = 'OPN';
         $work_exact_place = $this->input->post('work_exact_place');
         $work_img_open = $img_open_filename;
+        $work_jsea = $jsea_filename;
         $work_user = $this->input->post('work_user');
-        $work_company = $this->input->post('work_company');
+        $work_vendor = $this->input->post('work_vendor');
         $work_last_modified = date('Y-m-d H:i:s');
-        $email_managers = $this->User_model->getEmailManagers();
+        $email_managers = $this->User_model->getEmailManagers($work_company);
         $area = $work_area;
-        $email_area = $this->User_model->getEmailArea($area);
+        $email_area = $this->User_model->getEmailArea($area, $work_company );
+        $email_vendor = $this->User_model->getEmailVendor($work_vendor);
         $email_user = $user_data['user_email'];
         $user_firstname = $user_data['user_firstname'];
         $user_lastname = $user_data['user_lastname'];
         $data = array(
             'work_date_open' => $work_date_open,
+            'work_company' => $work_company,
             'work_area' => $work_area,
             'work_title' => $work_title,
             'work_description' => $work_description,
@@ -169,14 +199,15 @@ class Work extends CI_Controller{
             'work_exact_place' => $work_exact_place,
             'work_last_modified' => $work_last_modified,
             'work_img_open' => $work_img_open,
+            'work_jsea' => $work_jsea,
             'work_user' => $work_user,
-            'work_company' => $work_company,
+            'work_vendor' => $work_vendor, 
         );
-        $this->db->insert('tb_work',$data);
-		
+        $this->db->insert('tb_work', $data);
         if(
             $this->Email_model->sendWorkEmail(
             $work_date_open, 
+            $work_vendor, 
             $work_area, 
             $work_title,
             $work_exact_place,

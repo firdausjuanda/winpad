@@ -1,4 +1,14 @@
-    
+
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
+
 <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
 <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
     <div class="row">

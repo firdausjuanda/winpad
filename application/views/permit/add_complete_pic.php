@@ -1,4 +1,12 @@
-
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
 
     <div class="mb-2">
         <div class="col-12">

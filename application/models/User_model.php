@@ -54,20 +54,29 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->row_array();
     }
-    public function getEmailManagers()
+    public function getEmailManagers($work_company)
     {
         $this->db->distinct();
         $this->db->select('user_email');
         $this->db->from('tb_user');
         $this->db->where('user_is_manage', 1, 'left');
+        $this->db->where('user_company', $work_company, 'left');
         return $this->db->get()->result_array('user_email');
     }
-    public function getEmailArea($area)
+    public function getEmailArea($area, $work_company)
     {
         $this->db->select('user_email');
         $this->db->from('tb_user');
         $this->db->or_where('user_dept', $area, 'left');
-        $this->db->where('user_company', 'NI74', 'left');
+        $this->db->where('user_company', $work_company, 'left');
+        return $this->db->get()->result_array();
+    }
+    public function getEmailVendor($work_vendor)
+    {
+        $this->db->select('user_email');
+        $this->db->from('tb_user');
+        $this->db->or_where('user_is_manage', 1, 'left');
+        $this->db->where('user_company', $work_vendor, 'left');
         return $this->db->get()->result_array();
     }
     public function getIdsManagers()

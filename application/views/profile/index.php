@@ -1,4 +1,14 @@
-    
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>    
+
+
 <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
 <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
     <div class="row">
@@ -16,8 +26,15 @@
                 <h3 class="profile-username text-center"><?= $userData['user_firstname']?> <?= $userData['user_lastname']?></h3>
 
                 <p class="text-muted text-center"><?= $userData['user_username'];?> (<?= $userData['user_email'];?>)</p>
-                <p class="text-muted text-center"><?= $userData['user_dept'];?> (<?= $userData['user_company'];?>)</p>
-
+								<?php if($userData['user_dept']==null):?>
+									<?php else:?>
+										<p class="text-muted text-center"><?= $userDataDept['dept_name'];?> (<?= $userDataCompany['company_name'];?>)</p>
+								<?php endif;?>
+								<?php if($userData['user_company']==null): ?>
+									<a href="<?= base_url('company/c/').'NI74'; ?>">Cari Company</a>
+								<?php else: ?>
+									<a href="<?= base_url('company/c/').$userDataCompany['company_code']; ?>" class="btn btn-primary"><?= $userDataCompany['company_name'] ?></a>
+								<?php endif;?>
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
                     <b>Total Works</b> <a class="float-right"><?php if($count_user_work==null){Echo "No work yet";}else{echo number_format($count_user_work);};?></a>

@@ -1,4 +1,12 @@
-
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
 
     <div class="mb-2">
         <div class="col-12">
@@ -36,19 +44,22 @@
                                 <label for="permit_description">Work Description</label>
                                 <input class="form-control" required value="<?= $workData['permit_description'];?>" type="text" name="permit_description" readonly>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
+							<div class="form-group">
                                 <label for="permit_title">Permit Giver</label>
                                 <input class="form-control" required type="text" name="permit_giver" placeholder="Permit giver">
                             </div>
 
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input  type="file" class="custom-file-input" name="permit_attach" required id="permit_attach">
-                                    <label class="custom-file-label" for="permit_attach">Add Attachment</label>
+                                    <input  type="file" class="custom-file-input" name="permit_attach" required id="permit_attach" onchange="showAttach(this); previewAttach()">
+                                    <label class="custom-file-label" for="permit_attach"><span id="permit_attach_display"> Select an attachment ...</span></label>
                                 </div>
                             </div>
+							<br>
+                        </div>
+                        <div class="col-md-6">
+                            
+							<img id="frameAttach" style="border-radius:20px" src="<?php echo base_url('assets/img/logo/no-img.jpg') ;?>" width="100%"/><br>
                         </div>
                     </div>
                     <input type="hidden" name="permit_id" value="<?= $workData['permit_id'];?>">
@@ -59,3 +70,17 @@
             </form>
         </div>
     </div>
+
+<script type="text/javascript">
+
+function showAttach(input) {
+	var fileName = input.files[0].name;
+	var filename = fileName;  
+	document.getElementById("permit_attach_display").innerHTML = fileName;             
+}
+
+function previewAttach() {
+frameAttach.src=URL.createObjectURL(event.target.files[0]);
+}
+
+</script>

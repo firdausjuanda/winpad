@@ -1,14 +1,14 @@
-        </div>
-      </div>
+        <!-- </div>
+      </div> -->
     </section>
 </div>
-<footer class="main-footer">
+<!-- <footer class="main-footer">
     <strong>Copyright &copy; 2021 <a href="#">Wilmar Integrated Padang System</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> v.01.01
     </div>
-  </footer>
+  </footer> -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-light">
@@ -18,7 +18,7 @@
 
 </div>
 <!-- ./wrapper -->
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.js"></script>
 <!-- jQuery -->
 <script src="<?= base_url('assets/vendor/admin-lte/').'plugins/jquery/jquery.min.js';?>"></script>
 <!-- jQuery UI 1.11.4 -->

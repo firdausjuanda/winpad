@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $title;?></title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> 
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css"> -->
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/fontawesome-free/css/all.min.css'?> ">
   <!-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'?> ">
@@ -16,6 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'dist/css/adminlte.min.css'?> ">
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/overlayScrollbars/css/OverlayScrollbars.min.css'?> ">
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/daterangepicker/daterangepicker.css'?> ">
+  <link rel="stylesheet" href="<?= base_url('assets/winpad-style/').'main.css'?> ">
 	<link rel="icon" href="<?php echo base_url().'assets/img/logo/wilmar.png';?>">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm <?php if($userData['user_dark']==1){echo 'dark-mode';}else{}?>">
@@ -245,8 +247,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </li>
         </ul>
       </nav>
-      
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -266,14 +266,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </li>
               <li class="nav-item">
                 <a href="<?= base_url('work/my_work');?>" class="nav-link">
-                  <i class="fa fa-globe-asia nav-icon"></i>
-                  <p>My Work</p>
+                  <i class="fa fa-list-alt nav-icon"></i>
+                  <p>Work</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="<?= base_url('permit');?>" class="nav-link">
                   <i class="fa fa-briefcase nav-icon"></i>
-                  <p>My Permit</p>
+                  <p>Permit</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= base_url('company');?>" class="nav-link">
+                  <i class="fa fa-building nav-icon"></i>
+                  <p>Company</p>
                 </a>
               </li>
               <?php if($userData['user_docline_access']== 1):?>
@@ -307,18 +313,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   
   <div class="content-wrapper">
 
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0"><?= $title;?></h1>
-          </div>
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
+    <!-- <div class="content-header"> -->
+      <!-- <div class="container-fluid"> -->
+        <!-- <div class="row mb-2"> -->
+          <!-- <div class="col-sm-6"> -->
+            <!-- <h1 class="m-0"><?= $title;?></h1> -->
+          <!-- </div> -->
+        <!-- </div>/.row -->
+      <!-- </div>/.container-fluid -->
+    <!-- </div> -->
     <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
+    <!--  <div class="container-fluid">
+        <div class="row"> -->

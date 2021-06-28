@@ -1,3 +1,12 @@
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
 
 	<?php foreach($notif as $n):?>
 	<div class="col-md-8 card card-primary">

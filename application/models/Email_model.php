@@ -134,6 +134,7 @@ class Email_model extends CI_Model{
     }
     function sendWorkEmail(
         $work_date_open, 
+        $work_vendor, 
         $work_area, 
         $work_title,
         $work_exact_place,
@@ -177,7 +178,7 @@ class Email_model extends CI_Model{
         // $mail->addBCC('bcc@example.com');
         
         // Email subject
-        $mail->Subject = 'Work Created from '.$work_company.' - '.$work_title;
+        $mail->Subject = 'Work Created from '.$work_vendor.' - '.$work_title;
         
         // Set email format to HTML
         $mail->isHTML(true);
@@ -187,7 +188,7 @@ class Email_model extends CI_Model{
         // Email body content
 
         $mailContent = "
-        <p> <strong>$user_firstname $user_lastname ($work_company)</strong> has just started new work with following details: </p>
+        <p> <strong>$user_firstname $user_lastname ($work_vendor)</strong> has just started new work with following details: </p>
             <table>
                 <tr>
                     <td>Title </td>

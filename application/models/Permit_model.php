@@ -46,7 +46,20 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
-        $this->db->where('permit_status', 'REL', 'left');
+        $this->db->where('permit_status', 'PRG', 'left');
+        $this->db->where('permit_is_approved1', 1, 'left');
+        $this->db->where('permit_is_approved2', 1, 'left');
+        $this->db->order_by('permit_id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function getPendPermitForAdmin(){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
+        $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        // $this->db->where('permit_status', 'REL', 'left');
+        $this->db->where("permit_status = 'REL'");
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
         return $query->result_array();
@@ -95,6 +108,19 @@ class Permit_model extends CI_Model {
         return $query->result_array();
     }
 	public function getMyProgPermitByCompany($company){
+        $this->db->select('*');
+        $this->db->from('tb_permit');
+        $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
+        $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->where('user_company', $company, 'left');
+        $this->db->where('permit_status', 'PRG', 'left');
+        $this->db->where('permit_is_approved1', 1, 'left');
+        $this->db->where('permit_is_approved2', 1, 'left');
+        $this->db->order_by('permit_id', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+	public function getMyPendPermitByCompany($company){
         $this->db->select('*');
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
@@ -201,11 +227,19 @@ class Permit_model extends CI_Model {
     public function getPermitToCompleteByCompany($company){
         $this->db->select('*');
         $this->db->from('tb_permit');
-        $this->db->where('permit_status','REL');
+        $this->db->where('permit_status','PRG');
         $this->db->where('permit_company',$company);
         $this->db->where('permit_attach_status', 1);
         $query = $this->db->get();
         return $query->result_array();
     }
+	public function getPermitById($id){
+		return $this->db
+		->select('*')
+		->from('tb_permit')
+		->where('permit_id', $id)
+		->get()
+		->row_array();
+	}
     
 }

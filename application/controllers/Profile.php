@@ -7,6 +7,8 @@ class Profile extends CI_Controller{
         parent::__construct();
         $this->load->model('User_model');
         $this->load->model('Notif_model');
+        $this->load->model('Company_model');
+        $this->load->model('Dept_model');
         $usernameFromSession = $this->session->userdata('username');
         $user = $this->User_model->userSession($usernameFromSession);
         $user_username = $user['user_username'];
@@ -31,6 +33,17 @@ class Profile extends CI_Controller{
         $data['count_user_permit'] = $this->User_model->countUserPermit($user_username);
         $data['count_user_comment'] = $this->User_model->countUserComment($user_id);
 		$company = $data['userData']['user_company'];
+		$dept = $data['userData']['user_dept'];
+        $data['userDataCompany'] = $this->Company_model->getCompanyById($company);
+        $data['userDataDept'] = $this->Dept_model->GetDeptById($dept);
+		if(!$data['userDataCompany']){
+			$data['userDataCompany'] = "";
+			if(!$data['userDataDept']){
+				$data['userDataDept'] = "";
+			}
+		}
+		// var_dump($data['userDataDept']);
+		// var_dump($data['userDataCompany']);die;
 		$user_id = $data['userData']['user_id'];
 		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
@@ -138,6 +151,42 @@ class Profile extends CI_Controller{
 		$redirect_path = 'work';
 		redirect($redirect_path);	
 		}
+
+	}
+
+	public function join_company($id){
+        $usernameFromSession = $this->session->userdata('username');
+        $data_user = $this->User_model->userSession($usernameFromSession);
+		$user_id = $data_user['user_id'];
+		$company = $this->Company_model->getCompanyById($id);
+		$company_code = $company['company_code'];
+		$user_current_company = $data_user['user_company'];
+		if($user_current_company){
+			$message = "You cannot join 2 companies";
+			echo "<script type='text/javascript'>alert('$message');</script>";
+			$path = 'company/c/'.$company_code;
+			redirect($path);
+		} else {
+			$data['user_company'] = $id;
+			$this->db->where('user_id', $user_id);
+			$this->db->update('tb_user', $data);
+			$this->session->set_flashdata('message', "<span class='alert alert-success'>Unjoin Success!</span>");
+			$path = 'company/c/'.$company_code;
+			redirect($path);
+		}
+	}
+	public function unjoin_company($id){
+        $usernameFromSession = $this->session->userdata('username');
+        $data_user = $this->User_model->userSession($usernameFromSession);
+		$company = $this->Company_model->getCompanyById($id);
+		$company_code = $company['company_code'];
+		$user_id = $data_user['user_id'];
+		$data['user_company'] = "";
+		$this->db->where('user_id', $user_id);
+		$this->db->update('tb_user', $data);
+		$this->session->set_flashdata('message', "<span class='alert alert-success'>Unjoin Success!</span>");
+		$path = 'company/c/'.$company_code;
+		redirect($path);
 
 	}
 }

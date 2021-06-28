@@ -1,3 +1,12 @@
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
 
 <?= $this->session->flashdata('message'); ?>
 
@@ -93,16 +102,16 @@ $hidden_day = date('Y-m-d', strtotime($today. '- 3 days'));
                     <?php endif;?>
                     <strong><p class="mb-0"><span class="badge badge-success">Work ID:</span> <?= $w['work_id'];?></p></strong>
                     <strong><p class="mb-0"><span class="badge badge-success">Title:</span> <?= $w['work_title'];?></p></strong>
-                    <p class="mb-2" ><span class="badge badge-success">Analysis:</span> <?= $w['work_description'];?></p>
+                    <p class="mb-2" > <?= $w['work_description'];?></p>
                     <?php if($w['work_img_close'] == null): ?>
-                    <a href="<?= base_url('work/detail_work/').$w['work_id'];?>"> <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$w['work_img_open'];?>" alt="Photo"></a><br>
+                    <a href="<?= base_url('work/detail_work/').$w['work_id'];?>"> <img class="workline-pict" src="<?= base_url('assets/img/work/').$w['work_img_open'];?>" alt="Photo"></a><br>
                     <?php else:?>
                     <div class="row">
                       <div class="col-md-6">
-                      <a href="<?= base_url('work/detail_work/').$w['work_id'];?>"> <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$w['work_img_open'];?>" alt="Photo"></a><br>
+                      <a href="<?= base_url('work/detail_work/').$w['work_id'];?>"> <img class="workline-pict" src="<?= base_url('assets/img/work/').$w['work_img_open'];?>" alt="Photo"></a><br>
                       </div>
                       <div class="col-md-6">
-                      <a href="<?= base_url('work/detail_work/').$w['work_id'];?>"> <img class="img-fluid pad mb-2" style="width: 100%;" src="<?= base_url('assets/img/work/').$w['work_img_close'];?>" alt="Photo"></a><br>
+                      <a href="<?= base_url('work/detail_work/').$w['work_id'];?>"> <img class="workline-pict" src="<?= base_url('assets/img/work/').$w['work_img_close'];?>" alt="Photo"></a><br>
                       </div>
                     </div>
                     <?php endif; ?>

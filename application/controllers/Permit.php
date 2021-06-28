@@ -407,8 +407,7 @@ class Permit extends CI_Controller{
             $data = array(
                 'permit_status' => 'CLS',
             );
-
-            $this->db->where('permit_status','REL');
+            $this->db->where('permit_status','PRG');
             $this->db->where('permit_user',$user_name);
             $this->db->update('tb_permit', $data);
             $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Completed</div></div>');
@@ -476,6 +475,161 @@ class Permit extends CI_Controller{
         $this->load->view('permit/my_permit',$data);
         $this->load->view('templates/footer',$data);
     }
+    public function pending_permit()
+    {
+        $data['title'] = 'Pending Permit';
+        $usernameFromSession = $this->session->userdata('username');
+        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$company = $data['userData']['user_company'];
+        
+        if($data['userData']['user_is_approver1'] == 1 || $data['userData']['user_is_approver2'] == 1)
+        {
+            $data['my_permit'] = $this->Permit_model->getPendPermitForAdmin();
+        }
+        elseif($data['userData']['user_is_manage']== 1)
+        {
+            $data['my_permit'] = $this->Permit_model->getPendPermitForAdmin();
+        }
+        else 
+        {
+            $data['my_permit'] = $this->Permit_model->getMyPendPermitByCompany($company);
+        }
+		$company = $data['userData']['user_company'];
+		$user_id = $data['userData']['user_id'];
+		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
+		$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
+        $this->load->view('templates/header',$data);
+        $this->load->view('permit/my_permit',$data);
+        $this->load->view('templates/footer',$data);
+    }
+
+	public function app1($id)
+	{
+		$app1 = $this->input->post('permit_is_approved1');
+		$user_id = $this->session->userdata('id');
+		$user_data = $this->User_model->getThisUser($user_id);
+		$permit_data = $this->Permit_model->getPermitById($id);
+		// Check Authorization L1
+		if($user_data['user_is_approver1'] == 1){
+			if($permit_data['permit_status'] == 'REL'){
+				$data = array(
+					'permit_is_approved1' => 1,
+					'permit_approved1_by' => $user_id,
+				);
+				$this->db->where('permit_id', $id);
+				$this->db->update('tb_permit', $data);
+	
+				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Approval L1 effected</div></div>");
+				$redirect_path = 'permit/pending_permit';
+				redirect($redirect_path);	
+			}else{
+				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Permit is not released yet or already closed</div></div>");
+				$redirect_path = 'permit/pending_permit';
+				redirect($redirect_path);	
+			}
+		}
+		else {
+			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You don't have authorization</div></div>");
+			$redirect_path = 'permit/pending_permit';
+			redirect($redirect_path);	
+		}
+	}
+	public function dapp1($id)
+	{
+		$app1 = $this->input->post('permit_is_approved1');
+		$user_id = $this->session->userdata('id');
+		$user_data = $this->User_model->getThisUser($user_id);
+		$permit_data = $this->Permit_model->getPermitById($id);
+		// Check Authorization L1
+		if($user_data['user_is_approver1'] == 1){
+			if($permit_data['permit_is_approved2'] == 0){
+				$data = array(
+					'permit_is_approved1' => 0,
+					'permit_approved1_by' => $user_id,
+				);
+				$this->db->where('permit_id', $id);
+				$this->db->update('tb_permit', $data);
+	
+				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Approval L1 effected</div></div>");
+				$redirect_path = 'permit/pending_permit';
+				redirect($redirect_path);	
+			}
+			else {
+				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>L2 still approved</div></div>");
+				$redirect_path = 'permit/my_prog_permit';
+				redirect($redirect_path);	
+			}
+		}
+		else {
+			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You don't have authorization</div></div>");
+			$redirect_path = 'permit/my_prog_permit';
+			redirect($redirect_path);	
+		}
+	}
+	public function app2($id)
+	{
+		$app2 = $this->input->post('permit_is_approved2');
+		$user_id = $this->session->userdata('id');
+		$user_data = $this->User_model->getThisUser($user_id);
+		$permit_data = $this->Permit_model->getPermitById($id);
+		if($user_data['user_is_approver2'] == 1){
+			if($permit_data['permit_status'] == 'REL'){
+				if($permit_data['permit_is_approved1'] == 1){
+					$data = array(
+						'permit_is_approved2' => 1,
+						'permit_approved2_by' => $user_id,
+						'permit_status' => 'PRG',
+					);
+					$this->db->where('permit_id', $id);
+					$this->db->update('tb_permit', $data);
+		
+					$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Approval L2 effected</div></div>");
+					$redirect_path = 'permit/pending_permit';
+					redirect($redirect_path);	
+				}else{
+					$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>L1 not approved yet</div></div>");
+					$redirect_path = 'permit/pending_permit';
+					redirect($redirect_path);
+				}
+			}else{
+				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Permit is not released yet or already closed</div></div>");
+				$redirect_path = 'permit/pending_permit';
+				redirect($redirect_path);
+			}
+		}
+		else {
+			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You don't have authorization</div></div>");
+			$redirect_path = 'permit/pending_permit';
+			redirect($redirect_path);	
+		}
+	}
+	public function dapp2($id)
+	{
+		$app2 = $this->input->post('permit_is_approved2');
+		$user_id = $this->session->userdata('id');
+		$user_data = $this->User_model->getThisUser($user_id);
+		// Check Authorization L2
+		if($user_data['user_is_approver2'] == 1){
+
+			$data = array(
+				'permit_is_approved2' => 0,
+				'permit_approved2_by' => $user_id,
+				'permit_status' => 'REL',
+			);
+			// var_dump($data);die;
+			$this->db->where('permit_id', $id);
+			$this->db->update('tb_permit', $data);
+
+			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Approval L2 effected</div></div>");
+			$redirect_path = 'permit/my_prog_permit';
+			redirect($redirect_path);	
+		}
+		else {
+			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You don't have authorization</div></div>");
+			$redirect_path = 'permit/my_prog_permit';
+			redirect($redirect_path);	
+		}
+	}
 
 
 }

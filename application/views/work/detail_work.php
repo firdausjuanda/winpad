@@ -1,14 +1,25 @@
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
 
-	<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
+<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
 <div class="row">
 	<div class="col-md-12">
                 <a class="btn btn-default mb-2" href="<?= base_url('work'); ?>"><i class="fa fa-arrow-left"></i></a>
-                <a href="<?= base_url('permit/this_work_permit/').$work['work_id'];?>" class="btn btn-outline-secondary mb-2"><i class="fa fa-eye"></i></a>
+                <a data-toggle="tooltip" title="See Permit" href="<?= base_url('permit/this_work_permit/').$work['work_id'];?>" class="btn btn-outline-secondary mb-2"><i class="fa fa-eye"></i></a>
+								<a data-toggle="tooltip" title="See JSEA" href="<?= base_url('assets/img/jsea/').$work['work_jsea'];?>" class="btn btn-outline-secondary mb-2"><i class="fa fa-file"></i></a>
                 <?php if($work['work_user']!=$userData['user_username']):?>
                 <?php else:?>
-                <a href="<?= base_url('work/complete_work/').$work['work_id'];?>" class="btn btn-outline-success mb-2"><i class="fa fa-check"></i></a>
-                <a href="#" data-toggle="modal" data-target="#modal-sm" class="btn btn-outline-danger mb-2"><i class="fa fa-trash"></i></a>
+                <a data-toggle="tooltip" title="Complete" href="<?= base_url('work/complete_work/').$work['work_id'];?>" class="btn btn-outline-success mb-2"><i class="fa fa-check"></i></a>
+                <a title="Delete" href="#" data-toggle="modal" data-target="#modal-sm" class="btn btn-outline-danger mb-2"><i class="fa fa-trash"></i></a>
                 <?php endif;?>
+
                 <!-- Box Comment -->
             <div class="card card-widget">
               <div class="card-header">

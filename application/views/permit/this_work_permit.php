@@ -1,3 +1,12 @@
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
 
     <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
     <p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
