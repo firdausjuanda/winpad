@@ -24,4 +24,10 @@ class Dept_model extends CI_Model{
 		$this->db->where('dept_company_id', $company);
 		return $this->db->get()->result_array();
 	}
+	public function GetAllDeptCompany(){
+		$this->db->select('*');
+		$this->db->from('tb_dept');
+		$this->db->join('tb_company', 'tb_company.company_id=tb_dept.dept_company_id', 'left');
+		return $this->db->get()->result_array();
+	}
 }

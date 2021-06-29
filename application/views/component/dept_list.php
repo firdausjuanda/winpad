@@ -38,6 +38,10 @@
 	color: black;
 }
 
+.deptCreate{
+	padding: 10px 20px;
+}
+
 
 </style>
 <div class="col-md-12">
@@ -45,6 +49,7 @@
 		<h5>Department</h5>
 	</div>
 	<div class="dept-list">
+		<a class="dept-item deptCreate" href="<?= base_url('dept/create_dept');?>">Create Department</a>
 		<?php foreach($depts as $val):?>
 		<a href="<?= base_url('dept/d/').$val['dept_id'];?>">
 		<div class="dept-item">

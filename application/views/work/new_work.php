@@ -33,28 +33,18 @@
                                 <label for="work_company">Supply for company</label>
                                 <select class="form-control" required name="work_company" name="work_company">
                                     <option value="">-Select Company-</option>
-                                    <option value="1">(NI74) Wilmar Nabati Indonesia, Padang</option>
-                                    <option value="2">(UIPP) Uhasa Inti Padang, Padang</option>
-                                    <option value="3">(TBB2) Teluk Bayur Bulking Terminal, Padang</option>
+									<?php foreach($companies as $val):?>
+										<option value="<?= $val['company_id']; ?>">(<?= $val['company_code'];?>) <?= $val['company_name']; ?>, <?= $val['company_location']; ?></option>
+									<?php endforeach;?>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group"> 
                                 <label for="work_area">Department</label>
                                 <select class="form-control" required name="work_area" name="work_area">
                                     <option value="">-Select area-</option>
-                                    <option value="Factory">Factory</option>
-                                    <option value="Utility">Utility</option>
-                                    <option value="Production">Production</option>
-                                    <option value="Office">Office</option>
-                                    <option value="WB">Weight Bridge</option>
-                                    <option value="Store">Store</option>
-                                    <option value="1">Engineering</option>
-                                    <option value="Tank Farm">Tank Farm</option>
-                                    <option value="Shipping">Shipping</option>
-                                    <option value="QC">QC</option>
-                                    <option value="CPC">CPC</option>
-                                    <option value="MBA">MBA</option>
-                                    <option value="TBBT">TBBT</option>
+                                    <?php foreach($depts as $val):?>
+										<option value="<?= $val['dept_id']; ?>">(<?= $val['dept_name'];?>) <?= $val['company_name']; ?>, <?= $val['company_location']; ?></option>
+									<?php endforeach;?>
                                 </select>
                             </div>
                             <div class="form-group">

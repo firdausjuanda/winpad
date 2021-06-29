@@ -87,6 +87,11 @@
     margin-left: 10px;
 }
 
+.commentBox{
+	margin: 0;
+	padding: 0;
+}
+
 .postComment {
     padding: 10px;
 	display: flex;
@@ -251,67 +256,77 @@
 				</li>
 			</ul>
 		</div> -->
-		
-		<div class="postComment">
-			<?php foreach($comment as $c):?>
-            <?php if($w['work_id']==$c['comment_work_id']): ?>
-			<img src="<?= base_url('assets/img/profile/').$c['user_profile'];?>" alt="" class="commentProfileImg" />
-			<div class="commentBody">
-				<span class="commentUser"><?= $c['user_firstname'];?> <?= $c['user_lastname'];?> <span class="commentTime"> (
-				
-					<?php 
-					$date = $c['comment_date_created'];
-					if(empty($date)) {
-						return "No date provided";
-					}
-					
-					$periods         = array("sec", "min", "hour", "day", "week", "month", "year", "decade");
-					$lengths         = array("60","60","24","7","4.35","12","10");
-					$now             = time();
-					$unix_date         = strtotime($date);
-					
-						// check validity of date
-					if(empty($unix_date)) {   
-						return "Bad date";
-					}
-				
-					// is it future date or past date
-					if($now > $unix_date) {   
-						$difference     = $now - $unix_date;
-						$tense         = "ago";
+
+		<?php foreach($comment as $c):?>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="postComment">
+					<?php if($w['work_id']==$c['comment_work_id']): ?>
+					<img src="<?= base_url('assets/img/profile/').$c['user_profile'];?>" alt="" class="commentProfileImg" />
+					<div class="commentBody">
+						<span class="commentUser"><?= $c['user_firstname'];?> <?= $c['user_lastname'];?> <span class="commentTime"> (
 						
-					} else {
-						$difference     = $unix_date - $now;
-						$tense         = "from now";
-					}
-					
-					for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-						$difference /= $lengths[$j];
-					}
-					
-					$difference = round($difference);
-					
-					if($difference != 1) {
-						$periods[$j].= "s";
-					}
-					
-					echo "$difference $periods[$j] {$tense}";
-					
-					?>
-				
-					)</span></span><br>
-				<span class="commentText">
-				<?= $c['comment_text'];?>
-				</span>
+							<?php 
+							$date = $c['comment_date_created'];
+							if(empty($date)) {
+								return "No date provided";
+							}
+							
+							$periods         = array("sec", "min", "hour", "day", "week", "month", "year", "decade");
+							$lengths         = array("60","60","24","7","4.35","12","10");
+							$now             = time();
+							$unix_date         = strtotime($date);
+							
+								// check validity of date
+							if(empty($unix_date)) {   
+								return "Bad date";
+							}
+						
+							// is it future date or past date
+							if($now > $unix_date) {   
+								$difference     = $now - $unix_date;
+								$tense         = "ago";
+								
+							} else {
+								$difference     = $unix_date - $now;
+								$tense         = "from now";
+							}
+							
+							for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+								$difference /= $lengths[$j];
+							}
+							
+							$difference = round($difference);
+							
+							if($difference != 1) {
+								$periods[$j].= "s";
+							}
+							
+							echo "$difference $periods[$j] {$tense}";
+							
+							?>
+						
+							)</span></span><br>
+						<span class="commentText">
+						<?= $c['comment_text'];?>
+						</span>
+					</div>
+					<?php else: ?>
+					<?php endif; ?>
+				</div>
 			</div>
-			<?php else: ?>
-			<?php endif; ?>
-			<?php endforeach; ?>
 		</div>
+
+		<?php endforeach; ?>
+
+		<form action="<?= base_url('work/add_comment'); ?>" method="post">
 		<div class="commentInputWrap">
 			<img src="<?= base_url('assets/img/profile/profile01.jpeg')?>" alt="" class="commenterImg">
-			<input type="text" placeholder="Type your comment..." class="commentInput">
+			<input type="text" name="comment_text" placeholder="Type your comment..." class="commentInput" >
+			<input type="hidden" name="comment_work_id" value="<?=$w['work_id']?>">
+			<input type="hidden" name="comment_user_id" value="<?=$userData['user_id']?>">
 		</div>
+		</form>
 	</div>
 </div>
 <?php endforeach; ?>

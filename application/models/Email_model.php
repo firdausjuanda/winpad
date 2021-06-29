@@ -141,6 +141,7 @@ class Email_model extends CI_Model{
         $work_company,
         $email_managers,
         $email_area,
+        $email_vendor,
         $email_user,
         $user_firstname,
         $user_lastname)
@@ -163,6 +164,11 @@ class Email_model extends CI_Model{
         
         // Add a recipient
         $mail->addAddress($email_user);   
+
+        foreach($email_vendor as $v)
+        {
+            $mail->addAddress($v['user_email']);   
+        }
 
         foreach($email_area as $v)
         {

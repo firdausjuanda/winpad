@@ -12,6 +12,7 @@ class Work extends CI_Controller{
         $this->load->model('Comment_model');
         $this->load->model('Notif_model');
         $this->load->model('Dept_model');
+        $this->load->model('Company_model');
         $this->load->model('Time_model');
         $this->load->model('Broadcast_model');
         $this->load->helper(array('form', 'url'));
@@ -86,12 +87,14 @@ class Work extends CI_Controller{
             if($this->form_validation->run()==false)
             {
                 // If false
-                $data['title'] = "New work";
+                $data['title'] = "New work"; 
                 $usernameFromSession = $this->session->userdata('username');
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
                 $data['user'] = $this->User_model->getAllUser();
 				$company = $data['userData']['user_company'];
 				$user_id = $data['userData']['user_id'];
+				$data['companies'] = $this->Company_model->getAllCompany($company);
+				$data['depts'] = $this->Dept_model->GetAllDeptCompany();
 				$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 				$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
                 $this->load->view('templates/header',$data);
@@ -186,7 +189,7 @@ class Work extends CI_Controller{
         $work_user = $this->input->post('work_user');
         $work_vendor = $this->input->post('work_vendor');
         $work_last_modified = date('Y-m-d H:i:s');
-        $email_managers = $this->User_model->getEmailManagers($work_company);
+        $email_managers = $this->User_model->getEmailManagers($work_company); 
         $area = $work_area;
         $email_area = $this->User_model->getEmailArea($area, $work_company );
         $email_vendor = $this->User_model->getEmailVendor($work_vendor);
@@ -214,6 +217,7 @@ class Work extends CI_Controller{
             $work_vendor, 
             $work_area, 
             $work_title,
+			$email_vendor,
             $work_exact_place,
             $work_company,
             $email_managers,
@@ -445,7 +449,7 @@ class Work extends CI_Controller{
                         $user_lastname = $user_data['user_lastname'];
                         $email_managers = $this->User_model->getEmailManagers();
                         $area = $work_area;
-                        $email_area = $this->User_model->getEmailArea($area);
+                        $email_area = $this->User_model->getEmailArea($area, $work_company);
                         $email_user = $user_data['user_email'];
                         $this->db->where('work_id',$work_id);
                         $this->db->update('tb_work', $data);
@@ -545,7 +549,7 @@ class Work extends CI_Controller{
         $area = $work_area;
 		$area_id = $this->User_model->getIdsArea($area);
 		$aId = $area_id;
-        $email_area = $this->User_model->getEmailArea($area);
+        $email_area = $this->User_model->getEmailArea($area, $comment_work_id);
         $email_user = $user_data['user_email'];
 		//send by admin -> return ke admin
 		//send by user -> return 0 admin 0
