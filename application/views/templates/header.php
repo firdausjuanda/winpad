@@ -17,7 +17,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'dist/css/adminlte.min.css'?> ">
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/overlayScrollbars/css/OverlayScrollbars.min.css'?> ">
   <link rel="stylesheet" href="<?= base_url('assets/vendor/admin-lte/').'plugins/daterangepicker/daterangepicker.css'?> ">
-  <link rel="stylesheet" href="<?= base_url('assets/winpad-style/').'main.css'?> ">
 	<link rel="icon" href="<?php echo base_url().'assets/img/logo/wilmar.png';?>">
 </head>
 <body style="background-color: white;" class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm <?php if($userData['user_dark']==1){echo 'dark-mode';}else{}?>">
