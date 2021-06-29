@@ -7,6 +7,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
         return $query->result_array();
@@ -16,6 +17,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('user_username', $usernameFromSession, 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
@@ -26,6 +28,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('user_company', $company, 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
@@ -36,6 +39,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('permit_status', 'OPN', 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
@@ -46,6 +50,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('permit_status', 'PRG', 'left');
         $this->db->where('permit_is_approved1', 1, 'left');
         $this->db->where('permit_is_approved2', 1, 'left');
@@ -58,6 +63,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         // $this->db->where('permit_status', 'REL', 'left');
         $this->db->where("permit_status = 'REL'");
         $this->db->order_by('permit_id', 'desc');
@@ -69,6 +75,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('user_username', $usernameFromSession, 'left');
         $this->db->where('permit_status', 'OPN', 'left');
         $this->db->order_by('permit_id', 'desc');
@@ -80,6 +87,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('user_company', $company, 'left');
         $this->db->where('permit_status', 'OPN', 'left');
         $this->db->order_by('permit_id', 'desc');
@@ -91,6 +99,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('user_username', $usernameFromSession, 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
@@ -101,6 +110,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('user_username', $usernameFromSession, 'left');
         $this->db->where('permit_status', 'REL', 'left');
         $this->db->order_by('permit_id', 'desc');
@@ -112,6 +122,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('user_company', $company, 'left');
         $this->db->where('permit_status', 'PRG', 'left');
         $this->db->where('permit_is_approved1', 1, 'left');
@@ -125,6 +136,7 @@ class Permit_model extends CI_Model {
         $this->db->from('tb_permit');
         $this->db->join('tb_user','tb_user.user_username=tb_permit.permit_user','tb_permit', 'left');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('user_company', $company, 'left');
         $this->db->where('permit_status', 'REL', 'left');
         $this->db->order_by('permit_id', 'desc');
@@ -135,6 +147,7 @@ class Permit_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('tb_permit');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('permit_work_id', $id, 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
@@ -144,6 +157,7 @@ class Permit_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('tb_permit');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('permit_id', $id, 'left');
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
@@ -153,6 +167,7 @@ class Permit_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('tb_permit');
         $this->db->join('tb_work','tb_work.work_id=tb_permit.permit_work_id','tb_permit', 'left');
+        $this->db->join('tb_dept','tb_dept.dept_id=tb_permit.permit_area','tb_permit', 'left');
         $this->db->where('permit_id', $id);
         $this->db->order_by('permit_id', 'desc');
         $query = $this->db->get();
@@ -241,5 +256,128 @@ class Permit_model extends CI_Model {
 		->get()
 		->row_array();
 	}
+	public function getPermitType(){
+		return $this->db
+		->select('*')
+		->from('tb_material')
+		->get()
+		->result_array();
+	}
+	// Count permit used
+	public function countUsedHOWP(){
+		return $this->db
+		->from('tb_permit')
+		->where('permit_category', 'HOWP')
+		->count_all_results();
+	}
+	public function countUsedCOWP(){
+		return $this->db
+		->from('tb_permit')
+		->where('permit_category', 'COWP')
+		->count_all_results();
+	}
+	public function countUsedWAHP(){
+		return $this->db
+		->from('tb_permit')
+		->where('permit_category', 'WAHP')
+		->count_all_results();
+	}
+	public function countUsedCSEP(){
+		return $this->db
+		->from('tb_permit')
+		->where('permit_category', 'CSEP')
+		->count_all_results();
+	}
+	public function countUsedLOWP(){
+		return $this->db
+		->from('tb_permit')
+		->where('permit_category', 'LOWP')
+		->count_all_results();
+	}
+	public function countUsedLIWP(){
+		return $this->db
+		->from('tb_permit')
+		->where('permit_category', 'LIWP')
+		->count_all_results();
+	}
+	public function countUsedEXWP(){
+		return $this->db
+		->from('tb_permit')
+		->where('permit_category', 'EXWP')
+		->count_all_results();
+	}
+	public function countUsedHLWP(){
+		return $this->db
+		->from('tb_permit')
+		->where('permit_category', 'HLWP')
+		->count_all_results();
+	}
+	// Count permit added
+	public function countAddedCOWP(){
+		$this->db->select_sum('pa_qty');
+		$this->db->from('tb_permit_add');
+		$this->db->where('pa_type', 'COWP');
+		return $this->db->get()->row_array();
+	}
+	public function countAddedWAHP(){
+		$this->db->select_sum('pa_qty');
+		$this->db->from('tb_permit_add');
+		$this->db->where('pa_type', 'WAHP');
+		return $this->db->get()->row_array();
+	}
+	public function countAddedCSEP(){
+		$this->db->select_sum('pa_qty');
+		$this->db->from('tb_permit_add');
+		$this->db->where('pa_type', 'CSEP');
+		return $this->db->get()->row_array();
+	}
+	public function countAddedLOWP(){
+		$this->db->select_sum('pa_qty');
+		$this->db->from('tb_permit_add');
+		$this->db->where('pa_type', 'LOWP');
+		return $this->db->get()->row_array();
+	}
+	public function countAddedLIWP(){
+		$this->db->select_sum('pa_qty');
+		$this->db->from('tb_permit_add');
+		$this->db->where('pa_type', 'LIWP');
+		return $this->db->get()->row_array();
+	}
+	public function countAddedEXWP(){
+		$this->db->select_sum('pa_qty');
+		$this->db->from('tb_permit_add');
+		$this->db->where('pa_type', 'EXWP');
+		return $this->db->get()->row_array();
+	}
+	public function countAddedHLWP(){
+		$this->db->select_sum('pa_qty');
+		$this->db->from('tb_permit_add');
+		$this->db->where('pa_type', 'HLWP');
+		return $this->db->get()->row_array();
+	}
+	public function countAddedHOWP(){
+		$this->db->select_sum('pa_qty');
+		$this->db->where('pa_type', 'HOWP');
+		return $this->db->get('tb_permit_add')->row_array();
+	}
+
+	public function getPermitByFilter($permit_type, $date_start, $date_finish, $company_name, $dept_name){
+		$this->db->select('*');
+		$this->db->from('tb_permit');
+		$this->db->join('tb_work', 'tb_work.work_id=tb_permit.permit_work_id', 'left');
+		$this->db->join('tb_material', 'tb_material.mat_type=tb_permit.permit_category', 'left');
+		if($permit_type == '*'){
+		}else{
+			$this->db->where('permit_category', $permit_type, 'false');
+		}
+		$this->db->where('permit_date >=', $date_start);
+		$this->db->where('permit_date <=', $date_finish);
+		$this->db->where('work_company', $company_name);
+		if($dept_name == '*'){
+		}else{
+			$this->db->where('permit_area', $dept_name);
+		}
+		return $this->db->get()->result_array();
+	} 
     
 }

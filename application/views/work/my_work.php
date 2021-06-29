@@ -1,3 +1,12 @@
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
 
 		<div class="col-md-12">    
 		<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
@@ -18,18 +27,22 @@
 		<?php else:?>
 		<?php endif;?>
 		<?php endif;?>
-          <div class="card card-default card-outline">
-            <div class="card-header">
-              <h3 class="card-title"><?= $title;?></h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-              <div class="mailbox-controls">
-              </div>
-              <div style="min-height: 400px;" class="table-responsive mailbox-messages">
-                <table class="table table-hover table-striped">
-                  <tbody >
+		<hr class="m-0 mb-2">
+			<div class="table-responsive col-12 p-0">
                     <?php if($my_permit!=null): ?>
+					<table class="table table-sm table-responsive">
+					<thead>
+						<tr>
+							<td><strong>Created at</strong></td>
+							<td><strong>Status</strong></td>
+							<td><strong>Work Id</strong></td>
+							<td><strong>User</strong></td>
+							<td><strong>Dept</strong></td>
+							<td><strong>Title</strong></td>
+							<td><strong>Analysis</strong></td>
+						</tr>
+					</thead>
+					<tbody >
                       <?php	foreach( $my_permit as $mp) :?>
                         <tr>
 							<td style="width: 10%;" class="mailbox-date"><?= date_format(date_create($mp['work_date_open']),'j M y');?></td>
@@ -79,42 +92,12 @@
 							</td>
 						</tr>
                       <?php endforeach;?>
-                              <?php else:?>
+                    <?php else:?>
                       <tr>
-                        <td>No <?=$title;?> </td>
+                        <td><?=$title;?> is not available.</td>
                       </tr>
-                      <?php endif;?>
+                    <?php endif;?>
                   </tbody>
                 </table>
-                <!-- /.table -->
-              </div>
-              <!-- /.mail-box-messages -->
-            </div>
-            <!-- /.card-body -->
-            
-          </div>
-          <!-- /.card -->
-        </div>
-
-<!-- MODAL -->
-		<div class="modal fade" id="modal-add-attach">
-			<div class="modal-dialog modal-xl">
-				<div class="modal-content">
-					<div class="modal-header">
-					<h4 class="modal-title">Extra Large Modal</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div class="modal-body">
-					<p>One fine body&hellip;</p>
-					</div>
-					<div class="modal-footer justify-content-between">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				</div>
-			<!-- /.modal-content -->
 			</div>
-        <!-- /.modal-dialog -->
-      	</div>
+        </div>

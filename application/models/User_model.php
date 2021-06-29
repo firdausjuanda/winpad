@@ -15,6 +15,23 @@ class User_model extends CI_Model {
         $query = $this->db->get();
         return $query->row_array();
     }
+	public function userAndCompanySession($usernameFromSession){
+        $this->db->select('*');
+        $this->db->from('tb_user');
+        $this->db->where('user_username', $usernameFromSession, 'left');
+        $this->db->join('tb_company', 'tb_company.company_id=tb_user.user_company', 'false');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+	public function userAndCompanyAndDepSession($usernameFromSession){
+        $this->db->select('*');
+        $this->db->from('tb_user');
+        $this->db->where('user_username', $usernameFromSession, 'left');
+        $this->db->join('tb_company', 'tb_company.company_id=tb_user.user_company', 'false');
+        $this->db->join('tb_dept', 'tb_dept.dept_id=tb_user.user_dept', 'false');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
     public function getThisUser($id){
         $this->db->select('*');
         $this->db->from('tb_user');

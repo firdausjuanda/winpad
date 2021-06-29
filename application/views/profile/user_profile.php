@@ -10,7 +10,6 @@
 <div class="winpad-header"><?= $title; ?></div>
 
 <h5 style="color: red;"><?php echo validation_errors(); ?></h5>
-<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
     <div class="row">
         <div class="col-md-12">
         <?php if($user==null):?>

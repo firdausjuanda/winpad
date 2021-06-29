@@ -32,14 +32,10 @@
                             <div class="form-group">
                                 <label for="permit_category">Category</label>
                                 <select class="form-control" required name="permit_category" name="permit_category">
-                                    <option value="">(Select Permit Permit Cetegory)</option>
-                                    <option value="HOWP">Hot Work Permit</option>
-                                    <option value="COWP">Cold Work Permit</option>
-                                    <option value="WAHP">Work at Height Permit</option>
-                                    <option value="CSEP">Confined Space Permit</option>
-                                    <option value="LOWP">LOTO Work Permit</option>
-                                    <option value="EXWP">Excapation Work Permit</option>
-                                    <option value="DIWP">Dig Work Permit</option>
+                                    <option value="">(Select Permit Category)</option>
+                                    <?php foreach($permit_type as $val):?>
+										<option value="<?= $val['mat_type']; ?>"><?= $val['mat_desc']; ?></option>
+									<?php endforeach; ?>
                                     <!-- <option value="HWP">Hot Work Permit</option> -->
                                 </select>
                             </div>

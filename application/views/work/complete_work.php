@@ -1,9 +1,14 @@
+<style>
+.winpad-header{
+	margin-top: 10px;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 20px;
+}
+</style>
+<div class="winpad-header"><?= $title; ?></div>
 
-	<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
-	<p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
- 
-<div class="row">
-              
+<div class="row">              
 	<div class="col-md-12">
         <?php $path = 'work/upload_work_img_close/'.$work['work_id'];?>
         <?= form_open_multipart($path);?>

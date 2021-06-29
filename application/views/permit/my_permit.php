@@ -7,9 +7,7 @@
 }
 </style>
 <div class="winpad-header"><?= $title; ?></div>
-<div class="col-md-12">    
-<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
-<p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
+<div class="col-md-12">
 
 <!-- Navigation Button -->
 <?php if($title=='Unreleased Permit'):?>
@@ -25,11 +23,28 @@
 		<a href="<?= base_url('permit/release_permit');?>" class="btn btn-success btn-mute mb-2" ><i class="fa fa-check"></i> Release All</a>
 		<?php endif;?>
 	<?php endif;?>
+	<?php if($userData['user_company'] == null):?>
+	<?php else:?>
+		<?php if($userData['company_admin1'] == $userData['user_id'] || $userData['company_admin2'] == $userData['user_id'] ):?>
+			<a href="<?= base_url('stock/all_stock/');?>" class="btn btn-default btn-mute mb-2" > Stock</a>
+			<a href="<?= base_url('report/permit');?>" class="btn btn-default btn-mute mb-2" > Report</a>
+		<?php else :?>
+		<?php endif;?>
+	<?php endif;?>
+	
 <?php elseif($title=='My All Permit'):?>
 	<a href="<?= base_url('permit/my_all_permit') ;?>" class="btn btn-primary mb-2">All</a>
 	<a href="<?= base_url('permit') ;?>" class="btn btn-default mb-2">Unrelease</a>
 	<a href="<?= base_url('permit/pending_permit') ;?>" class="btn btn-default mb-2">Pending</a>
 	<a href="<?= base_url('permit/my_prog_permit') ;?>" class="btn btn-default mb-2">In Progress</a>
+	<?php if($userData['user_company'] == null):?>
+	<?php else:?>
+		<?php if($userData['company_admin1'] == $userData['user_id'] || $userData['company_admin2'] == $userData['user_id'] ):?>
+			<a href="<?= base_url('stock/all_stock/');?>" class="btn btn-default btn-mute mb-2" > Stock</a>
+			<a href="<?= base_url('report/permit');?>" class="btn btn-default btn-mute mb-2" > Report</a>
+		<?php else :?>
+		<?php endif;?>
+	<?php endif;?>
 <?php elseif($title=='In Progress Permit'):?>
 	<a href="<?= base_url('permit/my_all_permit') ;?>" class="btn btn-default mb-2">All</a>
 	<a href="<?= base_url('permit') ;?>" class="btn btn-default mb-2">Unrelease</a>
@@ -46,6 +61,14 @@
 		<?php endif;?>
 	<?php else:?>
 	<?php endif;?>
+	<?php if($userData['user_company'] == null):?>
+	<?php else:?>
+		<?php if($userData['company_admin1'] == $userData['user_id'] || $userData['company_admin2'] == $userData['user_id'] ):?>
+			<a href="<?= base_url('stock/all_stock/');?>" class="btn btn-default btn-mute mb-2" > Stock</a>
+			<a href="<?= base_url('report/permit');?>" class="btn btn-default btn-mute mb-2" > Report</a>
+		<?php else :?>
+		<?php endif;?>
+	<?php endif;?>
 <?php elseif($title=='Pending Permit'):?>
 	<a href="<?= base_url('permit/my_all_permit') ;?>" class="btn btn-default mb-2">All</a>
 	<a href="<?= base_url('permit') ;?>" class="btn btn-default mb-2">Unrelease</a>
@@ -61,6 +84,14 @@
 			<?php endif;?>
 		<?php endif;?>
 	<?php else:?>
+	<?php endif;?>
+	<?php if($userData['user_company'] == null):?>
+	<?php else:?>
+		<?php if($userData['company_admin1'] == $userData['user_id'] || $userData['company_admin2'] == $userData['user_id'] ):?>
+			<a href="<?= base_url('stock/all_stock/');?>" class="btn btn-default btn-mute mb-2" > Stock</a>
+			<a href="<?= base_url('report/permit');?>" class="btn btn-default btn-mute mb-2" > Report</a>
+		<?php else :?>
+		<?php endif;?>
 	<?php endif;?>
 <?php elseif($title == 'This Work Permit'):?>
 	<a href="<?= base_url('work/detail_work/').$this_work['work_id']; ?>" class="btn btn-default mb-2"><i class="fa fa-arrow-left"></i></a>
@@ -176,7 +207,7 @@
 									<strong><a href="#"><?= $mp['permit_user'];?>(<?= $mp['permit_company'];?>)</a> - <a style="text-decoration: none;" href="<?= base_url('work/detail_work/').$mp['permit_work_id']?>"><?= $mp['permit_title'];?></a></strong>
 									<br>
 									<p style="font-size: 12px; color:grey; margin:0px; padding:0px;"> <a href="#" class='badge badge-sm badge-dark'>Description:</a> <?= $mp['permit_description'];?></p>								
-									<p style="font-size: 12px; color:grey; margin:0px; padding:0px;"> <a href="#" class='badge badge-sm badge-dark'> <?= $mp['work_area'];?></a> <?php $giver = $mp['permit_giver']; if ($mp['permit_giver']) { echo "permit given by $giver"; } else { echo 'No one'; } ?></p>								
+									<p style="font-size: 12px; color:grey; margin:0px; padding:0px;"> <a href="#" class='badge badge-sm badge-dark'> <?= $mp['dept_name'];?></a> <?php $giver = $mp['permit_giver']; if ($mp['permit_giver']) { echo "permit given by $giver"; } else { echo 'No one'; } ?></p>								
 									<p style="font-size: 12px; color:grey; margin:0px; padding:0px;"> <a href="#" class='badge badge-sm badge-dark'> Tools:</a> <?= $mp['permit_tools'];?></p>
 									<p style="font-size: 12px; color:grey; margin:0px; padding:0px;"> <a href="#" class='badge badge-sm badge-dark'> Safety Eq:</a> <?= $mp['permit_apd'];?></p>
 								</div>

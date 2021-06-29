@@ -7,8 +7,6 @@
 }
 </style>
 <div class="winpad-header"><?= $title; ?></div>
-
-<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
 <div class="row">
 	<div class="col-md-12">
                 <a class="btn btn-default mb-2" href="<?= base_url('work'); ?>"><i class="fa fa-arrow-left"></i></a>

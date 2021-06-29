@@ -1,6 +1,5 @@
 
 		<div class="col-md-12">    
-		<p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
 		<?php if($title=='My Work'):?>
 		<a href="<?= base_url('work/my_all_work') ;?>" class="btn btn-default mb-2">All Work</a>
 		<!-- <a href="<?= base_url('work/my_prog_work') ;?>" class="btn btn-default mb-2">In Progress</a> -->

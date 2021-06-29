@@ -5,6 +5,6 @@
 		<?php $this->load->view($component_deptList, [$depts, $userData]); ?>
 	</div>
 	<div class="col-md-8">
-		<?php $this->load->view($component_workList); ?>
+		<?php $this->load->view($component_workList, [$work, $user, $comment, $userData, $depts]); ?>
 	</div>
 </div>

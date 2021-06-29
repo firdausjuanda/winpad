@@ -15,13 +15,13 @@ class Docline extends CI_Controller {
         $userData = $this->User_model->userSession($usernameFromSession);
         if($usernameFromSession == null)
         {
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Please Login</div></div>");
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Please Login!</span>");
             $redirect_path = 'login';
             redirect($redirect_path);
         }
 		if($userData['user_docline_access']==0)
         {
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You are not allowed to access docline page!</div></div>");
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Not allowed!</span>");
             $redirect_path = 'work';
             redirect($redirect_path);
         }
@@ -118,7 +118,7 @@ class Docline extends CI_Controller {
                 'licence_company' => $licence_company,
             );
             $this->db->insert('tb_licence',$data);
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Licence Successfully added!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Licence added!</span>");
             $redirect_path = 'docline/licence';
             redirect($redirect_path);
             
@@ -174,7 +174,7 @@ class Docline extends CI_Controller {
             );
             $this->db->where('licence_id',$id);
             $this->db->update('tb_licence',$data);
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Licence updated!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Licence updated!</span>");
             $redirect_path = 'docline/licence';
             redirect($redirect_path);
             
@@ -203,13 +203,13 @@ class Docline extends CI_Controller {
             
             $this->db->where('licence_id',$id);
             $this->db->delete('tb_licence');
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>$message</div></div>");
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>$message</span>");
             $redirect_path = 'docline/licence/';
             redirect($redirect_path);
         }
 
         
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Not allowed</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Not allowed!</span>");
         $redirect_path = 'docline/licence/';
         redirect($redirect_path);
         
@@ -235,7 +235,7 @@ class Docline extends CI_Controller {
             );
             $this->db->where('licence_id',$id);
             $this->db->update('tb_licence', $data);
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Document uploaded!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Document uploaded!</span>");
             $redirect_path = 'docline/licence/';
             redirect($redirect_path);
             
@@ -243,7 +243,7 @@ class Docline extends CI_Controller {
         else
         {   
             $err = $this->upload->display_errors();
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Fail! $err </div></div>");
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Fail! $err</span>");
             $redirect_path = 'docline/licence/'.$id;
             redirect($redirect_path);
         }
@@ -256,7 +256,7 @@ class Docline extends CI_Controller {
         $path = './assets/doc/licence/';
         $file = $path.$doc;
         if(!unlink($file)){
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong.</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Something went wrong!</span>");
             $redirect_path = 'work/complete_work/'.$id;
             redirect($redirect_path);
         }
@@ -267,7 +267,7 @@ class Docline extends CI_Controller {
         );
         $this->db->where('licence_id',$id);
         $this->db->update('tb_licence',$data);
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Licence deleted</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Licence deleted!</span>");
         $redirect_path = 'docline/licence/';
         redirect($redirect_path);
         }

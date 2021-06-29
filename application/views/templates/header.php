@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link rel="stylesheet" href="<?= base_url('assets/winpad-style/').'main.css'?> ">
 	<link rel="icon" href="<?php echo base_url().'assets/img/logo/wilmar.png';?>">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm <?php if($userData['user_dark']==1){echo 'dark-mode';}else{}?>">
+<body style="background-color: white;" class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm <?php if($userData['user_dark']==1){echo 'dark-mode';}else{}?>">
 <div class="wrapper">
 
   <!-- Preloader -->
@@ -51,6 +51,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 			
 
+      <!-- Navbar Search -->
+      <li class="nav-item">
+        <?= $this->session->flashdata('message');?>
+      </li>
       <!-- Navbar Search -->
       <!-- <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
@@ -198,17 +202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li> -->
-			<li class="nav-item d-sm-inline-block">
-				<div class="form-group m-0 mt-1">
-					<form action="<?= base_url('profile/dark_mode');?>" method="post" id="changeDark">
-						<input type="hidden" name="user_id" value="<?= $userData['user_id']; ?>">
-						<div class="custom-control custom-switch">
-						<input type="checkbox" <?php if($userData['user_dark'] == '1'){ echo 'checked';}else{}?> value=1 name="user_dark" class="custom-control-input" onchange="changeDark.submit()" id="customSwitch1">
-						<label class="custom-control-label" for="customSwitch1">Dark mode</label>
-						</div>
-					</form>
-				</div>
-      </li>	
+			
       <!-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
@@ -258,6 +252,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <p>Admin</p>
                 </a>
               <?php endif;?>
+              </li>
+							<!-- <li class="nav-item">
+                <a href="<?= base_url('dashboard');?>" class="nav-link">
+                  <i class="fa fa-heart nav-icon"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li> -->
               </li><li class="nav-item">
                 <a href="<?= base_url('work');?>" class="nav-link">
                   <i class="fa fa-globe-asia nav-icon"></i>

@@ -13,13 +13,13 @@ class Bc extends CI_Controller{
         $user_role = $user['user_role'];
         if($usernameFromSession == null)
         {
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Please Login</div></div>");
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Please login!</span>");
             $redirect_path = 'login';
             redirect($redirect_path);
         }
         if($user_role==0)
         {
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You are not allowed to access admin page!</div></div>");
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Not allowed!</span>");
             $redirect_path = 'work';
             redirect($redirect_path);
         }
@@ -50,7 +50,7 @@ class Bc extends CI_Controller{
 			);
 			$this->db->where('bc_id',1);
 			$this->db->update('tb_bc', $data);
-			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Broadcast saved!</div></div>");
+			$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Broadcast saved!</span>");
             $redirect_path = 'admin';
             redirect($redirect_path);
 		}

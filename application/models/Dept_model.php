@@ -16,6 +16,12 @@ class Dept_model extends CI_Model{
 		$this->db->select('*');
 		$this->db->from('tb_dept');
 		$this->db->where('dept_id', $id);
+		return $this->db->get()->row_array();
+	}
+	public function GetDeptByCompany($company){
+		$this->db->select('*');
+		$this->db->from('tb_dept');
+		$this->db->where('dept_company_id', $company);
 		return $this->db->get()->result_array();
 	}
 }

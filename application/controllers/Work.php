@@ -11,6 +11,7 @@ class Work extends CI_Controller{
         $this->load->model('Permit_model');
         $this->load->model('Comment_model');
         $this->load->model('Notif_model');
+        $this->load->model('Dept_model');
         $this->load->model('Time_model');
         $this->load->model('Broadcast_model');
         $this->load->helper(array('form', 'url'));
@@ -31,6 +32,9 @@ class Work extends CI_Controller{
 			$data['user'] = $this->User_model->getAllUser();
 			$data['work'] = $this->Work_model->getAllWork();
 			$data['comment'] = $this->Comment_model->getWorkComment();
+			$data['depts'] = $this->Dept_model->getDeptByCompanyCode($company);
+			$data['comment'] = $this->Comment_model->getWorkComment();
+			$data['component_workList'] = 'component/work_list'; 
 			$this->load->view('templates/header',$data);
             $this->load->view('work/all_work',$data);
             $this->load->view('templates/footer',$data);
@@ -221,12 +225,12 @@ class Work extends CI_Controller{
 
         == TRUE)
         {   
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work Successfully added and email sent!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Work added and email sent!</span>");
             redirect('work');
         }
         else
         {   
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Saved, but email not sent!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: orange; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Saved, but email not sent!</span>");
             redirect('work');
         }
         
@@ -277,7 +281,7 @@ class Work extends CI_Controller{
             $this->form_validation->set_rules('work_id' , 'work' , 'required');
             if($this->form_validation->run()==false)
             {
-                $this->session->set_flashdata('message','<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+                $this->session->set_flashdata('message',"<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Something went wrong!</span>");
                 redirect('work/complete_work/'.$id);
             }
             else
@@ -323,7 +327,7 @@ class Work extends CI_Controller{
             );
             $this->db->where('work_id',$id);
             $this->db->update('tb_work', $data);
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Image uploaded!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Image uploaded!</span>");
             $redirect_path = 'work/complete_work/'.$id;
             redirect($redirect_path);
             
@@ -341,7 +345,7 @@ class Work extends CI_Controller{
             $this->form_validation->set_rules('work_id' , 'work' , 'required');
             if($this->form_validation->run()==false)
             {
-                $this->session->set_flashdata('message','<div class="row col-md-12"><div class="alert alert-danger">Something went wrong!</div></div>');
+                $this->session->set_flashdata('message',"<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Something went wrong!</span>");
                 redirect('work/complete_work/'.$id);
             }
             else
@@ -387,7 +391,7 @@ class Work extends CI_Controller{
             );
             $this->db->where('work_id',$id);
             $this->db->update('tb_work', $data);
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Closing Permit uploaded!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Closing permit uploaded!</span>");
             $redirect_path = 'work/complete_work/'.$id;
             redirect($redirect_path);
             
@@ -460,27 +464,27 @@ class Work extends CI_Controller{
                             $email_managers
                         ) == TRUE)
                         {
-                            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work completed and email sent!</div></div>');
+                            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Work completed and email sent!</span>");
                             $redirect_path = 'work/complete_work/'.$work_id;
                             redirect($redirect_path);
                         }
                         else
                         {
-                            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Saved, but email not sent!</div></div>');
+                            $this->session->set_flashdata('message', "<span style='background-color: orange; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Saved, but email not sent!</span>");
                             $redirect_path = 'work/complete_work/'.$work_id;
                             redirect($redirect_path);
                         }
                     }
                     else
                     {
-                        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Upload closing permit!</div></div>');
+                        $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Upload closing permit!</span>");
                         $redirect_path = 'work/complete_work/'.$work_id;
                         redirect($redirect_path);
                     }
                 }
                 else
                 {
-                    $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Upload final picture!</div></div>');
+                    $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Upload final picture!</span>");
                     $redirect_path = 'work/complete_work/'.$work_id;
                     redirect($redirect_path);
                 }
@@ -488,14 +492,14 @@ class Work extends CI_Controller{
             }
             else
             {   
-                $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all permits related to this work!</div></div>');
+                $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>There's still outstanding permit!</span>");
                 $redirect_path = 'work/complete_work/'.$work_id;
                 redirect($redirect_path);
             }
         }
         else
         {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all permits related to this work!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>There's still outstanding permit!</span>");
             $redirect_path = 'work/complete_work/'.$work_id;
             redirect($redirect_path);
         }
@@ -534,7 +538,7 @@ class Work extends CI_Controller{
         $workers_id = $this->User_model->getIdsWorkers($company);
         $usernameFromSession = $this->session->userdata('username');
         $user_data = $this->User_model->userSession($usernameFromSession);
-        $email_managers = $this->User_model->getEmailManagers();
+        $email_managers = $this->User_model->getEmailManagers($work_company); 
         $managers_id = $this->User_model->getIdsManagers();
 		$mId = $managers_id;
 		$wId = $workers_id;
@@ -620,13 +624,13 @@ class Work extends CI_Controller{
         ) == TRUE)
         {
             
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Comment posted</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Comment posted!</span>");
             $redirect_path = 'work/';
             redirect($redirect_path);
         }
         else
         {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-warning">Comment posted, but email not sent!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: orange; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Comment posted, but email not sent!</span>");
             $redirect_path = 'work/';
             redirect($redirect_path);
         }
@@ -685,7 +689,7 @@ class Work extends CI_Controller{
         );
         $this->db->where('work_id',$id);
         $this->db->update('tb_work',$data);
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work is ready to revise!</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Work is ready to revised!</span>");
         $redirect_path = 'work/complete_work/'.$id;
         redirect($redirect_path);
     }
@@ -698,7 +702,7 @@ class Work extends CI_Controller{
         );
         $this->db->where('work_id',$id);
         $this->db->update('tb_work',$data);
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work is completed!</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Work completed!</span>");
         $redirect_path = 'work/complete_work/'.$id;
         redirect($redirect_path);
     }
@@ -710,7 +714,7 @@ class Work extends CI_Controller{
         $path = './assets/img/work/';
         $file = $path.$doc;
         if(!unlink($file)){
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong.</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Something went wrong!</span>");
             $redirect_path = 'work/complete_work/'.$id;
             redirect($redirect_path);
         }
@@ -721,7 +725,7 @@ class Work extends CI_Controller{
         );
         $this->db->where('work_id',$id);
         $this->db->update('tb_work',$data);
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Image deleted</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Image deleted!</span>");
         $redirect_path = 'work/complete_work/'.$id;
         redirect($redirect_path);
         }
@@ -734,7 +738,7 @@ class Work extends CI_Controller{
         $path = './assets/img/permit_complete_work/';
         $file = $path.$doc;
         if(!unlink($file)){
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something went wrong.</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Something went wrong!</span>");
             $redirect_path = 'work/complete_work/'.$id;
             redirect($redirect_path);
         }
@@ -745,7 +749,7 @@ class Work extends CI_Controller{
         );
         $this->db->where('work_id',$id);
         $this->db->update('tb_work',$data);
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Closing permit deleted</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Closing permit deleted!</span>");
         $redirect_path = 'work/complete_work/'.$id;
         redirect($redirect_path);
         }
@@ -807,7 +811,7 @@ class Work extends CI_Controller{
 		//Deleting work
         $this->db->where('work_id',$id);
         $this->db->delete('tb_work');
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Work deleted</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Work deleted!</span>");
         $redirect_path = 'work';
         redirect($redirect_path);
 	}

@@ -13,7 +13,7 @@ class Permit extends CI_Controller{
         $usernameFromSession = $this->session->userdata('username');
 		if($usernameFromSession == null)
         {
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Please Login</div></div>");
+            $this->session->set_flashdata('message', "Please login!");
             $redirect_path = 'login';
             redirect($redirect_path);
         }
@@ -23,7 +23,12 @@ class Permit extends CI_Controller{
     {
         $data['title'] = 'Unreleased Permit';
         $usernameFromSession = $this->session->userdata('username');
-        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+        $user_row_data = $this->User_model->userAndCompanySession($usernameFromSession);
+		if(!$user_row_data){
+			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+		}else{
+			$data['userData'] = $this->User_model->userAndCompanySession($usernameFromSession);
+		}
 		$company = $data['userData']['user_company'];
         if($data['userData']['user_role']== 1)
         {
@@ -50,7 +55,12 @@ class Permit extends CI_Controller{
     {
         $data['title'] = 'This Work Permit';
         $usernameFromSession = $this->session->userdata('username');
-		$data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$user_row_data = $this->User_model->userAndCompanySession($usernameFromSession);
+		if(!$user_row_data){
+			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+		}else{
+			$data['userData'] = $this->User_model->userAndCompanySession($usernameFromSession);
+		}
         $data['my_permit'] = $this->Permit_model->getThisPermit($id);
         $data['this_work'] = $this->Work_model->getThisWork($id);
 		$company = $data['userData']['user_company'];
@@ -135,13 +145,13 @@ class Permit extends CI_Controller{
         $this->db->where('permit_id',$permit_id);
         if($this->db->update('tb_permit',$data))
         {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Attachment successfully added!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Attachment added!</span>");
             $redirect_path = 'permit';
             redirect($redirect_path);
         }
         else
         {  
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something wrong, try again later!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Somthing went wrong!</span>");
             $redirect_path = 'permit';
             redirect($redirect_path);
 
@@ -217,13 +227,13 @@ class Permit extends CI_Controller{
         $this->db->where('permit_id',$permit_id);
         if($this->db->update('tb_permit',$data))
         {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Complete Picture successfully added!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Completed picture added!</span>");
             $redirect_path = 'permit/my_prog_permit';
             redirect($redirect_path);
         }
         else
         {  
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Something wrong, try again later!</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Something went wrong!</span>");
             $redirect_path = 'permit/my_prog_permit';
             redirect($redirect_path);
 
@@ -250,7 +260,8 @@ class Permit extends CI_Controller{
                 $data['userData'] = $this->User_model->userSession($usernameFromSession);
                 $data['workData'] = $this->Work_model->getThisWork($id);
                 $data['user'] = $this->User_model->getAllUser();
-				$company = $data['userData']['user_company'];
+                $data['permit_type'] = $this->Permit_model->getPermitType();
+				$company = $data['userData']['user_company']; 
 				$user_id = $data['userData']['user_id'];
 				$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
 				$data['count_notif'] = $this->Notif_model->countMyCompanyNotif($company, $user_id);
@@ -304,7 +315,7 @@ class Permit extends CI_Controller{
             'permit_company' => $permit_company,
         );
         $this->db->insert('tb_permit',$data);
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Successfully added!</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Permit added!</span>");
         $redirect_path = 'permit/this_work_permit/'.$id;
         redirect($redirect_path);
 
@@ -319,11 +330,11 @@ class Permit extends CI_Controller{
         {
             $this->db->where('permit_id',$id);
             $this->db->delete('tb_permit');
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit deleted</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Permit deleted!</span>");
             $redirect_path = 'permit/';
             redirect($redirect_path);
         }
-        $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Not allowed</div></div>');
+        $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Not allowed!</span>");
         $redirect_path = 'permit/';
         redirect($redirect_path);
         
@@ -371,26 +382,26 @@ class Permit extends CI_Controller{
 		
 				== TRUE)
 				{   
-					$this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit released and email sent!</div></div>');
+					$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Permit released and email sent!</span>");
 					redirect('permit/');
 				}
 				else
 				{   
-				    $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-warning">Permit released, but email not sent!</div></div>');
+				    $this->session->set_flashdata('message', "<span style='background-color: orange; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Permit release, but email not sent!</span>");
 				    redirect('permit/');
 				}
 
 			}
 			else
 			{
-				$this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all attachments</div></div>');
+				$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Please complete all attachments!</span>");
 				$redirect_path = 'permit/';
 				redirect($redirect_path);
 			}
 		}
 		else 
 		{
-			$this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">No permit to release!</div></div>');
+			$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>No permit to be released!</span>");
 			$redirect_path = 'permit/';
 			redirect($redirect_path);
 		}
@@ -410,13 +421,13 @@ class Permit extends CI_Controller{
             $this->db->where('permit_status','PRG');
             $this->db->where('permit_user',$user_name);
             $this->db->update('tb_permit', $data);
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-success">Permit Completed</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Permit completed!</span>");
             $redirect_path = 'permit/my_prog_permit';
             redirect($redirect_path);
         }
         else
         {
-            $this->session->set_flashdata('message', '<div class="row col-md-12"><div class="alert alert-danger">Please complete all permit</div></div>');
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Please complete all permits!</span>");
             $redirect_path = 'permit/my_prog_permit';
             redirect($redirect_path);
         }
@@ -426,7 +437,12 @@ class Permit extends CI_Controller{
     {
         $data['title'] = 'My All Permit';
         $usernameFromSession = $this->session->userdata('username');
-        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$user_row_data = $this->User_model->userAndCompanySession($usernameFromSession);
+		if(!$user_row_data){
+			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+		}else{
+			$data['userData'] = $this->User_model->userAndCompanySession($usernameFromSession);
+		}
 		$company = $data['userData']['user_company'];
         if($data['userData']['user_role']== 1)
         {
@@ -452,14 +468,19 @@ class Permit extends CI_Controller{
     {
         $data['title'] = 'In Progress Permit';
         $usernameFromSession = $this->session->userdata('username');
-        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$user_row_data = $this->User_model->userAndCompanySession($usernameFromSession);
+		if(!$user_row_data){
+			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+		}else{
+			$data['userData'] = $this->User_model->userAndCompanySession($usernameFromSession);
+		}
 		$company = $data['userData']['user_company'];
         
         if($data['userData']['user_role']== 1)
         {
             $data['my_permit'] = $this->Permit_model->getProgPermitForAdmin();
         }
-        elseif($data['userData']['user_is_manage']== 1)
+        elseif($data['userData']['user_is_manage']== 1) 
         {
             $data['my_permit'] = $this->Permit_model->getProgPermitForAdmin();
         }
@@ -479,7 +500,12 @@ class Permit extends CI_Controller{
     {
         $data['title'] = 'Pending Permit';
         $usernameFromSession = $this->session->userdata('username');
-        $data['userData'] = $this->User_model->userSession($usernameFromSession);
+		$user_row_data = $this->User_model->userAndCompanySession($usernameFromSession);
+		if(!$user_row_data){
+			$data['userData'] = $this->User_model->userSession($usernameFromSession);
+		}else{
+			$data['userData'] = $this->User_model->userAndCompanySession($usernameFromSession);
+		}
 		$company = $data['userData']['user_company'];
         
         if($data['userData']['user_is_approver1'] == 1 || $data['userData']['user_is_approver2'] == 1)
@@ -519,17 +545,17 @@ class Permit extends CI_Controller{
 				$this->db->where('permit_id', $id);
 				$this->db->update('tb_permit', $data);
 	
-				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Approval L1 effected</div></div>");
+				$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>L1 approved!</span>");
 				$redirect_path = 'permit/pending_permit';
 				redirect($redirect_path);	
 			}else{
-				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Permit is not released yet or already closed</div></div>");
+				$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Permit is not ready yet!</span>");
 				$redirect_path = 'permit/pending_permit';
 				redirect($redirect_path);	
 			}
 		}
 		else {
-			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You don't have authorization</div></div>");
+			$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>You don't have authorization!</span>");
 			$redirect_path = 'permit/pending_permit';
 			redirect($redirect_path);	
 		}
@@ -550,18 +576,18 @@ class Permit extends CI_Controller{
 				$this->db->where('permit_id', $id);
 				$this->db->update('tb_permit', $data);
 	
-				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Approval L1 effected</div></div>");
+				$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Approval L1 canceled!</span>");
 				$redirect_path = 'permit/pending_permit';
 				redirect($redirect_path);	
 			}
 			else {
-				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>L2 still approved</div></div>");
+				$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>L2 still approved!</span>");
 				$redirect_path = 'permit/my_prog_permit';
 				redirect($redirect_path);	
 			}
 		}
 		else {
-			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You don't have authorization</div></div>");
+			$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>You don't have authorization!</span>");
 			$redirect_path = 'permit/my_prog_permit';
 			redirect($redirect_path);	
 		}
@@ -583,22 +609,22 @@ class Permit extends CI_Controller{
 					$this->db->where('permit_id', $id);
 					$this->db->update('tb_permit', $data);
 		
-					$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Approval L2 effected</div></div>");
+					$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>L2 approved!</span>");
 					$redirect_path = 'permit/pending_permit';
 					redirect($redirect_path);	
 				}else{
-					$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>L1 not approved yet</div></div>");
+					$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>L1 not approved yet!</span>");
 					$redirect_path = 'permit/pending_permit';
 					redirect($redirect_path);
 				}
 			}else{
-				$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>Permit is not released yet or already closed</div></div>");
+				$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Permit is not ready yet!</span>");
 				$redirect_path = 'permit/pending_permit';
 				redirect($redirect_path);
 			}
 		}
 		else {
-			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You don't have authorization</div></div>");
+			$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>You don't have authorization!</span>");
 			$redirect_path = 'permit/pending_permit';
 			redirect($redirect_path);	
 		}
@@ -620,12 +646,12 @@ class Permit extends CI_Controller{
 			$this->db->where('permit_id', $id);
 			$this->db->update('tb_permit', $data);
 
-			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Approval L2 effected</div></div>");
+			$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Approval L2 canceled!</span>");
 			$redirect_path = 'permit/my_prog_permit';
 			redirect($redirect_path);	
 		}
 		else {
-			$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You don't have authorization</div></div>");
+			$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>You don't have authorization!</span>");
 			$redirect_path = 'permit/my_prog_permit';
 			redirect($redirect_path);	
 		}

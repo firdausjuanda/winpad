@@ -7,9 +7,6 @@
 }
 </style>
 <div class="winpad-header"><?= $title; ?></div>
-
-    <p style="color: red;"><?= $this->session->flashdata('message'); ?></p>
-    <p style="color: green;"><?= $this->session->flashdata('success'); ?></p>
 		<div class="col-md-12">
 			<a href="<?= base_url('work/detail_work/').$this_work['work_id']; ?>" class="btn btn-default mb-2"><i class="fa fa-arrow-left"></i></a>
       <a href="<?= base_url('permit/new_permit/').$this_work['work_id'];?>" class="btn btn-outline-primary <?php if($this_work['work_status']=='OPN'){}else{echo 'disabled';}?> btn-mute mb-2" ><i class="fa fa-plus"></i> Add Permit</a>

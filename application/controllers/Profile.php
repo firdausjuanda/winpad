@@ -14,7 +14,7 @@ class Profile extends CI_Controller{
         $user_username = $user['user_username'];
         if($user_username != $user['user_username'])
         {
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-danger'>You are not allowed to access profile page!</div></div>");
+            $this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Not allowed!</span>");
             $redirect_path = 'work';
             redirect($redirect_path);
         }
@@ -36,13 +36,8 @@ class Profile extends CI_Controller{
 		$dept = $data['userData']['user_dept'];
         $data['userDataCompany'] = $this->Company_model->getCompanyById($company);
         $data['userDataDept'] = $this->Dept_model->GetDeptById($dept);
-		if(!$data['userDataCompany']){
-			$data['userDataCompany'] = "";
-			if(!$data['userDataDept']){
-				$data['userDataDept'] = "";
-			}
-		}
-		// var_dump($data['userDataDept']);
+        $data['userDataDeptByCompany'] = $this->Dept_model->GetDeptByCompany($company);
+		// var_dump($data['userDataDept']);die;
 		// var_dump($data['userDataCompany']);die;
 		$user_id = $data['userData']['user_id'];
 		$data['notif'] = $this->Notif_model->getMyCompanyNotif($user_id);
@@ -102,7 +97,6 @@ class Profile extends CI_Controller{
             $user_lastname = $this->input->post('user_lastname');
             $user_email = $this->input->post('user_email');
             $user_phone = $this->input->post('user_phone');
-            $user_company = $this->input->post('user_company');
             $user_dept = $this->input->post('user_dept');
 
             $data = array(
@@ -111,13 +105,12 @@ class Profile extends CI_Controller{
                 'user_lastname' => $user_lastname,
                 'user_email' => $user_email,
                 'user_phone' => $user_phone,
-                'user_company' => $user_company,
                 'user_dept' => $user_dept,
             );
             $this->db->where('user_id', $id);
             $this->db->update('tb_user', $data);
 
-            $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Changes Saved</div></div>");
+            $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Changes saved!</span>");
             $redirect_path = 'profile';
             redirect($redirect_path);
 
@@ -147,8 +140,8 @@ class Profile extends CI_Controller{
 		$this->db->where('user_id', $user_id);
 		$this->db->update('tb_user', $data);
 
-		$this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>Dark mode changed</div></div>");
-		$redirect_path = 'work';
+		$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Dark mode changed!</span>");
+		$redirect_path = 'profile';
 		redirect($redirect_path);	
 		}
 
@@ -162,15 +155,14 @@ class Profile extends CI_Controller{
 		$company_code = $company['company_code'];
 		$user_current_company = $data_user['user_company'];
 		if($user_current_company){
-			$message = "You cannot join 2 companies";
-			echo "<script type='text/javascript'>alert('$message');</script>";
+			$this->session->set_flashdata('message', "<span style='background-color: red; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>You can not join in multiple companies!</span>");
 			$path = 'company/c/'.$company_code;
 			redirect($path);
 		} else {
 			$data['user_company'] = $id;
 			$this->db->where('user_id', $user_id);
 			$this->db->update('tb_user', $data);
-			$this->session->set_flashdata('message', "<span class='alert alert-success'>Unjoin Success!</span>");
+			$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Join successfully!</span>");
 			$path = 'company/c/'.$company_code;
 			redirect($path);
 		}
@@ -182,9 +174,10 @@ class Profile extends CI_Controller{
 		$company_code = $company['company_code'];
 		$user_id = $data_user['user_id'];
 		$data['user_company'] = "";
-		$this->db->where('user_id', $user_id);
+		$data['user_dept'] = "";
+		$this->db->where('user_id', $user_id); 
 		$this->db->update('tb_user', $data);
-		$this->session->set_flashdata('message', "<span class='alert alert-success'>Unjoin Success!</span>");
+		$this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>Unjoin successfully!</span>");
 		$path = 'company/c/'.$company_code;
 		redirect($path);
 

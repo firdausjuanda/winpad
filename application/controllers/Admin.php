@@ -66,7 +66,7 @@ class Admin extends CI_Controller{
         );
         $this->db->where('user_id',$id);
         $this->db->update('tb_user',$data);
-        $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>$username dissabled</div></div>");
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>$username dissable!</span>");
         $redirect_path = 'admin/userManage/';
         redirect($redirect_path);
     }
@@ -80,7 +80,7 @@ class Admin extends CI_Controller{
         );
         $this->db->where('user_id',$id);
         $this->db->update('tb_user',$data);
-        $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>$username enabled</div></div>");
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>$username enabled!</span>");
         $redirect_path = 'admin/userManage/';
         redirect($redirect_path);
     }
@@ -93,7 +93,7 @@ class Admin extends CI_Controller{
         );
         $this->db->where('user_id',$id);
         $this->db->update('tb_user',$data);
-        $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>$username setted as Admin</div></div>");
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>$username is admin now!</span>");
         $redirect_path = 'admin/userManage/';
         redirect($redirect_path);
     }
@@ -106,7 +106,7 @@ class Admin extends CI_Controller{
         );
         $this->db->where('user_id',$id);
         $this->db->update('tb_user',$data);
-        $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>$username unsetted from Admin</div></div>");
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>$username is not admin now!</span>");
         $redirect_path = 'admin/userManage/';
         redirect($redirect_path);
     }
@@ -119,7 +119,7 @@ class Admin extends CI_Controller{
         );
         $this->db->where('user_id',$id);
         $this->db->update('tb_user',$data);
-        $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>$username setted as Management</div></div>");
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>$username is management now!</span>");
         $redirect_path = 'admin/userManage/';
         redirect($redirect_path);
     }
@@ -132,7 +132,7 @@ class Admin extends CI_Controller{
         );
         $this->db->where('user_id',$id);
         $this->db->update('tb_user',$data);
-        $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>$username unsetted from Management</div></div>");
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>$username is not management now!</span>");
         $redirect_path = 'admin/userManage/';
         redirect($redirect_path);
     }
@@ -140,7 +140,7 @@ class Admin extends CI_Controller{
     {
         $this->db->where('user_id',$id);
         $this->db->delete('tb_user');
-        $this->session->set_flashdata('message', "<div class='row col-md-12'><div class='alert alert-success'>User deleted</div></div>");
+        $this->session->set_flashdata('message', "<span style='background-color: green; color:white; position: absolute; top:13px; right:50px; border-radius:20px; padding:0px 7px; margin:auto;'>User deleted!</span>");
         $redirect_path = 'admin/userManage/';
         redirect($redirect_path);
     }
