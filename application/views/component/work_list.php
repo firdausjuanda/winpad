@@ -256,10 +256,7 @@
 				</li>
 			</ul>
 		</div> -->
-
-		<?php foreach($comment as $c):?>
-		<div class="row">
-			<div class="col-md-12">
+				<?php foreach($comment as $c):?>
 				<div class="postComment">
 					<?php if($w['work_id']==$c['comment_work_id']): ?>
 					<img src="<?= base_url('assets/img/profile/').$c['user_profile'];?>" alt="" class="commentProfileImg" />
@@ -314,10 +311,7 @@
 					<?php else: ?>
 					<?php endif; ?>
 				</div>
-			</div>
-		</div>
-
-		<?php endforeach; ?>
+				<?php endforeach; ?>
 
 		<form action="<?= base_url('work/add_comment'); ?>" method="post">
 		<div class="commentInputWrap">
